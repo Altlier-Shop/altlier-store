@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.bg-root {
+  background-color: rgb(215, 213, 212);
+}
+.bg-root-secondary {
+  background-color: rgb(243, 235, 228);
+}
+.text-root {
+  color: rgb(215, 213, 212);
+}
+
+.text-emerald {
+  color: rgb(103, 173, 123);
+}
+
+@font-face {
+  font-family: 'PixelifySans';
+  src: url('../../public/fonts/Press_Start_2P/PressStart2P-Regular.ttf')
+    format('truetype');
+}
+.pixel-font {
+  font-family: 'PixelifySans';
+}
+
+img {
+  border-radius: 4px;
+}
+
+@layer components {
+  .btn {
+    @apply rounded-full border-black border-2 font-bold;
+  }
+}
+@layer components {
+  .homepage-btn {
+    @apply py-2 w-60 text-3xl;
+  }
+}
+@layer components {
+  .btn-dark {
+    @apply bg-black text-white hover:bg-white hover:text-black;
+  }
+}
+@layer components {
+  .btn-light {
+    @apply hover:bg-gray-500 hover:text-white;
+  }
+}
+@layer components {
+  .icon {
+    @apply w-14 h-14 cursor-pointer bg-black rounded-full p-2;
+  }
+}
+
+.arrow-down {
+  animation: moveUpDown 2s ease-in-out infinite;
+}
+
+@keyframes moveUpDown {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(20px); /* Adjust the movement distance as needed */
+    animation-timing-function: cubic-bezier(
+      0,
+      0,
+      0.58,
+      1
+    ); /* Fast downwards motion */
+  }
+}
