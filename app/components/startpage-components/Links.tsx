@@ -1,13 +1,24 @@
 import testIcon from '../../../public/icons/moneys.svg';
-export default function Links() {
+
+interface LinksProps {
+  onShill(): void;
+  onFud(): void;
+}
+export default function Links(props: LinksProps) {
   return (
     <div className="flex justify-between">
       <div>
         <div className="flex gap-6">
-          <button className="btn homepage-btn btn-dark text-emerald pixel-font pointer-events-auto">
+          <button
+            onClick={props.onShill}
+            className="btn homepage-btn btn-dark text-emerald pixel-font pointer-events-auto"
+          >
             SHILL
           </button>
-          <button className="btn homepage-btn btn-light pixel-font pointer-events-auto">
+          <button
+            onClick={props.onFud}
+            className="btn homepage-btn btn-light pixel-font pointer-events-auto"
+          >
             FUD
           </button>
         </div>

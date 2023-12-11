@@ -34,7 +34,7 @@ export function Layout({
       <CartAside cart={cart} />
       <SearchAside />
       <MobileMenuAside menu={header?.menu} shop={header?.shop} />
-      {header && <Header header={header} cart={cart} isLoggedIn={isLoggedIn} />}
+      {/* {header && <Header header={header} cart={cart} isLoggedIn={isLoggedIn} />} */}
       <main>{children}</main>
       {/* <Suspense>
         <Await resolve={footer}>
