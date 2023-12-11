@@ -10,7 +10,7 @@ export default function StartPage() {
       </div>
       <div className="2xl:px-20 px-10 pt-32" style={{width: '45%'}}>
         <ScrollableContent />
-        <div className="sticky left-0 bottom-0 bg-root pointer-events-none pt-10  pb-16">
+        <div className="sticky left-0 bottom-0 bg-root pointer-events-none pt-10 pb-32">
           <Links />
         </div>
       </div>

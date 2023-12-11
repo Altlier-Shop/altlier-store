@@ -39,6 +39,11 @@ export default function ScrollableContent() {
         <h1 className="4xl:text-4xl 3xl:text-3xl xl:text-2xl l:text-xl md:text-xl pixel-font  [word-spacing:-10px]">
           INTO DAILY LIFE
         </h1>
+        <p className="leading-10 text-2xl">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aliquam
+          et urna vitae vehicula. Praesent volutpat accumsan arcu, eu suscipit
+          urna semper at. Nulla pretium velit et elit consequat placerat.
+        </p>
         <div className="mt-20"></div>
       </div>
     </>
