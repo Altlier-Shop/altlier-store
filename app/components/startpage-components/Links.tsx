@@ -4,19 +4,45 @@ export default function Links() {
     <div className="flex justify-between">
       <div>
         <div className="flex gap-6">
-          <button className="btn homepage-btn btn-dark text-emerald pixel-font">
+          <button className="btn homepage-btn btn-dark text-emerald pixel-font pointer-events-auto">
             SHILL
           </button>
-          <button className="btn homepage-btn btn-light pixel-font">FUD</button>
+          <button className="btn homepage-btn btn-light pixel-font pointer-events-auto">
+            FUD
+          </button>
         </div>
         <div className="mt-16">
           <div className="flex gap-8">
-            <img className="icon" src={testIcon} alt="testIcon" />
-            <img className="icon" src={testIcon} alt="testIcon" />
-            <img className="icon" src={testIcon} alt="testIcon" />
-            <img className="icon" src={testIcon} alt="testIcon" />
-            <img className="icon" src={testIcon} alt="testIcon" />
-            <img className="icon" src={testIcon} alt="testIcon" />
+            <img
+              className="icon pointer-events-auto"
+              src={testIcon}
+              alt="testIcon"
+            />
+            <img
+              className="icon pointer-events-auto"
+              src={testIcon}
+              alt="testIcon"
+            />
+            <img
+              className="icon pointer-events-auto"
+              src={testIcon}
+              alt="testIcon"
+            />
+            <img
+              className="icon pointer-events-auto"
+              src={testIcon}
+              alt="testIcon"
+            />
+            <img
+              className="icon pointer-events-auto"
+              src={testIcon}
+              alt="testIcon"
+            />
+            <img
+              className="icon pointer-events-auto"
+              src={testIcon}
+              alt="testIcon"
+            />
           </div>
         </div>
       </div>

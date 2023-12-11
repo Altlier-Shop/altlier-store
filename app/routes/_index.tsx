@@ -26,6 +26,65 @@ export default function Homepage() {
   return (
     <div className="home w-screen h-screen">
       <StartPage />
+      <div className="bg-root">
+        <h1>Altlier</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+        <h1>HOMEPAGE</h1>
+      </div>
       {/* <FeaturedCollection collection={data.featuredCollection} /> */}
       {/* <RecommendedProducts products={data.recommendedProducts} /> */}
     </div>
