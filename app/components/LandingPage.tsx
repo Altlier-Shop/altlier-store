@@ -3,8 +3,10 @@ import GridPage from './startpage-components/GridPage';
 import Links from './startpage-components/Links';
 import Popup from './startpage-components/Popup';
 import ScrollableContent from './startpage-components/ScrollableContent';
+
 export default function StartPage() {
   const [showFud, setShowFud] = useState(false);
+
   const handleShill = () => {
     window.location.href = window.location.href + 'account/register';
   };

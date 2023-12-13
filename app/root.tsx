@@ -69,7 +69,8 @@ export const useRootLoaderData = () => {
 
 export async function loader({context}: LoaderFunctionArgs) {
   const {storefront, session, cart} = context;
-  const customerAccessToken = await session.get('customerAccessToken');
+
+  const customerAccessToken = session.get('customerAccessToken');
   const publicStoreDomain = context.env.PUBLIC_STORE_DOMAIN;
 
   // validate the customer access token is valid

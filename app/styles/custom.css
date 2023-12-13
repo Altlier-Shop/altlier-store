@@ -27,6 +27,27 @@
   font-family: 'PixelifySans';
 }
 
+@font-face {
+  font-family: 'KumbhSans';
+  src: url('../../public/fonts/Kumbh_Sans/KumbhSans-Medium.ttf')
+    format('truetype');
+}
+@font-face {
+  font-family: 'KumbhSansBold';
+  src: url('../../public/fonts/Kumbh_Sans/KumbhSans-Bold.ttf')
+    format('truetype');
+}
+@font-face {
+  font-family: 'KumbhSansExtraBold';
+  src: url('../../public/fonts/Kumbh_Sans/KumbhSans-ExtraBold.ttf')
+    format('truetype');
+}
+@font-face {
+  font-family: 'KumbhSansLight';
+  src: url('../../public/fonts/Kumbh_Sans/KumbhSans-Light.ttf')
+    format('truetype');
+}
+
 img {
   border-radius: 4px;
 }
@@ -83,4 +104,24 @@ img {
 
   border-top-color: #e6e6e6;
   border-left-color: #e6e6e6;
+}
+
+.half-circle {
+  width: 40vw; /* 40% of the viewport width */
+  height: 40vh; /* Making the height equal to the width to get a circle */
+  border: solid black 2px;
+  position: absolute; /* Absolute positioning */
+  transform: translateX(-50%); /* Center horizontally */
+}
+.upper-circle {
+  border-radius: 0 0 9999px 9999px; /* Rounded bottom */
+  top: 0; /* Align to top */
+  left: 50%; /* Start at half the width of the container */
+  clip-path: inset(2px 0 0 0); /*Clips the upper half of the circle*/
+}
+.lower-circle {
+  border-radius: 9999px 9999px 0 0; /* Rounded top */
+  bottom: 0; /* Align to bottom */
+  left: 50%; /* Start at half the width of the container */
+  clip-path: inset(0 0 2px 0); /*Clips the bottom half of the circle*/
 }

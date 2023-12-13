@@ -6,7 +6,8 @@ import type {
   FeaturedCollectionFragment,
   RecommendedProductsQuery,
 } from 'storefrontapi.generated';
-import StartPage from '../components/StartPage';
+import LandingPage from '../components/LandingPage';
+import ProductPage from '~/components/ProductPage';
 
 export const meta: MetaFunction = () => {
   return [{title: 'Hydrogen | Home'}];
@@ -25,66 +26,8 @@ export default function Homepage() {
   const data = useLoaderData<typeof loader>();
   return (
     <div className="home w-screen h-screen">
-      <StartPage />
-      <div className="bg-root">
-        <h1>Altlier</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-        <h1>HOMEPAGE</h1>
-      </div>
+      <LandingPage />
+      <ProductPage />
       {/* <FeaturedCollection collection={data.featuredCollection} /> */}
       {/* <RecommendedProducts products={data.recommendedProducts} /> */}
     </div>
