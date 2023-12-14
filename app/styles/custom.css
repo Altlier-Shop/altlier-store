@@ -126,20 +126,13 @@ img {
 
 .circular {
   position: relative;
-  /* border: 1px solid rgba(0, 0, 0, 0.1); */
   border-radius: 50%;
-  /* background-color: bisque; */
 }
 
 .rotating-object {
   position: absolute;
   object-fit: contain;
-  height: 50%;
-  top: 0%;
-  /* background-color: #3498db; Background color of the object */
-  /* transform: translate(-50%, 0) rotate(0deg); Adjust the initial position */
-  /* transform-origin: 50% 50%; Set the rotation origin to the center of the circle */
-  /* animation: rotateAroundCircle 3s linear forwards; Apply the animation */
+  top: 5%;
 }
 
 /* Clockwise rotation */

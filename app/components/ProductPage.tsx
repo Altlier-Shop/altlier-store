@@ -163,8 +163,8 @@ function RecommendedProducts({
   return (
     <div className="h-full w-full grid justify-center items-center">
       <div
-        className="h-full w-full circular top-1/2"
-        style={{height: circleHeight * 3, width: circleWidth * 1.5}}
+        className="circular top-1/2"
+        style={{height: circleHeight * 3, width: circleWidth * 1.3}}
       >
         <button
           onClick={() => handleRotate(false)}
@@ -192,16 +192,16 @@ function RecommendedProducts({
               }
               // aspectRatio="1/1"
               style={{
+                height: `${circleHeight * 1.5}px`,
+                // width: `${circleWidth * 1.3}px`,
                 transform: product.initialPosition,
                 animation: product.animation,
               }}
-              sizes="(min-width: 20em) 40vw, 50vw"
+              sizes="(min-width: 20em) 20vw, 40vw"
             />
           </div>
         ))}
       </div>
-
-      <br />
     </div>
   );
 }
