@@ -107,8 +107,6 @@ img {
 }
 
 .half-circle {
-  width: 40vw; /* 40% of the viewport width */
-  height: 40vh; /* Making the height equal to the width to get a circle */
   border: solid black 2px;
   position: absolute; /* Absolute positioning */
   transform: translateX(-50%); /* Center horizontally */
@@ -124,4 +122,96 @@ img {
   bottom: 0; /* Align to bottom */
   left: 50%; /* Start at half the width of the container */
   clip-path: inset(0 0 2px 0); /*Clips the bottom half of the circle*/
+}
+
+.circular {
+  position: relative;
+  /* border: 1px solid rgba(0, 0, 0, 0.1); */
+  border-radius: 50%;
+  /* background-color: bisque; */
+}
+
+.rotating-object {
+  position: absolute;
+  object-fit: contain;
+  height: 50%;
+  top: 0%;
+  /* background-color: #3498db; Background color of the object */
+  /* transform: translate(-50%, 0) rotate(0deg); Adjust the initial position */
+  /* transform-origin: 50% 50%; Set the rotation origin to the center of the circle */
+  /* animation: rotateAroundCircle 3s linear forwards; Apply the animation */
+}
+
+/* Clockwise rotation */
+@keyframes rotateTopRight {
+  from {
+    transform: rotate(180deg) translateX(50%) rotate(90deg);
+  }
+  to {
+    transform: rotate(270deg) translateX(50%) rotate(90deg);
+  }
+}
+
+@keyframes rotateRightBottom {
+  from {
+    transform: rotate(270deg) translateX(50%) rotate(90deg);
+  }
+  to {
+    transform: rotate(360deg) translateX(50%) rotate(90deg);
+  }
+}
+
+@keyframes rotateBottomLeft {
+  from {
+    transform: rotate(0deg) translateX(50%) rotate(90deg);
+  }
+  to {
+    transform: rotate(90deg) translateX(50%) rotate(90deg);
+  }
+}
+
+@keyframes rotateLeftTop {
+  from {
+    transform: rotate(90deg) translateX(50%) rotate(90deg);
+  }
+  to {
+    transform: rotate(180deg) translateX(50%) rotate(90deg);
+  }
+}
+
+/* Counter Clockwise rotation */
+@keyframes rotateTopLeft {
+  from {
+    transform: rotate(180deg) translateX(50%) rotate(90deg);
+  }
+  to {
+    transform: rotate(90deg) translateX(50%) rotate(90deg);
+  }
+}
+
+@keyframes rotateLeftBottom {
+  from {
+    transform: rotate(90deg) translateX(50%) rotate(90deg);
+  }
+  to {
+    transform: rotate(0deg) translateX(50%) rotate(90deg);
+  }
+}
+
+@keyframes rotateBottomRight {
+  from {
+    transform: rotate(360deg) translateX(50%) rotate(90deg);
+  }
+  to {
+    transform: rotate(270deg) translateX(50%) rotate(90deg);
+  }
+}
+
+@keyframes rotateRightTop {
+  from {
+    transform: rotate(270deg) translateX(50%) rotate(90deg);
+  }
+  to {
+    transform: rotate(180deg) translateX(50%) rotate(90deg);
+  }
 }
