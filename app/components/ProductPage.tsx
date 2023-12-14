@@ -71,88 +71,78 @@ function RecommendedProducts({
   const [hoveredProductId, setHoveredProductId] = useState('');
   const [selectedProducts, setSelectedProducts] = useState<any[]>([]); // we use those to keep the next t-shirt in memory
   const [productsQueue, setProductsQueue] = useState<any[]>([]);
-
-  const renewProductsQueue = useCallback(
-    (clockWise?: boolean) => {
-      let adjustedQueue: any = [];
-      if (clockWise) {
-        // console.log('clockWise', clockWise);
-
-        adjustedQueue = [...productsQueue.slice(0, productsQueue.length - 1)];
-      } else {
-        adjustedQueue = [...productsQueue.slice(1)];
-        // console.log('clockWise', clockWise);
-      }
-
-      console.log(
-        'adjustedQueue: ',
-        adjustedQueue.map((e) => e.title),
-      );
-      if (adjustedQueue.length <= 4) {
-        const queueAugments = [...products.nodes].filter(
-          (product) => !adjustedQueue.includes(product),
-        );
-        console.log(
-          'queueAugments: ',
-          queueAugments.map((e) => e.title),
-        );
-        // Adjust the Queue
-        const newQueue = [...queueAugments, ...adjustedQueue];
-        console.log(
-          'newQueue: ',
-          newQueue.map((e) => e.title),
-        );
-        setProductsQueue(newQueue);
-      } else {
-        setProductsQueue(adjustedQueue);
-      }
-    },
-    [productsQueue, products],
-  );
+  const [startIndex, setStartIndex] = useState(0);
+  const [previousRotationState, setPreviousRotationState] = useState<
+    boolean | null
+  >(null);
 
   const handleRotate = (clockWise: boolean) => {
-    if (clockWise) {
-      // adjust products queue
-      const newProducts = [...productsQueue.slice(productsQueue.length - 4)];
-      //console.log(newProducts.map((product) => product.title));
+    const products = [...productsQueue];
+    // console.log(products.map((product) => product.title));
+    const selectProducts = [];
+    if (!clockWise) {
+      let start = startIndex;
+      if (!previousRotationState) {
+        if (startIndex < products.length - 1) {
+          start = startIndex + 1;
+          setStartIndex(startIndex + 1);
+        } else {
+          start = 0;
+          setStartIndex(0);
+        }
+      }
+      setPreviousRotationState(false);
 
-      // assign position and rotation
-      assignInitialPosition(newProducts);
-
-      newProducts[0].animation = 'rotateLeftTop 1s ease-out forwards';
-      newProducts[1].animation = 'rotateTopRight 1s ease-out forwards';
-      newProducts[2].animation = 'rotateRightBottom 1s ease-out forwards';
-      newProducts[3].animation = 'rotateBottomLeft 1s ease-out forwards';
-
-      selectProducts(newProducts);
-      renewProductsQueue(true);
+      let j = 0;
+      for (let i = 0; i < 4; i++) {
+        if (i + start < products.length) {
+          selectProducts.push(products[i + start]);
+        } else {
+          selectProducts.push(products[j]);
+          j++;
+        }
+      }
+      assignInitialPosition(selectProducts);
+      // console.log(selectProducts.map((product) => product.title));
+      selectProducts[0].animation = 'rotateTopLeft 1s ease-out forwards';
+      selectProducts[1].animation = 'rotateRightTop 1s ease-out forwards';
+      selectProducts[2].animation = 'rotateBottomRight 1s ease-out forwards';
+      selectProducts[3].animation = 'rotateLeftBottom 1s ease-out forwards';
+      setSelectedProducts(selectProducts);
     } else {
-      // adjust products queue
-      const newProducts = [...productsQueue.slice(productsQueue.length - 4)];
-      const firstQueueItem = [...productsQueue.slice(1)];
-      const oldProducts = [...selectedProducts];
-      console.log(newProducts.map((product) => product.title));
+      let start = startIndex;
+      if (previousRotationState) {
+        if (startIndex > 0) {
+          start = startIndex - 1;
+          setStartIndex(startIndex - 1);
+        } else {
+          start = products.length - 1;
+          setStartIndex(products.length - 1);
+        }
+      }
+      setPreviousRotationState(true);
 
-      const newProductCombination = [...newProducts];
-      newProductCombination[0] = newProducts[2];
-      newProductCombination[1] = newProducts[3];
-      newProductCombination[2] = oldProducts[3];
-      newProductCombination[3] = firstQueueItem[0];
-      // assign position and rotation
-      assignInitialPosition(newProductCombination);
-
-      newProducts[0].animation = 'rotateTopLeft 1s ease-out forwards';
-      newProducts[1].animation = 'rotateRightTop 1s ease-out forwards';
-      newProducts[2].animation = 'rotateBottomRight 1s ease-out forwards';
-      newProducts[3].animation = 'rotateLeftBottom 1s ease-out forwards';
-
-      selectProducts(newProducts);
-      renewProductsQueue(false); // we remove queue first item
+      let j = 0;
+      for (let i = 0; i < 4; i++) {
+        if (i + start < products.length) {
+          selectProducts.push(products[i + start]);
+        } else {
+          selectProducts.push(products[j]);
+          j++;
+        }
+      }
+      assignInitialPosition(selectProducts);
+      // console.log(selectProducts.map((product) => product.title));
+      selectProducts[0].animation = 'rotateLeftTop 1s ease-out forwards';
+      selectProducts[1].animation = 'rotateTopRight 1s ease-out forwards';
+      selectProducts[2].animation = 'rotateRightBottom 1s ease-out forwards';
+      selectProducts[3].animation = 'rotateBottomLeft 1s ease-out forwards';
+      setSelectedProducts(selectProducts);
     }
   };
 
   const assignInitialPosition = (selectedProducts: any) => {
-    let degree = 90; // we intend to start with 180 degrees
+    let degree = 0; // we intend to start with 90 degrees
     for (let i = 0; i < selectedProducts.length; i++) {
       degree += 90;
       selectedProducts[
@@ -160,26 +150,15 @@ function RecommendedProducts({
       ].initialPosition = `rotate(${degree}deg) translateX(50%) rotate(90deg)`;
     }
   };
-  const selectProducts = useCallback((selectedProducts: any) => {
-    setSelectedProducts(selectedProducts);
-  }, []);
 
   useEffect(() => {
     if (products && selectedProducts.length === 0) {
-      const newProducts = [...productsQueue.slice(productsQueue.length - 4)];
+      const newProducts = [...products.nodes.slice(0, 4)];
+      setProductsQueue(products.nodes);
       assignInitialPosition(newProducts);
-      selectProducts(newProducts);
-      // console.log(newProducts.map((product) => product.title));
-
-      renewProductsQueue(true);
+      setSelectedProducts(newProducts);
     }
-  }, [
-    products,
-    selectProducts,
-    selectedProducts,
-    productsQueue,
-    renewProductsQueue,
-  ]);
+  }, [products, selectedProducts, productsQueue]);
 
   return (
     <div className="h-full w-full grid justify-center items-center">
