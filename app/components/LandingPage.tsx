@@ -15,7 +15,7 @@ export default function StartPage() {
     <div className="flex w-full h-full bg-root-primary overflow-y-scroll relative">
       <div className="2xl:px-20 px-10 pt-32" style={{width: '45%'}}>
         <ScrollableContent />
-        <div className="sticky bottom-0 bg-root-primary pointer-events-none pt-10 pb-32 ">
+        <div className="sticky bottom-0 bg-root-primary pointer-events-none pt-10 pb-20 ">
           <Links onShill={handleShill} onFud={() => setShowFud(true)} />
         </div>
       </div>

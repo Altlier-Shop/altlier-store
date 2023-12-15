@@ -4,7 +4,7 @@ export default function NotAPonzi() {
       id="Layer_1"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 690.19 64.75"
-      width="85%"
+      width="80%"
     >
       <defs>
         <style>{`.ponzi-cls-1{fill:#008b9a;}.ponzi-cls-1,.ponzi-cls-2,.ponzi-cls-3,.ponzi-cls-4,.ponzi-cls-5,.ponzi-cls-6{stroke-width:0px;}.ponzi-cls-2{fill:#e43740;}.ponzi-cls-3{fill:#14141e;}.ponzi-cls-4{fill:#4ca276;}.ponzi-cls-5{fill:#f2ad13;}.ponzi-cls-6{fill:#d7d5d3;}`}</style>
