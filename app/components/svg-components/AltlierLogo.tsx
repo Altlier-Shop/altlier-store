@@ -8,7 +8,7 @@ export default function AltlierLogo() {
       y="0px"
       viewBox="0 0 297.69 64.75"
       xmlSpace="preserve"
-      height="50"
+      height="40"
     >
       <style type="text/css">
         {`

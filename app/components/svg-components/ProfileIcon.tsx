@@ -5,8 +5,8 @@ export default function ProfileIcon({notification}: {notification: boolean}) {
         id="Layer_1"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 55 55"
-        width="60"
-        height="60"
+        width="48"
+        height="48"
       >
         <g id="Account">
           <circle strokeWidth="0px" cx="27.5" cy="27.5" r="27.5" />

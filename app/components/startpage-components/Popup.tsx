@@ -6,7 +6,7 @@ interface PopupProps {
 }
 export default function Popup(props: PopupProps) {
   return (
-    <div className="retro-border border-4 text-xl w-1/4">
+    <div className="retro-border border-4 text-xl w-[600px]">
       <div className="bg-gradient-to-r from-neutral-900 from-5% to-neutral-500 to-85%  p-2 flex justify-between items-center">
         <span className="font-bold text-white">ERROR 404: FUDDER</span>
         <button
