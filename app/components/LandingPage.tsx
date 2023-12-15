@@ -12,13 +12,10 @@ export default function StartPage() {
   };
 
   return (
-    <div className="flex w-full h-full bg-root overflow-y-scroll relative">
-      <div className="fixed bg-root 2xl:px-20 px-10 pt-10 w-full">
-        <h1>Altlier</h1>
-      </div>
+    <div className="flex w-full h-full bg-root-primary overflow-y-scroll relative">
       <div className="2xl:px-20 px-10 pt-32" style={{width: '45%'}}>
         <ScrollableContent />
-        <div className="sticky bottom-0 bg-root pointer-events-none pt-10 pb-32 ">
+        <div className="sticky bottom-0 bg-root-primary pointer-events-none pt-10 pb-32 ">
           <Links onShill={handleShill} onFud={() => setShowFud(true)} />
         </div>
       </div>

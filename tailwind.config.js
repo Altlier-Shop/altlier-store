@@ -152,7 +152,10 @@ module.exports = {
       yellow: colors.yellow,
       lime: colors.lime,
       green: colors.green,
-      emerald: colors.emerald,
+      emerald: {
+        light: '#67ad7b',
+        dark: '#3c6c48',
+      },
       teal: colors.teal,
       cyan: colors.cyan,
       sky: colors.sky,
@@ -163,6 +166,7 @@ module.exports = {
       fuchsia: colors.fuchsia,
       pink: colors.pink,
       rose: colors.rose,
+      root: {primary: '#d7d5d4', secondary: '#f3ebe4', tertiary: '#b4b4b4'},
     }),
     columns: {
       auto: 'auto',

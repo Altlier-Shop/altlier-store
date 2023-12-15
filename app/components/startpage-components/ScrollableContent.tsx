@@ -1,5 +1,4 @@
-import testIcon from '../../../public/icons/moneys.svg';
-import Test from '../svg-components/Test';
+import NotAPonzi from '../svg-components/NotAPonzi';
 export default function ScrollableContent() {
   return (
     //  we need slight padding to not show the edges of our text next to the overlay divs
@@ -16,14 +15,8 @@ export default function ScrollableContent() {
         </h1>
       </div>
       <div className="mt-6 mb-6 grid 2xl:gap-6 lg:gap-4">
-        <div className="rounded-full px-6 border-black border-2 font-bold bg-black  w-fit">
-          <span className="text-root font-4xl:text-6xl 3xl:text-5xl 2xl:text-4xl xl:text-3xl lg:text-2xl flex items-center">
-            NOT A PONZI &nbsp;
-            <Test />
-            <Test />
-            <Test />
-            <Test />
-          </span>
+        <div className="-ml-[2%]">
+          <NotAPonzi />
         </div>
         <p className="leading-10 text-2xl">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aliquam

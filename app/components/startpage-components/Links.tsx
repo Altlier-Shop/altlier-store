@@ -1,17 +1,21 @@
-import testIcon from '../../../public/icons/moneys.svg';
-
+import ArrowIcon from '../svg-components/ArrowIcon';
+import DiscordIcon from '../svg-components/DiscordIcon';
+import InstagramIcon from '../svg-components/InstagramIcon';
+import TelegramIcon from '../svg-components/TelegramIcon';
+import TwitterIcon from '../svg-components/TwitterIcon';
+import WhitePaperIcon from '../svg-components/WhitePaperIcon';
 interface LinksProps {
   onShill(): void;
   onFud(): void;
 }
 export default function Links(props: LinksProps) {
   return (
-    <div className="flex justify-between">
-      <div>
+    <div className="flex">
+      <div className="max-w-lg w-full">
         <div className="flex gap-6">
           <button
             onClick={props.onShill}
-            className="btn homepage-btn btn-dark text-emerald pixel-font pointer-events-auto"
+            className="btn homepage-btn btn-dark pixel-font pointer-events-auto"
           >
             SHILL
           </button>
@@ -22,42 +26,52 @@ export default function Links(props: LinksProps) {
             FUD
           </button>
         </div>
-        <div className="mt-16">
-          <div className="flex gap-8">
-            <img
-              className="icon pointer-events-auto"
-              src={testIcon}
-              alt="testIcon"
-            />
-            <img
-              className="icon pointer-events-auto"
-              src={testIcon}
-              alt="testIcon"
-            />
-            <img
-              className="icon pointer-events-auto"
-              src={testIcon}
-              alt="testIcon"
-            />
-            <img
-              className="icon pointer-events-auto"
-              src={testIcon}
-              alt="testIcon"
-            />
-            <img
-              className="icon pointer-events-auto"
-              src={testIcon}
-              alt="testIcon"
-            />
-            <img
-              className="icon pointer-events-auto"
-              src={testIcon}
-              alt="testIcon"
-            />
-          </div>
+
+        <div className="mt-16 flex justify-between">
+          <a
+            className="pointer-events-auto w-12"
+            href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <TelegramIcon />
+          </a>
+          <a
+            className="pointer-events-auto w-12"
+            href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <TwitterIcon />
+          </a>
+          <a
+            className="pointer-events-auto w-12"
+            href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <InstagramIcon />
+          </a>
+          <a
+            className="pointer-events-auto w-12"
+            href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <DiscordIcon />
+          </a>
+          <a
+            className="pointer-events-auto w-12"
+            href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <WhitePaperIcon />
+          </a>
         </div>
       </div>
-      <span className="text-8xl font-bold arrow-down">&darr;</span>
+
+      <ArrowIcon direction={'top'} />
     </div>
   );
 }

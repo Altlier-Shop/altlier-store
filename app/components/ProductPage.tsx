@@ -1,6 +1,7 @@
 import {useEffect, useState, Suspense, useCallback} from 'react';
 import {Await} from '@remix-run/react';
 import {Money, Image} from '@shopify/hydrogen';
+import ArrowIcon from './svg-components/ArrowIcon';
 
 interface ProductData {
   data: any;
@@ -30,7 +31,7 @@ export default function ProductPage(props: ProductData) {
   }, []);
 
   return (
-    <div className="h-screen w-full bg-root">
+    <div className="h-screen w-full bg-root-primary">
       <div className="grid h-full relative justify-center items-end overflow-hidden">
         <div className="absolute z-10 h-full w-full grid justify-items-center items-center">
           <Suspense fallback={<div>Loading...</div>}>
@@ -75,8 +76,10 @@ function RecommendedProducts({
   const [previousRotationState, setPreviousRotationState] = useState<
     boolean | null
   >(null);
+  const [disableRotation, setDisableRotation] = useState(false);
 
   const handleRotate = (clockWise: boolean) => {
+    setDisableRotation(true);
     const products = [...productsQueue];
     // console.log(products.map((product) => product.title));
     const selectProducts = [];
@@ -139,6 +142,9 @@ function RecommendedProducts({
       selectProducts[3].animation = 'rotateBottomLeft 1s ease-out forwards';
       setSelectedProducts(selectProducts);
     }
+    setTimeout(() => {
+      setDisableRotation(false);
+    }, 1000);
   };
 
   const assignInitialPosition = (selectedProducts: any) => {
@@ -167,18 +173,20 @@ function RecommendedProducts({
         style={{height: circleHeight * 3, width: circleWidth * 1.3}}
       >
         <button
+          disabled={disableRotation}
           onClick={() => handleRotate(false)}
-          className="ml-0 absolute -top-40 left-40"
+          className="absolute -top-40 left-20"
         >
-          <span className="absolute z-10 font-bold h-24 w-24"></span>
-          <span className="text-8xl font-bold">&larr;</span>
+          <span className="absolute z-10 font-bold h-24 w-32 -ml-16"></span>
+          <ArrowIcon direction={'left'} />
         </button>
         <button
+          disabled={disableRotation}
           onClick={() => handleRotate(true)}
-          className="ml-0 absolute -top-40 right-40"
+          className="absolute -top-40 right-20"
         >
-          <span className="absolute z-10 font-bold h-24 w-24"></span>
-          <span className="text-8xl font-bold">&rarr;</span>
+          <span className="absolute z-10 font-bold h-24 w-32 -ml-16"></span>
+          <ArrowIcon direction={'right'} />
         </button>
         {selectedProducts.map((product: any) => (
           <div key={product.id}>

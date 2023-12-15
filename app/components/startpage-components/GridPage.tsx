@@ -1,5 +1,6 @@
 import {useState, useEffect, useRef} from 'react';
-import testIcon from '../../../public/icons/moneys.svg';
+import ProfileIcon from '../svg-components/ProfileIcon';
+import CartIcon from '../svg-components/CartIcon';
 import handleRequest from '~/entry.server';
 export default function GridPage() {
   const [gridSize, setGridSize] = useState(40); // Default grid size
@@ -32,24 +33,6 @@ export default function GridPage() {
           linear-gradient(to bottom, gray 1px, transparent 1px)`,
         backgroundSize: `${gridSize}px ${gridSize}px`,
       }}
-    >
-      <div className="w-full h-full flex flex-col justify-center items-end pr-20 gap-6">
-        <a href="#cart-aside">
-          <img
-            className="icon pointer-events-auto"
-            src={testIcon}
-            alt="testIcon"
-          />
-        </a>
-
-        <a href="/account">
-          <img
-            className="icon pointer-events-auto"
-            src={testIcon}
-            alt="testIcon"
-          />
-        </a>
-      </div>
-    </div>
+    ></div>
   );
 }

@@ -8,6 +8,9 @@ import type {
 } from 'storefrontapi.generated';
 import LandingPage from '~/components/LandingPage';
 import ProductPage from '~/components/ProductPage';
+import CartIcon from '~/components/svg-components/CartIcon';
+import ProfileIcon from '~/components/svg-components/ProfileIcon';
+import AltlierLogo from '~/components/svg-components/AltlierLogo';
 
 export const meta: MetaFunction = () => {
   return [{title: 'Hydrogen | Home'}];
@@ -26,6 +29,17 @@ export default function Homepage() {
   const data = useLoaderData<typeof loader>();
   return (
     <div className="home w-screen h-screen">
+      <div className="fixed z-20 top-8 left-20">
+        <AltlierLogo />
+      </div>
+      <div className="fixed z-20 top-1/2 flex flex-col gap-8 right-24">
+        <a href="#cart-aside" className="pointer-events-auto">
+          <CartIcon notification={false} />
+        </a>
+        <a href="/account" className="pointer-events-auto">
+          <ProfileIcon notification={false} />
+        </a>
+      </div>
       <LandingPage />
       <ProductPage data={data} />
       {/* <FeaturedCollection collection={data.featuredCollection} /> */}
