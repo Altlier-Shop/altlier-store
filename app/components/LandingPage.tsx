@@ -13,7 +13,10 @@ export default function LandingPage({data}: {data: any}) {
   };
 
   return (
-    <div className="flex w-full h-full bg-root-primary overflow-y-scroll relative">
+    <div
+      id="landing-page"
+      className="flex w-full h-full bg-root-primary overflow-y-scroll relative"
+    >
       <div className="2xl:px-20 px-10 pt-32" style={{width: '45%'}}>
         <ScrollableContent />
         <div className="sticky bottom-0 bg-root-primary pointer-events-none pt-8 pb-14 ">

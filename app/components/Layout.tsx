@@ -32,9 +32,12 @@ export function Layout({
 }: LayoutProps) {
   return (
     <>
-      <div className="fixed z-20 top-8 2xl:px-20 px-10">
+      <button
+        onClick={handleHomeClick}
+        className="fixed z-20 top-8 2xl:px-20 px-10"
+      >
         <AltlierLogo />
-      </div>
+      </button>
       <CartAside cart={cart} />
       <SearchAside />
       <MobileMenuAside menu={header?.menu} shop={header?.shop} />
@@ -61,6 +64,18 @@ function CartAside({cart}: {cart: LayoutProps['cart']}) {
       </Suspense>
     </Aside>
   );
+}
+
+function handleHomeClick() {
+  const location = window.location;
+  if (location.pathname === '/') {
+    window.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+    document
+      .getElementById('landing-page')
+      ?.scrollTo({top: 0, left: 0, behavior: 'smooth'});
+  } else {
+    window.location.href = location.origin;
+  }
 }
 
 function SearchAside() {
