@@ -27,7 +27,7 @@ export default function Links(props: LinksProps) {
           </button>
         </div>
 
-        <div className="mt-16 flex justify-between">
+        <div className="mt-10 flex justify-between">
           <a
             className="pointer-events-auto w-12"
             href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
