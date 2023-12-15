@@ -38,7 +38,7 @@ img {
 
 @layer components {
   .btn {
-    @apply rounded-full border-black border-2 font-bold;
+    @apply rounded-full border-altlierBlue border-2 font-bold;
   }
 }
 @layer components {
@@ -48,17 +48,17 @@ img {
 }
 @layer components {
   .btn-dark {
-    @apply bg-black text-emerald-light hover:text-black hover:bg-emerald-light active:bg-emerald-dark;
+    @apply bg-altlierBlue text-emerald-light hover:text-altlierBlue hover:bg-emerald-light active:bg-emerald-dark;
   }
 }
 @layer components {
   .btn-light {
-    @apply hover:bg-black hover:text-root-primary active:bg-neutral-500;
+    @apply hover:bg-altlierBlue hover:text-root-primary active:bg-neutral-500;
   }
 }
 @layer components {
   .icon {
-    @apply w-14 h-14 cursor-pointer bg-black rounded-full p-2;
+    @apply w-14 h-14 cursor-pointer bg-altlierBlue rounded-full p-2;
   }
 }
 
@@ -91,7 +91,7 @@ img {
 }
 
 .half-circle {
-  border: solid black 2px;
+  border: solid altlierBlue 2px;
   position: absolute; /* Absolute positioning */
   transform: translateX(-50%); /* Center horizontally */
 }

@@ -167,6 +167,7 @@ module.exports = {
       pink: colors.pink,
       rose: colors.rose,
       root: {primary: '#d7d5d4', secondary: '#f3ebe4', tertiary: '#b4b4b4'},
+      altlierBlue: '#1D1B2F',
     }),
     columns: {
       auto: 'auto',

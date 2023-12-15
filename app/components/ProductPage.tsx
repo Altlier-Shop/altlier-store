@@ -109,6 +109,7 @@ function RecommendedProducts({
       // console.log(selectProducts.map((product) => product.title));
       selectProducts[0].animation = 'rotateTopLeft 1s ease-out forwards';
       selectProducts[1].animation = 'rotateRightTop 1s ease-out forwards';
+      selectProducts[1].top = true;
       selectProducts[2].animation = 'rotateBottomRight 1s ease-out forwards';
       selectProducts[3].animation = 'rotateLeftBottom 1s ease-out forwards';
       setSelectedProducts(selectProducts);
@@ -137,6 +138,7 @@ function RecommendedProducts({
       assignInitialPosition(selectProducts);
       // console.log(selectProducts.map((product) => product.title));
       selectProducts[0].animation = 'rotateLeftTop 1s ease-out forwards';
+      selectProducts[0].top = true;
       selectProducts[1].animation = 'rotateTopRight 1s ease-out forwards';
       selectProducts[2].animation = 'rotateRightBottom 1s ease-out forwards';
       selectProducts[3].animation = 'rotateBottomLeft 1s ease-out forwards';
@@ -160,14 +162,24 @@ function RecommendedProducts({
   useEffect(() => {
     if (products && selectedProducts.length === 0) {
       const newProducts = [...products.nodes.slice(0, 4)];
+      newProducts[0].top = true;
       setProductsQueue(products.nodes);
       assignInitialPosition(newProducts);
       setSelectedProducts(newProducts);
     }
   }, [products, selectedProducts, productsQueue]);
 
+  const selectProducts = [...selectedProducts];
   return (
     <div className="h-full w-full grid justify-center items-center">
+      <div className="relative">
+        {selectProducts.map((product: any) => (
+          <div className="absolute right-96 z-30" key={product.id}>
+            {!product.top ? '' : product.title}
+          </div>
+        ))}
+      </div>
+
       <div
         className="circular top-1/2"
         style={{height: circleHeight * 3, width: circleWidth * 1.3}}
@@ -188,9 +200,8 @@ function RecommendedProducts({
           <span className="absolute z-10 font-bold h-24 w-32 -ml-16"></span>
           <ArrowIcon direction={'right'} />
         </button>
-        {selectedProducts.map((product: any) => (
+        {selectProducts.map((product: any) => (
           <div key={product.id}>
-            <h1>{JSON.stringify(product.topRank)}</h1>
             <Image
               className="rotating-object"
               onMouseOver={() => setHoveredProductId(product.id)}

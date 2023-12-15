@@ -22,7 +22,7 @@ export default function Popup(props: PopupProps) {
             <WarningIcon />
           </div>
           <div className="w-3/4 grid">
-            <span className="text-black mb-2">
+            <span className="text-altlierBlue mb-2">
               Seems like the page you are trying to enter does not exist.
             </span>
           </div>

@@ -275,7 +275,9 @@ function ProductOptions({option}: {option: VariantOption}) {
               replace
               to={to}
               style={{
-                border: isActive ? '1px solid black' : '1px solid transparent',
+                border: isActive
+                  ? '1px solid altlierBlue'
+                  : '1px solid transparent',
                 opacity: isAvailable ? 1 : 0.3,
               }}
             >

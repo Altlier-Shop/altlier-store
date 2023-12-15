@@ -4,7 +4,7 @@ export default function ScrollableContent() {
     //  we need slight padding to not show the edges of our text next to the overlay divs
     <div className="p-0.5">
       <div className="grid 2xl:gap-10 lg:gap-6">
-        <h1 className="4xl:text-8xl 3xl:text-7xl xl:text-6xl l:text-5xl md:text-4xl pixel-font">
+        <h1 className="4xl:text-8xl 3xl:text-7xl xl:text-6xl l:text-5xl md:text-4xl pixel-font text-altlierBlue">
           YOUR
         </h1>
         <h1 className="4xl:text-8xl 3xl:text-7xl xl:text-6xl l:text-5xl md:text-4xl pixel-font">
