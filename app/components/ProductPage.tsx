@@ -168,14 +168,16 @@ function RecommendedProducts({
       >
         <button
           onClick={() => handleRotate(false)}
-          className="ml-0 absolute z-10 -top-40 left-40"
+          className="ml-0 absolute -top-40 left-40"
         >
+          <span className="absolute z-10 font-bold h-24 w-24"></span>
           <span className="text-8xl font-bold">&larr;</span>
         </button>
         <button
           onClick={() => handleRotate(true)}
-          className="ml-0 absolute z-10 -top-40 right-40"
+          className="ml-0 absolute -top-40 right-40"
         >
+          <span className="absolute z-10 font-bold h-24 w-24"></span>
           <span className="text-8xl font-bold">&rarr;</span>
         </button>
         {selectedProducts.map((product: any) => (
