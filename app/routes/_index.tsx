@@ -29,7 +29,7 @@ export default function Homepage() {
   const data = useLoaderData<typeof loader>();
   return (
     <div className="home w-screen h-screen">
-      <div className="fixed z-20 top-8 left-20">
+      <div className="fixed z-20 top-8 2xl:px-20 px-10">
         <AltlierLogo />
       </div>
       <div className="fixed z-20 top-1/2 flex flex-col gap-8 right-24">

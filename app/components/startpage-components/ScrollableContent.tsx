@@ -19,9 +19,9 @@ export default function ScrollableContent() {
           <NotAPonzi />
         </div>
         <p className="leading-10 text-2xl">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aliquam
-          et urna vitae vehicula. Praesent volutpat accumsan arcu, eu suscipit
-          urna semper at. Nulla pretium velit et elit consequat placerat.
+          Altlier, a community for alternative outliers, blends wearable
+          products with documentation of the Crypto/Web3 cultural movement,
+          capturing the era’s excitement in every unique design.
         </p>
       </div>
       <div className="mt-32 grid 2xl:gap-6 lg:gap-4">
@@ -35,9 +35,13 @@ export default function ScrollableContent() {
           INTO DAILY LIFE
         </h1>
         <p className="leading-10 text-2xl">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aliquam
-          et urna vitae vehicula. Praesent volutpat accumsan arcu, eu suscipit
-          urna semper at. Nulla pretium velit et elit consequat placerat.
+          Discover Altlier: In the digital age's heart, we're a brand born from
+          a crypto community's vision, embodying the web3 culture. Altlier isn't
+          just about fashion; it's about a cultural metamorphosis, capturing the
+          spirit of this era through clothing that's more than garments - each
+          piece is a story, a symbol of innovation and connection. Join us, wear
+          your story, and be part of this revolutionary movement. Altlier -
+          Dressing the Revolution, One Stitch at a Time
         </p>
         <div className="mt-20"></div>
       </div>
