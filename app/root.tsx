@@ -188,7 +188,7 @@ export function ErrorBoundary() {
  * );
  * ```
  */
-async function validateCustomerAccessToken(
+export async function validateCustomerAccessToken(
   session: LoaderFunctionArgs['context']['session'],
   customerAccessToken?: CustomerAccessToken,
 ) {

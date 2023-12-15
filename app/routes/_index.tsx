@@ -10,37 +10,44 @@ import LandingPage from '~/components/LandingPage';
 import ProductPage from '~/components/ProductPage';
 import CartIcon from '~/components/svg-components/CartIcon';
 import ProfileIcon from '~/components/svg-components/ProfileIcon';
-import AltlierLogo from '~/components/svg-components/AltlierLogo';
+import {validateCustomerAccessToken} from '~/root';
 
 export const meta: MetaFunction = () => {
   return [{title: 'Hydrogen | Home'}];
 };
 
 export async function loader({context}: LoaderFunctionArgs) {
-  const {storefront} = context;
+  const {storefront, session} = context;
+  const customerAccessToken = session.get('customerAccessToken');
+
+  // validate the customer access token is valid
+  const {isLoggedIn, headers} = await validateCustomerAccessToken(
+    session,
+    customerAccessToken,
+  );
   const {collections} = await storefront.query(FEATURED_COLLECTION_QUERY);
   const featuredCollection = collections.nodes[0];
   const recommendedProducts = storefront.query(RECOMMENDED_PRODUCTS_QUERY);
 
-  return defer({featuredCollection, recommendedProducts});
+  return defer({featuredCollection, recommendedProducts, isLoggedIn, headers});
 }
 
 export default function Homepage() {
   const data = useLoaderData<typeof loader>();
   return (
     <div className="home w-screen h-screen">
-      <div className="fixed z-20 top-8 2xl:px-20 px-10">
-        <AltlierLogo />
-      </div>
       <div className="fixed z-20 top-1/2 flex flex-col gap-8 right-24">
         <a href="#cart-aside" className="pointer-events-auto">
           <CartIcon notification={false} />
         </a>
-        <a href="/account" className="pointer-events-auto">
+        <a
+          href={data.isLoggedIn ? '/account' : '/account/login'}
+          className="pointer-events-auto"
+        >
           <ProfileIcon notification={false} />
         </a>
       </div>
-      <LandingPage />
+      <LandingPage data={data} />
       <ProductPage data={data} />
       {/* <FeaturedCollection collection={data.featuredCollection} /> */}
       {/* <RecommendedProducts products={data.recommendedProducts} /> */}

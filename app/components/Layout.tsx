@@ -13,6 +13,7 @@ import {
   PredictiveSearchForm,
   PredictiveSearchResults,
 } from '~/components/Search';
+import AltlierLogo from './svg-components/AltlierLogo';
 
 export type LayoutProps = {
   cart: Promise<CartApiQueryFragment | null>;
@@ -31,6 +32,9 @@ export function Layout({
 }: LayoutProps) {
   return (
     <>
+      <div className="fixed z-20 top-8 2xl:px-20 px-10">
+        <AltlierLogo />
+      </div>
       <CartAside cart={cart} />
       <SearchAside />
       <MobileMenuAside menu={header?.menu} shop={header?.shop} />

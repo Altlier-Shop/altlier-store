@@ -4,11 +4,12 @@ import Links from './startpage-components/Links';
 import Popup from './startpage-components/Popup';
 import ScrollableContent from './startpage-components/ScrollableContent';
 
-export default function StartPage() {
+export default function LandingPage({data}: {data: any}) {
   const [showFud, setShowFud] = useState(false);
 
   const handleShill = () => {
-    window.location.href = window.location.href + 'account/register';
+    window.location.href =
+      window.location.href + data.isLoggedIn ? 'account' : 'account/register';
   };
 
   return (
