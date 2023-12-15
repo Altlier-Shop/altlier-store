@@ -172,16 +172,16 @@ function RecommendedProducts({
   const selectProducts = [...selectedProducts];
   return (
     <div className="h-full w-full grid justify-center items-center">
-      <div className="relative">
+      {/* <div className="relative">
         {selectProducts.map((product: any) => (
           <div className="absolute right-96 z-30" key={product.id}>
             {!product.top ? '' : product.title}
           </div>
         ))}
-      </div>
+      </div> */}
 
       <div
-        className="circular top-1/2"
+        className="circular top-1/2 z-20"
         style={{height: circleHeight * 3, width: circleWidth * 1.3}}
       >
         <button

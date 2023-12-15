@@ -91,7 +91,7 @@ img {
 }
 
 .half-circle {
-  border: solid altlierBlue 2px;
+  border: solid #1d1b2f 2px;
   position: absolute; /* Absolute positioning */
   transform: translateX(-50%); /* Center horizontally */
 }
