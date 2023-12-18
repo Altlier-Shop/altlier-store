@@ -13,6 +13,7 @@ export default function RecommendedProducts({
   circleHeight: number;
 }) {
   const [hoveredProductId, setHoveredProductId] = useState('');
+  const [tempHoveredProductId, setTempHoveredProductId] = useState('');
   const [selectedProducts, setSelectedProducts] = useState<any[]>([]); // we use those to keep the next t-shirt in memory
   const [productsQueue, setProductsQueue] = useState<any[]>([]);
   const [startIndex, setStartIndex] = useState(0);
@@ -23,6 +24,29 @@ export default function RecommendedProducts({
   const [openSizeGuide, setOpenSizeGuide] = useState(false);
 
   //   console.log(products);
+
+  const selectProducts = JSON.parse(
+    JSON.stringify([...selectedProducts]),
+  ) as any[];
+
+  const topProduct = selectProducts.find((products) => products.top);
+
+  if (topProduct) {
+    // Fetch Sizes
+    topProduct.sizes = topProduct.options.find(
+      (option: any) => option.name === 'Size',
+    ).values;
+
+    // Fetch Material Information
+    const reMaterial = new RegExp('Material:\\s*(.*)\\sProduct');
+    const materialMatch = topProduct.description.match(reMaterial);
+    topProduct.material = materialMatch ? materialMatch[1].trim() : '';
+
+    // Fetch Product Code
+    const reProduct = new RegExp('Product\\sCode\\s*:(.*)');
+    const productCodeMatch = topProduct.description.match(reProduct);
+    topProduct.productCode = productCodeMatch ? productCodeMatch[1].trim() : '';
+  }
 
   const handleRotate = (clockWise: boolean) => {
     setDisableRotation(true);
@@ -105,6 +129,11 @@ export default function RecommendedProducts({
     }
   };
 
+  const handleImageHover = (id: string) => {
+    if (id === topProduct.id) {
+      setTempHoveredProductId(id);
+    }
+  };
   useEffect(() => {
     if (products && selectedProducts.length === 0) {
       const newProducts = JSON.parse(
@@ -117,28 +146,15 @@ export default function RecommendedProducts({
     }
   }, [products, selectedProducts, productsQueue]);
 
-  const selectProducts = JSON.parse(
-    JSON.stringify([...selectedProducts]),
-  ) as any[];
-
-  const topProduct = selectProducts.find((products) => products.top);
-
-  if (topProduct) {
-    // Fetch Sizes
-    topProduct.sizes = topProduct.options.find(
-      (option: any) => option.name === 'Size',
-    ).values;
-
-    // Fetch Material Information
-    const reMaterial = new RegExp('Material:\\s*(.*)\\sProduct');
-    const materialMatch = topProduct.description.match(reMaterial);
-    topProduct.material = materialMatch ? materialMatch[1].trim() : '';
-
-    // Fetch Product Code
-    const reProduct = new RegExp('Product\\sCode\\s*:(.*)');
-    const productCodeMatch = topProduct.description.match(reProduct);
-    topProduct.productCode = productCodeMatch ? productCodeMatch[1].trim() : '';
-  }
+  useEffect(() => {
+    if (tempHoveredProductId !== '') {
+      setTimeout(() => {
+        setHoveredProductId(tempHoveredProductId);
+      }, 150);
+    } else {
+      setHoveredProductId('');
+    }
+  }, [tempHoveredProductId]);
 
   return (
     <div className="h-full w-full grid justify-center items-center">
@@ -174,10 +190,14 @@ export default function RecommendedProducts({
         {selectProducts.map((product: any) => (
           <div key={product.id}>
             <img
-              className="rotating-object"
-              onMouseOver={() => setHoveredProductId(product.id)}
-              onFocus={() => setHoveredProductId(product.id)}
-              onMouseLeave={() => setHoveredProductId('')}
+              className={
+                product.id === topProduct.id
+                  ? 'rotating-object cursor-pointer'
+                  : 'rotating-object'
+              }
+              onMouseOver={() => handleImageHover(product.id)}
+              onFocus={() => handleImageHover(product.id)}
+              onMouseLeave={() => setTempHoveredProductId('')}
               src={
                 hoveredProductId !== product.id
                   ? product.images.nodes[0].url

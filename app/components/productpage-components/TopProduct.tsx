@@ -85,7 +85,7 @@ export default function TopProduct(props: TopProductProps) {
 
             <button
               onClick={() => {
-                window.location.href = window.location.href + '#cart-aside';
+                window.location.href = window.location.origin + '#cart-aside';
               }}
               type="submit"
               disabled={
