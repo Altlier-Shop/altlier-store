@@ -2,10 +2,10 @@ import {defer, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, Link, type MetaFunction} from '@remix-run/react';
 import {Suspense} from 'react';
 import {Image, Money} from '@shopify/hydrogen';
-import type {
-  FeaturedCollectionFragment,
-  RecommendedProductsQuery,
-} from 'storefrontapi.generated';
+// import type {
+//   FeaturedCollectionFragment,
+//   RecommendedProductsQuery,
+// } from 'storefrontapi.generated';
 import LandingPage from '~/components/LandingPage';
 import ProductPage from '~/components/ProductPage';
 import CartIcon from '~/components/svg-components/CartIcon';
@@ -25,15 +25,16 @@ export async function loader({context}: LoaderFunctionArgs) {
     session,
     customerAccessToken,
   );
-  const {collections} = await storefront.query(FEATURED_COLLECTION_QUERY);
-  const featuredCollection = collections.nodes[0];
+  //const {collections} = await storefront.query(FEATURED_COLLECTION_QUERY);
+  //const featuredCollection = collections.nodes[0];
   const recommendedProducts = storefront.query(RECOMMENDED_PRODUCTS_QUERY);
 
-  return defer({featuredCollection, recommendedProducts, isLoggedIn, headers});
+  return defer({recommendedProducts, isLoggedIn, headers});
 }
 
 export default function Homepage() {
   const data = useLoaderData<typeof loader>();
+
   return (
     <div className="home w-screen h-screen">
       <div className="fixed z-20 top-1/2 flex flex-col gap-8 right-24">
@@ -117,42 +118,73 @@ export default function Homepage() {
 //   );
 // }
 
-const FEATURED_COLLECTION_QUERY = `#graphql
-  fragment FeaturedCollection on Collection {
-    id
-    title
-    image {
-      id
-      url
-      altText
-      width
-      height
+// const FEATURED_COLLECTION_QUERY = `#graphql
+//   fragment FeaturedCollection on Collection {
+//     id
+//     title
+//     image {
+//       id
+//       url
+//       altText
+//       width
+//       height
+//     }
+//     handle
+//   }
+//   query FeaturedCollection($country: CountryCode, $language: LanguageCode)
+//     @inContext(country: $country, language: $language) {
+//     collections(first: 1, sortKey: UPDATED_AT, reverse: true) {
+//       nodes {
+//         ...FeaturedCollection
+//       }
+//     }
+//   }
+// ` as const;
+
+const PRODUCT_VARIANT_FRAGMENT = `#graphql
+  fragment RecommendedProductVariant on ProductVariant {
+    availableForSale
+    compareAtPrice {
+      amount
+      currencyCode
     }
-    handle
-  }
-  query FeaturedCollection($country: CountryCode, $language: LanguageCode)
-    @inContext(country: $country, language: $language) {
-    collections(first: 1, sortKey: UPDATED_AT, reverse: true) {
-      nodes {
-        ...FeaturedCollection
-      }
+    id
+    price {
+      amount
+      currencyCode
+    }
+    product {
+      title
+      handle
+    }
+    selectedOptions {
+      name
+      value
+    }
+    sku
+    title
+    unitPrice {
+      amount
+      currencyCode
     }
   }
 ` as const;
 
-const RECOMMENDED_PRODUCTS_QUERY = `#graphql
+const PRODUCT_FRAGMENT = `#graphql
   fragment RecommendedProduct on Product {
     id
     title
+    vendor
     handle
-    priceRange {
-      minVariantPrice {
-        amount
-        currencyCode
-      }
+    descriptionHtml
+    description
+    options {
+      name
+      values
     }
     images(first: 2) {
       nodes {
+        __typename
         id
         url
         altText
@@ -160,7 +192,45 @@ const RECOMMENDED_PRODUCTS_QUERY = `#graphql
         height
       }
     }
+    variants(first: 3) {
+      nodes {
+        ...RecommendedProductVariant
+      }
+    }
+    seo {
+      description
+      title
+    }
   }
+  ${PRODUCT_VARIANT_FRAGMENT}
+` as const;
+
+const PRODUCT_VARIANTS_FRAGMENT = `#graphql
+  fragment RecommendedProductVariants on Product {
+    variants(first: 250) {
+      nodes {
+        ...RecommendedProductVariant
+      }
+    }
+  }
+  ${PRODUCT_VARIANT_FRAGMENT}
+` as const;
+
+export const VARIANTS_QUERY = `#graphql
+  ${PRODUCT_VARIANTS_FRAGMENT}
+  query RecommendedProductVariants(
+    $country: CountryCode
+    $language: LanguageCode
+    $handle: String!
+  ) @inContext(country: $country, language: $language) {
+    product(handle: $handle) {
+      ...RecommendedProductVariants
+    }
+  }
+` as const;
+
+const RECOMMENDED_PRODUCTS_QUERY = `#graphql
+  ${PRODUCT_FRAGMENT}
   query RecommendedProducts ($country: CountryCode, $language: LanguageCode)
     @inContext(country: $country, language: $language) {
     products(first: 8, sortKey: UPDATED_AT, reverse: true) {

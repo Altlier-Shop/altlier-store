@@ -34,6 +34,7 @@ export const meta: MetaFunction<typeof loader> = ({data}) => {
 export async function loader({params, request, context}: LoaderFunctionArgs) {
   const {handle} = params;
   const {storefront} = context;
+  console.log(params, storefront, JSON.stringify(request));
 
   const selectedOptions = getSelectedProductOptions(request).filter(
     (option) =>
@@ -90,7 +91,7 @@ export async function loader({params, request, context}: LoaderFunctionArgs) {
   return defer({product, variants});
 }
 
-function redirectToFirstVariant({
+export function redirectToFirstVariant({
   product,
   request,
 }: {
@@ -291,7 +292,7 @@ function ProductOptions({option}: {option: VariantOption}) {
   );
 }
 
-function AddToCartButton({
+export function AddToCartButton({
   analytics,
   children,
   disabled,

@@ -61,6 +61,11 @@ img {
     @apply w-14 h-14 cursor-pointer bg-altlierBlue rounded-full p-2;
   }
 }
+@layer utilities {
+  .font-stretched {
+    font-stretch: ultra-expanded;
+  }
+}
 
 .arrow-down {
   animation: moveUpDown 2s ease-in-out infinite;
@@ -111,12 +116,15 @@ img {
 .circular {
   position: relative;
   border-radius: 50%;
+  /* border: 2px solid black;
+  background-color: aqua; */
 }
 
 .rotating-object {
   position: absolute;
-  object-fit: contain;
-  top: 5%;
+  top: 50%;
+  transform-origin: 50% 75%;
+  left: 5%;
 }
 
 /* Clockwise rotation */
