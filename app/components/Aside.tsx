@@ -22,6 +22,7 @@ export function Aside({
   return (
     <div aria-modal className="overlay" id={id} role="dialog">
       <button
+        aria-label="Close Aside"
         className="close-outside"
         onClick={() => {
           window.history.back();

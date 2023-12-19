@@ -190,7 +190,7 @@ export const CUSTOMER_FRAGMENT = `#graphql
 ` as const;
 
 // NOTE: https://shopify.dev/docs/api/storefront/latest/queries/customer
-const CUSTOMER_QUERY = `#graphql
+export const CUSTOMER_QUERY = `#graphql
   query Customer(
     $customerAccessToken: String!
     $country: CountryCode

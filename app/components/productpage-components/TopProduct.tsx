@@ -24,6 +24,7 @@ export default function TopProduct(props: TopProductProps) {
         },
       ]
     : [];
+  console.log(selectedProduct);
 
   return (
     <div className="absolute z-30 w-fit right-16 top-20 grid justify-items-center">
@@ -57,7 +58,7 @@ export default function TopProduct(props: TopProductProps) {
         </div>
         <Listbox value={size} onChange={setSize}>
           <div className="grid justify-items-center">
-            <Listbox.Button className="group btn homepage-btn btn-light px-4 text-xl flex justify-between">
+            <Listbox.Button className="group btn homepage-btn btn-light text-xl flex justify-between">
               <span className="group-hover:text-root-primary">
                 {size ? size : 'Select Size'}
               </span>

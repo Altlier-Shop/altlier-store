@@ -134,6 +134,7 @@ function CartCheckoutActions({checkoutUrl}: {checkoutUrl: string}) {
   const handleCheckOut = () => {
     window.location.href = checkoutUrl;
   };
+
   return (
     <div className="grid justify-center">
       <button

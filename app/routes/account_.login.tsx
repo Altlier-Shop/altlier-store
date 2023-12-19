@@ -5,6 +5,7 @@ import {
   type LoaderFunctionArgs,
 } from '@shopify/remix-oxygen';
 import {Form, Link, useActionData, type MetaFunction} from '@remix-run/react';
+import {CUSTOMER_QUERY} from './account';
 
 type ActionResponse = {
   error: string | null;
@@ -22,7 +23,7 @@ export async function loader({context}: LoaderFunctionArgs) {
 }
 
 export async function action({request, context}: ActionFunctionArgs) {
-  const {session, storefront} = context;
+  const {session, storefront, cart} = context;
 
   if (request.method !== 'POST') {
     return json({error: 'Method not allowed'}, {status: 405});
@@ -54,10 +55,82 @@ export async function action({request, context}: ActionFunctionArgs) {
     const {customerAccessToken} = customerAccessTokenCreate;
     session.set('customerAccessToken', customerAccessToken);
 
-    return redirect('/account', {
-      headers: {
-        'Set-Cookie': await session.commit(),
+    // const {customer} = await storefront.query(CUSTOMER_QUERY, {
+    //   variables: {
+    //     customerAccessToken: customerAccessToken.accessToken,
+    //     country: storefront.i18n.country,
+    //     language: storefront.i18n.language,
+    //   },
+    //   cache: storefront.CacheNone(),
+    // });
+
+    const {checkoutCreate} = await storefront.mutate(CREATE_CHECKOUT_MUTATION);
+
+    console.log(checkoutCreate?.checkout);
+
+    const {checkoutCustomerAssociateV2} = await storefront.mutate(
+      CHECKOUT_CUSTOMER_ASSOCIATE,
+      {
+        variables: {
+          checkoutId:
+            checkoutCreate && checkoutCreate?.checkout
+              ? checkoutCreate.checkout.id
+              : '',
+          customerAccessToken: customerAccessToken.accessToken,
+        },
       },
+    );
+    console.log(checkoutCustomerAssociateV2?.checkout);
+
+    // const result = await cart.updateBuyerIdentity({
+    //   customerAccessToken: customerAccessToken.accessToken,
+    //   email: customer?.email,
+    //   countryCode: storefront.i18n.country,
+    //   deliveryAddressPreferences: [
+    //     {
+    //       deliveryAddress: {
+    //         firstName: customer?.firstName,
+    //         lastName: customer?.lastName,
+    //         address1: customer?.defaultAddress?.address1,
+    //         address2: customer?.defaultAddress?.address2,
+    //         city: customer?.defaultAddress?.city,
+    //         province: customer?.defaultAddress?.province,
+    //         zip: customer?.defaultAddress?.zip,
+    //         country:
+    //           customer?.defaultAddress?.country ?? storefront.i18n.country,
+    //         phone: customer?.defaultAddress?.phone,
+    //       },
+    //     },
+    //   ],
+    // });
+    const data = await storefront.mutate(ADD_LINE_ITEMS_MUTATION, {
+      variables: {
+        checkoutId:
+          checkoutCreate && checkoutCreate?.checkout
+            ? checkoutCreate.checkout.id
+            : '',
+        customerAccessToken: customerAccessToken.accessToken,
+        lineItems: [
+          {
+            quantity: 1,
+            variantId: 'gid://shopify/ProductVariant/43930300481685',
+          },
+        ],
+      },
+    });
+    console.log('added lines', JSON.stringify(data));
+
+    //console.log(JSON.stringify(customer));
+
+    // pretty log json
+    // console.log(JSON.stringify(customer, null, 2));
+
+    // const headers = cart.setCartId(result.cart.id);
+
+    //headers.append('Set-Cookie', await session.commit());
+
+    return redirect('/account', {
+      headers: {'Set-Cookie': await session.commit()},
     });
   } catch (error: unknown) {
     if (error instanceof Error) {
@@ -136,6 +209,66 @@ const LOGIN_MUTATION = `#graphql
       customerAccessToken {
         accessToken
         expiresAt
+      }
+    }
+  }
+` as const;
+
+const CHECKOUT_CUSTOMER_ASSOCIATE = `#graphql
+  mutation checkoutCustomerAssociateV2($checkoutId: ID!, $customerAccessToken: String!) {
+    checkoutCustomerAssociateV2(checkoutId: $checkoutId, customerAccessToken: $customerAccessToken) {
+      checkout {
+        createdAt
+        email
+        id
+        webUrl
+      }
+      checkoutUserErrors {
+        code
+        field
+        message
+      }
+      customer {
+        id
+        email
+        acceptsMarketing
+      }
+    }
+  }
+` as const;
+
+const CREATE_CHECKOUT_MUTATION = `#graphql
+  mutation checkoutCreate {
+    checkoutCreate(input: {}) {
+      checkout {
+        id
+      }
+      checkoutUserErrors {
+        code
+        field
+        message
+      }
+    }
+  }
+` as const;
+
+// GraphQL mutation to add line items to a checkout
+const ADD_LINE_ITEMS_MUTATION = `#graphql
+  mutation checkoutLineItemsAdd($checkoutId: ID!, $lineItems: [CheckoutLineItemInput!]!) {
+    checkoutLineItemsAdd(checkoutId: $checkoutId, lineItems: $lineItems) {
+      checkout {
+        id
+        email
+        webUrl
+        subtotalPrice {
+          amount
+          currencyCode
+        }
+      }
+      checkoutUserErrors {
+        code
+        field
+        message
       }
     }
   }
