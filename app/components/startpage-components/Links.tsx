@@ -70,8 +70,9 @@ export default function Links(props: LinksProps) {
           </a>
         </div>
       </div>
-
-      <ArrowIcon direction={'top'} />
+      <div className="ml-[10%]">
+        <ArrowIcon direction={'top'} />
+      </div>
     </div>
   );
 }

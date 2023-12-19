@@ -1,20 +1,31 @@
+import {useState} from 'react';
+
 export default function ArrowIcon({direction}: {direction: string}) {
-  let extraClass = '';
+  const [useMotionClass, setUseMotionClass] = useState(false);
+  // we reuse this component for multiple arrows, hence we need to switch out some classes
+  let directionClass = ''; // for arrow direction
+  let motionClass = ''; // for motion of arrows on hover
   if (direction === 'left') {
-    extraClass = 'rotate-90';
+    directionClass = 'rotate-90';
+    motionClass = 'arrow-left';
   } else if (direction === 'right') {
-    extraClass = '-rotate-90';
+    directionClass = '-rotate-90';
+    motionClass = 'arrow-right';
   } else {
-    extraClass = 'arrow-down';
+    directionClass = 'arrow-down';
   }
+
+  // console.log(useMotionClass, motionClass);
 
   return (
     <svg
-      id="Layer_1"
+      id={'arrow-' + direction}
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 75 104.07"
       width="72"
-      className={`ml-[10%] ${extraClass}`}
+      className={`${directionClass} ${useMotionClass ? motionClass : ''}`}
+      onMouseOver={() => setUseMotionClass(true)}
+      onMouseLeave={() => setUseMotionClass(false)}
     >
       <defs>
         <style>{`.cls-1{stroke-width:0px;}`}</style>

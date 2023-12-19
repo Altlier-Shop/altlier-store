@@ -70,6 +70,12 @@ img {
 .arrow-down {
   animation: moveUpDown 2s ease-in-out infinite;
 }
+.arrow-right {
+  animation: moveLeftRight 2s ease-in-out infinite;
+}
+.arrow-left {
+  animation: moveRightLeft 2s ease-in-out infinite;
+}
 
 @keyframes moveUpDown {
   0%,
@@ -78,12 +84,24 @@ img {
   }
   50% {
     transform: translateY(20px); /* Adjust the movement distance as needed */
-    animation-timing-function: cubic-bezier(
-      0,
-      0,
-      0.58,
-      1
-    ); /* Fast downwards motion */
+  }
+}
+@keyframes moveLeftRight {
+  0%,
+  100% {
+    transform: rotate(-90deg) translateY(0);
+  }
+  50% {
+    transform: rotate(-90deg) translateY(20px); /* Adjust the movement distance as needed */
+  }
+}
+@keyframes moveRightLeft {
+  0%,
+  100% {
+    transform: rotate(90deg) translateY(0);
+  }
+  50% {
+    transform: rotate(90deg) translateY(20px); /* Adjust the movement distance as needed */
   }
 }
 

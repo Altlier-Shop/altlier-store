@@ -130,6 +130,8 @@ export default function RecommendedProducts({
   };
 
   const handleImageHover = (id: string) => {
+    console.log('hovered');
+
     if (id === topProduct.id) {
       setTempHoveredProductId(id);
     }
@@ -149,12 +151,14 @@ export default function RecommendedProducts({
   useEffect(() => {
     if (tempHoveredProductId !== '') {
       setTimeout(() => {
-        setHoveredProductId(tempHoveredProductId);
-      }, 150);
+        if (tempHoveredProductId !== '') {
+          setHoveredProductId(tempHoveredProductId);
+        }
+      }, 200);
     } else {
       setHoveredProductId('');
     }
-  }, [tempHoveredProductId]);
+  }, [tempHoveredProductId, hoveredProductId]);
 
   return (
     <div className="h-full w-full grid justify-center items-center">
@@ -174,17 +178,19 @@ export default function RecommendedProducts({
         <button
           disabled={disableRotation}
           onClick={() => handleRotate(false)}
-          className="absolute top-1/2 left-20"
+          className={`absolute top-1/2 w-40 h-96 left-10 grid justify-center ${
+            disableRotation ? '' : 'z-30'
+          }`}
         >
-          <span className="absolute z-10 font-bold h-24 w-32 -ml-16"></span>
           <ArrowIcon direction={'left'} />
         </button>
         <button
           disabled={disableRotation}
           onClick={() => handleRotate(true)}
-          className="absolute top-1/2 right-20"
+          className={`absolute top-1/2 w-40 h-96 right-5 grid justify-center ${
+            disableRotation ? '' : 'z-30'
+          }`}
         >
-          <span className="absolute z-10 font-bold h-24 w-32 -ml-16"></span>
           <ArrowIcon direction={'right'} />
         </button>
         {selectProducts.map((product: any) => (
@@ -199,9 +205,9 @@ export default function RecommendedProducts({
               onFocus={() => handleImageHover(product.id)}
               onMouseLeave={() => setTempHoveredProductId('')}
               src={
-                hoveredProductId !== product.id
-                  ? product.images.nodes[0].url
-                  : product.images.nodes[1].url
+                hoveredProductId !== '' && hoveredProductId === product.id
+                  ? product.images.nodes[1].url
+                  : product.images.nodes[0].url
               }
               style={{
                 height: `${circleHeight * 2}px`,
