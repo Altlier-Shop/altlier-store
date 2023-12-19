@@ -11,9 +11,9 @@ export default function Popup(props: PopupProps) {
         <span className="font-bold text-white">ERROR 404: FUDDER</span>
         <button
           onClick={props.onClose}
-          className="w-8 h-8 bg-root-tertiary active:bg-neutral-400 border-2 retro-border"
+          className="w-8 h-8 flex items-center justify-center bg-root-tertiary active:bg-neutral-400 border-2 retro-border"
         >
-          X
+          &#x2715;
         </button>
       </div>
       <div className="bg-root-tertiary">

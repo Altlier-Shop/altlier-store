@@ -1,3 +1,5 @@
+import ArrowIcon from './svg-components/ArrowIcon';
+
 /**
  * A side bar component with Overlay that works without JavaScript.
  * @example
@@ -22,15 +24,16 @@ export function Aside({
       <button
         className="close-outside"
         onClick={() => {
-          history.go(-1);
-          window.location.hash = '';
+          window.history.back();
         }}
       />
-      <aside>
-        <header>
-          <h3>{heading}</h3>
-          <CloseAside />
-        </header>
+      <aside className="px-4 bg-root-secondary" id="aside-component">
+        <div className="pixel-font flex gap-4 mt-12">
+          <button className="pl-6" onClick={() => window.history.back()}>
+            <ArrowIcon direction="right" width={'1.5rem'} still={true} />
+          </button>
+          <h1 className="text-4xl">{heading}</h1>
+        </div>
         <main>{children}</main>
       </aside>
     </div>

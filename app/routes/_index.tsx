@@ -47,13 +47,15 @@ export async function loader({context}: LoaderFunctionArgs) {
 
 export default function Homepage() {
   const data = useLoaderData<typeof loader>();
-
+  const openAside = (e: any) => {
+    window.location.href = window.location.origin + '#cart-aside';
+  };
   return (
     <div className="home w-screen h-screen">
       <div className="fixed z-20 top-[55%] flex flex-col gap-8 right-24">
-        <a href="#cart-aside" className="pointer-events-auto">
+        <button onClick={openAside} className="pointer-events-auto">
           <CartIcon notification={false} />
-        </a>
+        </button>
         <a
           href={data.isLoggedIn ? '/account' : '/account/login'}
           className="pointer-events-auto"

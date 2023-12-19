@@ -13,6 +13,7 @@ export default function ProductPage(props: ProductData) {
   const updateCircleProportions = () => {
     // Calculate the window ratio
     const ratio = window.innerWidth / window.innerHeight;
+
     if (ratio < 1) {
       setCircleHeight(Math.floor(((window.innerHeight * ratio) / 10) * 4));
       setCircleWidth(Math.floor((window.innerWidth / 10) * 8));

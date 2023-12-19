@@ -149,10 +149,8 @@ img {
 
 .rotating-object {
   position: absolute;
-  top: 40%;
+  top: 45%;
   transform-origin: 50% 80%;
-  /* left: 4%; */
-
   width: 100%;
   /* height: 100%; */
 }

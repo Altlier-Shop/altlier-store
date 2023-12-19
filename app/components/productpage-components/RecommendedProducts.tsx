@@ -180,7 +180,7 @@ export default function RecommendedProducts({
             disableRotation ? '' : 'z-30'
           }`}
         >
-          <ArrowIcon direction={'left'} />
+          <ArrowIcon direction={'left'} width={'3rem'} />
         </button>
         <button
           disabled={disableRotation}
@@ -189,7 +189,7 @@ export default function RecommendedProducts({
             disableRotation ? '' : 'z-30'
           }`}
         >
-          <ArrowIcon direction={'right'} />
+          <ArrowIcon direction={'right'} width={'3rem'} />
         </button>
 
         {selectProducts.map((product: any) => (
@@ -197,7 +197,7 @@ export default function RecommendedProducts({
             <img
               className={
                 product.id === topProduct.id
-                  ? 'rotating-object cursor-pointer'
+                  ? 'rotating-object cursor-pointer w-full'
                   : 'rotating-object'
               }
               onMouseOver={() => handleImageHover(product.id)}
@@ -209,7 +209,7 @@ export default function RecommendedProducts({
                   : product.images.nodes[0].url
               }
               style={{
-                height: `${circleHeight * 2}px`,
+                // height: `${circleHeight * 2}px`,
                 // width: `${circleWidth * 1.3}px`,
                 transform: product.initialPosition,
                 animation: product.animation,
