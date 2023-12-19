@@ -116,7 +116,7 @@ export default function RecommendedProducts({
     }
     setTimeout(() => {
       setDisableRotation(false);
-    }, 500);
+    }, 650);
   };
 
   const assignInitialPosition = (selectedProducts: any) => {
@@ -171,7 +171,7 @@ export default function RecommendedProducts({
 
       <div
         className="circular z-40"
-        style={{height: circleHeight * 3, width: circleWidth * 1.3}}
+        style={{height: circleHeight * 3, width: circleWidth * 1.1}}
       >
         <button
           disabled={disableRotation}
@@ -191,6 +191,7 @@ export default function RecommendedProducts({
         >
           <ArrowIcon direction={'right'} />
         </button>
+
         {selectProducts.map((product: any) => (
           <div key={product.id}>
             <img

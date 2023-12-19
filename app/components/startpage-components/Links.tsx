@@ -30,7 +30,7 @@ export default function Links(props: LinksProps) {
         <div className="mt-10 flex justify-between">
           <a
             className="pointer-events-auto w-12"
-            href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            href="https://t.me/altlier_co"
             target="_blank"
             rel="noreferrer"
           >
@@ -38,7 +38,7 @@ export default function Links(props: LinksProps) {
           </a>
           <a
             className="pointer-events-auto w-12"
-            href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            href="https://twitter.com/Altlier_co"
             target="_blank"
             rel="noreferrer"
           >
@@ -46,7 +46,7 @@ export default function Links(props: LinksProps) {
           </a>
           <a
             className="pointer-events-auto w-12"
-            href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            href="https://www.instagram.com/altlier.co/"
             target="_blank"
             rel="noreferrer"
           >
