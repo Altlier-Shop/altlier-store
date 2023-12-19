@@ -1,7 +1,7 @@
 import {defer, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, Link, type MetaFunction} from '@remix-run/react';
 import {Suspense} from 'react';
-import {Image, Money} from '@shopify/hydrogen';
+import {Footer} from '~/components/Footer';
 // import type {
 //   FeaturedCollectionFragment,
 //   RecommendedProductsQuery,
@@ -25,11 +25,24 @@ export async function loader({context}: LoaderFunctionArgs) {
     session,
     customerAccessToken,
   );
+
+  // defer the footer query (below the fold)
+  const footerPromise = storefront.query(FOOTER_QUERY, {
+    cache: storefront.CacheLong(),
+    variables: {
+      footerMenuHandle: 'footer', // Adjust to your footer menu handle
+    },
+  });
   //const {collections} = await storefront.query(FEATURED_COLLECTION_QUERY);
   //const featuredCollection = collections.nodes[0];
   const recommendedProducts = storefront.query(RECOMMENDED_PRODUCTS_QUERY);
 
-  return defer({recommendedProducts, isLoggedIn, headers});
+  return defer({
+    recommendedProducts,
+    isLoggedIn,
+    headers,
+    footer: footerPromise,
+  });
 }
 
 export default function Homepage() {
@@ -50,96 +63,16 @@ export default function Homepage() {
       </div>
       <LandingPage data={data} />
       <ProductPage data={data} />
+      <Suspense>
+        <Await resolve={data.footer}>
+          {(footer) => <Footer menu={footer?.menu} shop={null} />}
+        </Await>
+      </Suspense>
       {/* <FeaturedCollection collection={data.featuredCollection} /> */}
       {/* <RecommendedProducts products={data.recommendedProducts} /> */}
     </div>
   );
 }
-
-// function RecommendedProducts({
-//   products,
-// }: {
-//   products: Promise<RecommendedProductsQuery>;
-// }) {
-//   return (
-//     <div className="recommended-products">
-//       <h2>Recommended Products</h2>
-//       <Suspense fallback={<div>Loading...</div>}>
-//         <Await resolve={products}>
-//           {({products}) => (
-//             <div className="recommended-products-grid">
-//               {products.nodes.map((product) => (
-//                 <Link
-//                   key={product.id}
-//                   className="recommended-product"
-//                   to={`/products/${product.handle}`}
-//                 >
-//                   <Image
-//                     data={product.images.nodes[0]}
-//                     aspectRatio="1/1"
-//                     sizes="(min-width: 45em) 20vw, 50vw"
-//                   />
-//                   <h4>{product.title}</h4>
-//                   <small>
-//                     <Money data={product.priceRange.minVariantPrice} />
-//                   </small>
-//                 </Link>
-//               ))}
-//             </div>
-//           )}
-//         </Await>
-//       </Suspense>
-//       <br />
-//     </div>
-//   );
-// }
-
-// function FeaturedCollection({
-//   collection,
-// }: {
-//   collection: FeaturedCollectionFragment;
-// }) {
-//   if (!collection) return null;
-//   const image = collection?.image;
-//   console.log(collection);
-
-//   return (
-//     <Link
-//       className="featured-collection"
-//       to={`/collections/${collection.handle}`}
-//     >
-//       {image && (
-//         <div className="featured-collection-image">
-//           <Image data={image} sizes="100vw" />
-//         </div>
-//       )}
-//       <h1>{collection.title}</h1>
-//     </Link>
-//   );
-// }
-
-// const FEATURED_COLLECTION_QUERY = `#graphql
-//   fragment FeaturedCollection on Collection {
-//     id
-//     title
-//     image {
-//       id
-//       url
-//       altText
-//       width
-//       height
-//     }
-//     handle
-//   }
-//   query FeaturedCollection($country: CountryCode, $language: LanguageCode)
-//     @inContext(country: $country, language: $language) {
-//     collections(first: 1, sortKey: UPDATED_AT, reverse: true) {
-//       nodes {
-//         ...FeaturedCollection
-//       }
-//     }
-//   }
-// ` as const;
 
 const PRODUCT_VARIANT_FRAGMENT = `#graphql
   fragment RecommendedProductVariant on ProductVariant {
@@ -239,4 +172,43 @@ const RECOMMENDED_PRODUCTS_QUERY = `#graphql
       }
     }
   }
+` as const;
+
+const MENU_FRAGMENT = `#graphql
+  fragment MenuItem on MenuItem {
+    id
+    resourceId
+    tags
+    title
+    type
+    url
+  }
+  fragment ChildMenuItem on MenuItem {
+    ...MenuItem
+  }
+  fragment ParentMenuItem on MenuItem {
+    ...MenuItem
+    items {
+      ...ChildMenuItem
+    }
+  }
+  fragment Menu on Menu {
+    id
+    items {
+      ...ParentMenuItem
+    }
+  }
+` as const;
+
+const FOOTER_QUERY = `#graphql
+  query Footer(
+    $country: CountryCode
+    $footerMenuHandle: String!
+    $language: LanguageCode
+  ) @inContext(language: $language, country: $country) {
+    menu(handle: $footerMenuHandle) {
+      ...Menu
+    }
+  }
+  ${MENU_FRAGMENT}
 ` as const;

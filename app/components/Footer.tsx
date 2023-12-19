@@ -5,12 +5,12 @@ import {useRootLoaderData} from '~/root';
 export function Footer({
   menu,
   shop,
-}: FooterQuery & {shop: HeaderQuery['shop']}) {
+}: FooterQuery & {shop: HeaderQuery['shop'] | null}) {
+  console.log(menu);
+
   return (
-    <footer className="footer">
-      {menu && shop?.primaryDomain?.url && (
-        <FooterMenu menu={menu} primaryDomainUrl={shop.primaryDomain.url} />
-      )}
+    <footer className="footer pt-20">
+      <FooterMenu menu={menu} primaryDomainUrl={''} />
     </footer>
   );
 }

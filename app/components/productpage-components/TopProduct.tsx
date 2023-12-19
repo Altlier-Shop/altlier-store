@@ -26,9 +26,11 @@ export default function TopProduct(props: TopProductProps) {
     : [];
 
   return (
-    <div className="absolute z-30 w-96 right-12 top-20 grid justify-items-center">
+    <div className="absolute z-30 w-96 right-0 top-20 grid justify-items-center">
       <div className="btn homepage-btn w-fit px-6 bg-altlierBlue text-white text-center">
-        <span className="text-white">{props.topProduct.title}</span>
+        <span className="text-white pixel-font text-xl">
+          {props.topProduct.title}
+        </span>
       </div>
       <h1 className="mt-4 text-2xl">
         {productFirstNode.price.currencyCode}

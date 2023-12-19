@@ -74,21 +74,13 @@ export async function loader({context}: LoaderFunctionArgs) {
   const publicStoreDomain = context.env.PUBLIC_STORE_DOMAIN;
 
   // validate the customer access token is valid
-  const {isLoggedIn, headers} = await validateCustomerAccessToken(
+  const {headers} = await validateCustomerAccessToken(
     session,
     customerAccessToken,
   );
 
   // defer the cart query by not awaiting it
   const cartPromise = cart.get();
-
-  // defer the footer query (below the fold)
-  const footerPromise = storefront.query(FOOTER_QUERY, {
-    cache: storefront.CacheLong(),
-    variables: {
-      footerMenuHandle: 'footer', // Adjust to your footer menu handle
-    },
-  });
 
   // await the header query (above the fold)
   const headerPromise = storefront.query(HEADER_QUERY, {
@@ -101,9 +93,7 @@ export async function loader({context}: LoaderFunctionArgs) {
   return defer(
     {
       cart: cartPromise,
-      footer: footerPromise,
       header: await headerPromise,
-      isLoggedIn,
       publicStoreDomain,
     },
     {headers},
@@ -263,19 +253,6 @@ const HEADER_QUERY = `#graphql
       ...Shop
     }
     menu(handle: $headerMenuHandle) {
-      ...Menu
-    }
-  }
-  ${MENU_FRAGMENT}
-` as const;
-
-const FOOTER_QUERY = `#graphql
-  query Footer(
-    $country: CountryCode
-    $footerMenuHandle: String!
-    $language: LanguageCode
-  ) @inContext(language: $language, country: $country) {
-    menu(handle: $footerMenuHandle) {
       ...Menu
     }
   }

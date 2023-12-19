@@ -6,7 +6,6 @@ import type {
   HeaderQuery,
 } from 'storefrontapi.generated';
 import {Aside} from '~/components/Aside';
-// import {Footer} from '~/components/Footer';
 import {Header, HeaderMenu} from '~/components/Header';
 import {CartMain} from '~/components/Cart';
 import {
@@ -18,18 +17,10 @@ import AltlierLogo from './svg-components/AltlierLogo';
 export type LayoutProps = {
   cart: Promise<CartApiQueryFragment | null>;
   children?: React.ReactNode;
-  footer: Promise<FooterQuery>;
   header: HeaderQuery;
-  isLoggedIn: boolean;
 };
 
-export function Layout({
-  cart,
-  children = null,
-  footer,
-  header,
-  isLoggedIn,
-}: LayoutProps) {
+export function Layout({cart, children = null, header}: LayoutProps) {
   return (
     <>
       <button
@@ -43,11 +34,6 @@ export function Layout({
       <MobileMenuAside menu={header?.menu} shop={header?.shop} />
       {/* {header && <Header header={header} cart={cart} isLoggedIn={isLoggedIn} />} */}
       <main>{children}</main>
-      {/* <Suspense>
-        <Await resolve={footer}>
-          {(footer) => <Footer menu={footer?.menu} shop={header?.shop} />}
-        </Await>
-      </Suspense> */}
     </>
   );
 }

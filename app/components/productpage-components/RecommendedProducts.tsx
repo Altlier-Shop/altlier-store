@@ -130,8 +130,6 @@ export default function RecommendedProducts({
   };
 
   const handleImageHover = (id: string) => {
-    console.log('hovered');
-
     if (id === topProduct.id) {
       setTempHoveredProductId(id);
     }
