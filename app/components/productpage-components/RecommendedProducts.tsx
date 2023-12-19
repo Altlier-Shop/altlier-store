@@ -176,7 +176,7 @@ export default function RecommendedProducts({
         <button
           disabled={disableRotation}
           onClick={() => handleRotate(false)}
-          className={`absolute top-1/2 w-40 h-96 left-10 grid justify-center ${
+          className={`absolute top-1/2 w-40 h-96 -left-10 grid justify-center ${
             disableRotation ? '' : 'z-30'
           }`}
         >
@@ -185,7 +185,7 @@ export default function RecommendedProducts({
         <button
           disabled={disableRotation}
           onClick={() => handleRotate(true)}
-          className={`absolute top-1/2 w-40 h-96 right-5 grid justify-center ${
+          className={`absolute top-1/2 w-40 h-96 -right-10 grid justify-center ${
             disableRotation ? '' : 'z-30'
           }`}
         >

@@ -6,8 +6,6 @@ export function Footer({
   menu,
   shop,
 }: FooterQuery & {shop: HeaderQuery['shop'] | null}) {
-  console.log(menu);
-
   return (
     <footer className="footer pt-20">
       <FooterMenu menu={menu} primaryDomainUrl={''} />

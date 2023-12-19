@@ -26,9 +26,9 @@ export default function TopProduct(props: TopProductProps) {
     : [];
 
   return (
-    <div className="absolute z-30 w-96 right-0 top-20 grid justify-items-center">
+    <div className="absolute z-30 w-fit right-16 top-20 grid justify-items-center">
       <div className="btn homepage-btn w-fit px-6 bg-altlierBlue text-white text-center">
-        <span className="text-white pixel-font text-xl">
+        <span className="text-white pixel-font text-4xl">
           {props.topProduct.title}
         </span>
       </div>
@@ -36,7 +36,7 @@ export default function TopProduct(props: TopProductProps) {
         {productFirstNode.price.currencyCode}
         {Math.round(productFirstNode.price.amount)}
       </h1>
-      <div className="mt-4 w-4/5 text-neutral-500">
+      <div className="mt-4 w-fit text-neutral-500">
         <p className="text-neutral-500">
           Product Code: {props.topProduct.productCode}
         </p>
@@ -77,38 +77,40 @@ export default function TopProduct(props: TopProductProps) {
             </Listbox.Options>
           </div>
         </Listbox>
-        <CartForm
-          route="/cart"
-          inputs={{lines}}
-          action={CartForm.ACTIONS.LinesAdd}
-        >
-          <>
-            <input name="analytics" type="hidden" />
+        <div className="flex justify-center w-full">
+          <CartForm
+            route="/cart"
+            inputs={{lines}}
+            action={CartForm.ACTIONS.LinesAdd}
+          >
+            <>
+              <input name="analytics" type="hidden" />
 
-            <button
-              onClick={() => {
-                window.location.href = window.location.origin + '#cart-aside';
-              }}
-              type="submit"
-              disabled={
-                selectedProduct && selectedProduct.availableForSale
-                  ? false
-                  : true
-              }
-              className={
-                selectedProduct && selectedProduct.availableForSale
-                  ? 'mt-4 btn homepage-btn btn-dark'
-                  : 'mt-4 btn homepage-btn'
-              }
-            >
-              {!selectedProduct || selectedProduct.availableForSale
-                ? 'Trade'
-                : 'Sold out'}
-            </button>
-          </>
-        </CartForm>
-        <div className="mt-4 text-neutral-400 italic">
-          Pay securely with Apple Pay & Paypal AddToCartButton
+              <button
+                onClick={() => {
+                  window.location.href = window.location.origin + '#cart-aside';
+                }}
+                type="submit"
+                disabled={
+                  selectedProduct && selectedProduct.availableForSale
+                    ? false
+                    : true
+                }
+                className={
+                  selectedProduct && selectedProduct.availableForSale
+                    ? 'mt-4 btn homepage-btn btn-dark pixel-font w-56'
+                    : 'mt-4 btn homepage-btn pixel-font w-72'
+                }
+              >
+                {!selectedProduct || selectedProduct.availableForSale
+                  ? 'Trade'
+                  : 'Sold out'}
+              </button>
+            </>
+          </CartForm>
+        </div>
+        <div className="mt-4 text-neutral-400 italic flex justify-center">
+          Pay securely with Apple Pay & Paypal
         </div>
       </div>
     </div>

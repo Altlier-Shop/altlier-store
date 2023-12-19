@@ -50,7 +50,7 @@ export default function Homepage() {
 
   return (
     <div className="home w-screen h-screen">
-      <div className="fixed z-20 top-1/2 flex flex-col gap-8 right-24">
+      <div className="fixed z-20 top-[55%] flex flex-col gap-8 right-24">
         <a href="#cart-aside" className="pointer-events-auto">
           <CartIcon notification={false} />
         </a>

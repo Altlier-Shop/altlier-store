@@ -6,10 +6,10 @@ export default function ArrowIcon({direction}: {direction: string}) {
   let directionClass = ''; // for arrow direction
   let motionClass = ''; // for motion of arrows on hover
   if (direction === 'left') {
-    directionClass = 'rotate-90';
+    directionClass = 'rotate-90 w-12';
     motionClass = 'arrow-left';
   } else if (direction === 'right') {
-    directionClass = '-rotate-90';
+    directionClass = '-rotate-90 w-12';
     motionClass = 'arrow-right';
   } else {
     directionClass = 'arrow-down';

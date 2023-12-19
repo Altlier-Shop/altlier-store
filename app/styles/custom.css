@@ -7,8 +7,17 @@
   src: url('../../public/fonts/Press_Start_2P/PressStart2P-Regular.ttf')
     format('truetype');
 }
-.pixel-font {
+.pixel-font-legacy {
   font-family: 'PixelifySans';
+}
+
+@font-face {
+  font-family: 'Pixel Emulator';
+  src: url('../../public/fonts/Pixel_Emulator/Pixel_Emulator.ttf')
+    format('truetype');
+}
+.pixel-font {
+  font-family: 'Pixel Emulator';
 }
 
 @font-face {
@@ -43,7 +52,7 @@ img {
 }
 @layer components {
   .homepage-btn {
-    @apply py-2 w-full text-3xl;
+    @apply py-2 w-full text-4xl;
   }
 }
 @layer components {
@@ -140,9 +149,12 @@ img {
 
 .rotating-object {
   position: absolute;
-  top: 50%;
-  transform-origin: 50% 75%;
-  left: 5%;
+  top: 45%;
+  transform-origin: 50% 80%;
+  left: 4%;
+
+  /* width: 100%;
+  height: 100%; */
 }
 
 /* Clockwise rotation */
