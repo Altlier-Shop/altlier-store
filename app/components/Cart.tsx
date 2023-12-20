@@ -8,7 +8,7 @@ type CartLine = CartApiQueryFragment['lines']['nodes'][0];
 
 type CartMainProps = {
   cart: CartApiQueryFragment | null;
-  checkoutUrl: string | null;
+  checkoutUrl?: string;
   layout: 'page' | 'aside';
 };
 
@@ -41,7 +41,9 @@ function CartDetails({layout, cart, checkoutUrl}: CartMainProps) {
           layout={layout}
           discountCodes={cart.discountCodes}
         >
-          <CartCheckoutActions checkoutUrl={checkoutUrl} />
+          <CartCheckoutActions
+            checkoutUrl={checkoutUrl ? checkoutUrl : cart.checkoutUrl}
+          />
         </CartSummary>
       )}
     </div>

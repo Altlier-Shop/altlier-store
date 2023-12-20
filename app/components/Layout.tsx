@@ -18,7 +18,7 @@ export type LayoutProps = {
   cart: Promise<CartApiQueryFragment | null>;
   children?: React.ReactNode;
   header: HeaderQuery;
-  checkoutUrl: string;
+  checkoutUrl?: string;
 };
 
 export function Layout({

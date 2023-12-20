@@ -92,6 +92,8 @@ export async function loader({context}: LoaderFunctionArgs) {
 
   const checkoutUrl = session.get('checkoutUrl');
   console.log('checkoutUrl at root', checkoutUrl);
+  const carto = await cartPromise;
+  console.log('cart at root', carto);
 
   return defer(
     {

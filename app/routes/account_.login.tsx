@@ -5,7 +5,6 @@ import {
   type LoaderFunctionArgs,
 } from '@shopify/remix-oxygen';
 import {Form, Link, useActionData, type MetaFunction} from '@remix-run/react';
-import {CUSTOMER_QUERY} from './account';
 
 type ActionResponse = {
   error: string | null;
@@ -51,7 +50,6 @@ export async function action({request, context}: ActionFunctionArgs) {
     if (!customerAccessTokenCreate?.customerAccessToken?.accessToken) {
       throw new Error(customerAccessTokenCreate?.customerUserErrors[0].message);
     }
-    console.log('cart:', cart);
     console.log('cart ID:', cart.getCartId());
 
     const {customerAccessToken} = customerAccessTokenCreate;
@@ -88,7 +86,6 @@ export async function action({request, context}: ActionFunctionArgs) {
       checkoutCustomerAssociateV2?.checkout?.webUrl || '';
     // pretty log json
     // console.log(JSON.stringify(customer, null, 2));
-    console.log('checkoutId at cart action: ' + checkoutId);
     const checkoutRegex = new RegExp('Checkout\\/(.*)\\?');
     const checkoutIdentification = checkoutId.match(checkoutRegex);
     if (checkoutIdentification) {

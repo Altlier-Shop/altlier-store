@@ -15,7 +15,7 @@ export async function loader({params, context}: LoaderFunctionArgs) {
   }
 
   const orderId = atob(params.id);
-  const customerAccessToken = await session.get('customerAccessToken');
+  const customerAccessToken = session.get('customerAccessToken');
 
   if (!customerAccessToken) {
     return redirect('/account/login');

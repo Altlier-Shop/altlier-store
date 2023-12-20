@@ -127,28 +127,34 @@ export async function action({request, context}: ActionFunctionArgs) {
   switch (action) {
     case CartForm.ACTIONS.LinesAdd:
       result = await cart.addLines(inputs.lines);
-      await addLinesCheckout(inputs.lines, storefront, checkoutId);
+      if (checkoutId) {
+        await addLinesCheckout(inputs.lines, storefront, checkoutId);
+      }
+
       break;
     case CartForm.ACTIONS.LinesUpdate:
-      await updateLinesCheckout(
-        inputs.lines[0].quantity || 0,
-        inputs.lines[0].merchandiseId || '',
-        storefront,
-        checkoutId,
-        checkoutIdentifier,
-      );
+      if (checkoutId) {
+        await updateLinesCheckout(
+          inputs.lines[0].quantity || 0,
+          inputs.lines[0].merchandiseId || '',
+          storefront,
+          checkoutId,
+          checkoutIdentifier,
+        );
+      }
       result = await cart.updateLines(inputs.lines);
       break;
     case CartForm.ACTIONS.LinesRemove:
       const formInputDelete: any = JSON.parse(inputs.lineIds[0]);
       // console.log(formInputDelete);
-
-      await removeLinesCheckout(
-        formInputDelete.variantId,
-        storefront,
-        checkoutId,
-        checkoutIdentifier,
-      );
+      if (checkoutId) {
+        await removeLinesCheckout(
+          formInputDelete.variantId,
+          storefront,
+          checkoutId,
+          checkoutIdentifier,
+        );
+      }
       result = await cart.removeLines([formInputDelete.lineId]);
 
       break;
@@ -203,8 +209,6 @@ export default function Cart() {
   const rootData = useRootLoaderData();
   const cartPromise = rootData.cart;
   const checkoutUrl = rootData.checkoutUrl;
-  console.log('header:', rootData.header);
-  console.log('publicStoreDomain:', rootData.publicStoreDomain);
 
   return (
     <div className="cart">
