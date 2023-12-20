@@ -18,9 +18,15 @@ export type LayoutProps = {
   cart: Promise<CartApiQueryFragment | null>;
   children?: React.ReactNode;
   header: HeaderQuery;
+  checkoutUrl: string;
 };
 
-export function Layout({cart, children = null, header}: LayoutProps) {
+export function Layout({
+  cart,
+  children = null,
+  header,
+  checkoutUrl,
+}: LayoutProps) {
   return (
     <>
       <button
@@ -29,7 +35,7 @@ export function Layout({cart, children = null, header}: LayoutProps) {
       >
         <AltlierLogo />
       </button>
-      <CartAside cart={cart} />
+      <CartAside cart={cart} checkoutUrl={checkoutUrl} />
       <SearchAside />
       <MobileMenuAside menu={header?.menu} shop={header?.shop} />
       {/* {header && <Header header={header} cart={cart} isLoggedIn={isLoggedIn} />} */}
@@ -38,13 +44,21 @@ export function Layout({cart, children = null, header}: LayoutProps) {
   );
 }
 
-function CartAside({cart}: {cart: LayoutProps['cart']}) {
+function CartAside({
+  cart,
+  checkoutUrl,
+}: {
+  cart: LayoutProps['cart'];
+  checkoutUrl: LayoutProps['checkoutUrl'];
+}) {
   return (
     <Aside id="cart-aside" heading="CART">
       <Suspense fallback={<p>Loading cart ...</p>}>
         <Await resolve={cart}>
           {(cart) => {
-            return <CartMain cart={cart} layout="aside" />;
+            return (
+              <CartMain cart={cart} checkoutUrl={checkoutUrl} layout="aside" />
+            );
           }}
         </Await>
       </Suspense>

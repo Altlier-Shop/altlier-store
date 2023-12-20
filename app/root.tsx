@@ -90,11 +90,15 @@ export async function loader({context}: LoaderFunctionArgs) {
     },
   });
 
+  const checkoutUrl = session.get('checkoutUrl');
+  console.log('checkoutUrl at root', checkoutUrl);
+
   return defer(
     {
       cart: cartPromise,
       header: await headerPromise,
       publicStoreDomain,
+      checkoutUrl,
     },
     {headers},
   );

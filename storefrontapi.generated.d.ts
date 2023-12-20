@@ -990,26 +990,6 @@ export type CheckoutCreateMutation = {
   }>;
 };
 
-export type CheckoutLineItemsAddMutationVariables = StorefrontAPI.Exact<{
-  checkoutId: StorefrontAPI.Scalars['ID']['input'];
-  lineItems:
-    | Array<StorefrontAPI.CheckoutLineItemInput>
-    | StorefrontAPI.CheckoutLineItemInput;
-}>;
-
-export type CheckoutLineItemsAddMutation = {
-  checkoutLineItemsAdd?: StorefrontAPI.Maybe<{
-    checkout?: StorefrontAPI.Maybe<
-      Pick<StorefrontAPI.Checkout, 'id' | 'email' | 'webUrl'> & {
-        subtotalPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
-      }
-    >;
-    checkoutUserErrors: Array<
-      Pick<StorefrontAPI.CheckoutUserError, 'code' | 'field' | 'message'>
-    >;
-  }>;
-};
-
 export type CustomerRecoverMutationVariables = StorefrontAPI.Exact<{
   email: StorefrontAPI.Scalars['String']['input'];
   country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
@@ -1299,6 +1279,94 @@ export type BlogsQuery = {
       }
     >;
   };
+};
+
+export type LineItemFragment = Pick<
+  StorefrontAPI.CheckoutLineItem,
+  'id' | 'title' | 'quantity'
+> & {variant?: StorefrontAPI.Maybe<Pick<StorefrontAPI.ProductVariant, 'id'>>};
+
+export type CheckoutLineItemsAddMutationVariables = StorefrontAPI.Exact<{
+  checkoutId: StorefrontAPI.Scalars['ID']['input'];
+  lineItems:
+    | Array<StorefrontAPI.CheckoutLineItemInput>
+    | StorefrontAPI.CheckoutLineItemInput;
+}>;
+
+export type CheckoutLineItemsAddMutation = {
+  checkoutLineItemsAdd?: StorefrontAPI.Maybe<{
+    checkout?: StorefrontAPI.Maybe<
+      Pick<StorefrontAPI.Checkout, 'id' | 'email' | 'webUrl'> & {
+        subtotalPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+        lineItems: {
+          nodes: Array<
+            Pick<
+              StorefrontAPI.CheckoutLineItem,
+              'id' | 'title' | 'quantity'
+            > & {
+              variant?: StorefrontAPI.Maybe<
+                Pick<StorefrontAPI.ProductVariant, 'id'>
+              >;
+            }
+          >;
+        };
+      }
+    >;
+    checkoutUserErrors: Array<
+      Pick<StorefrontAPI.CheckoutUserError, 'code' | 'field' | 'message'>
+    >;
+  }>;
+};
+
+export type CheckoutLineItemsRemoveMutationVariables = StorefrontAPI.Exact<{
+  checkoutId: StorefrontAPI.Scalars['ID']['input'];
+  lineItemIds:
+    | Array<StorefrontAPI.Scalars['ID']['input']>
+    | StorefrontAPI.Scalars['ID']['input'];
+}>;
+
+export type CheckoutLineItemsRemoveMutation = {
+  checkoutLineItemsRemove?: StorefrontAPI.Maybe<{
+    checkout?: StorefrontAPI.Maybe<
+      Pick<StorefrontAPI.Checkout, 'id' | 'email' | 'webUrl'> & {
+        lineItems: {
+          nodes: Array<
+            Pick<
+              StorefrontAPI.CheckoutLineItem,
+              'id' | 'title' | 'quantity'
+            > & {
+              variant?: StorefrontAPI.Maybe<
+                Pick<StorefrontAPI.ProductVariant, 'id'>
+              >;
+            }
+          >;
+        };
+      }
+    >;
+    checkoutUserErrors: Array<
+      Pick<StorefrontAPI.CheckoutUserError, 'code' | 'field' | 'message'>
+    >;
+  }>;
+};
+
+export type CheckoutLineItemsUpdateMutationVariables = StorefrontAPI.Exact<{
+  checkoutId: StorefrontAPI.Scalars['ID']['input'];
+  lineItems:
+    | Array<StorefrontAPI.CheckoutLineItemUpdateInput>
+    | StorefrontAPI.CheckoutLineItemUpdateInput;
+}>;
+
+export type CheckoutLineItemsUpdateMutation = {
+  checkoutLineItemsUpdate?: StorefrontAPI.Maybe<{
+    checkout?: StorefrontAPI.Maybe<
+      Pick<StorefrontAPI.Checkout, 'id' | 'email' | 'webUrl'> & {
+        subtotalPrice: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+      }
+    >;
+    checkoutUserErrors: Array<
+      Pick<StorefrontAPI.CheckoutUserError, 'code' | 'field' | 'message'>
+    >;
+  }>;
 };
 
 export type MoneyProductItemFragment = Pick<
@@ -2047,10 +2115,6 @@ interface GeneratedMutationTypes {
     return: CheckoutCreateMutation;
     variables: CheckoutCreateMutationVariables;
   };
-  '#graphql\n  mutation checkoutLineItemsAdd($checkoutId: ID!, $lineItems: [CheckoutLineItemInput!]!) {\n    checkoutLineItemsAdd(checkoutId: $checkoutId, lineItems: $lineItems) {\n      checkout {\n        id\n        email\n        webUrl\n        subtotalPrice {\n          amount\n          currencyCode\n        }\n      }\n      checkoutUserErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
-    return: CheckoutLineItemsAddMutation;
-    variables: CheckoutLineItemsAddMutationVariables;
-  };
   '#graphql\n  mutation customerRecover(\n    $email: String!,\n    $country: CountryCode,\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    customerRecover(email: $email) {\n      customerUserErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
     return: CustomerRecoverMutation;
     variables: CustomerRecoverMutationVariables;
@@ -2066,6 +2130,18 @@ interface GeneratedMutationTypes {
   '#graphql\n  mutation customerReset(\n    $id: ID!,\n    $input: CustomerResetInput!\n    $country: CountryCode\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    customerReset(id: $id, input: $input) {\n      customerAccessToken {\n        accessToken\n        expiresAt\n      }\n      customerUserErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
     return: CustomerResetMutation;
     variables: CustomerResetMutationVariables;
+  };
+  '#graphql\n  mutation checkoutLineItemsAdd($checkoutId: ID!, $lineItems: [CheckoutLineItemInput!]!) {\n    checkoutLineItemsAdd(checkoutId: $checkoutId, lineItems: $lineItems) {\n      checkout {\n        id\n        email\n        webUrl\n        subtotalPrice {\n          amount\n          currencyCode\n        }\n        lineItems(first: 100) {\n          nodes {\n        ...LineItem\n      }\n    }\n      }\n      checkoutUserErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n  #graphql\n  fragment LineItem on CheckoutLineItem {\n    id\n    title\n    quantity\n    variant {\n      id\n    }\n  }\n\n': {
+    return: CheckoutLineItemsAddMutation;
+    variables: CheckoutLineItemsAddMutationVariables;
+  };
+  '#graphql\n  mutation checkoutLineItemsRemove($checkoutId: ID!, $lineItemIds: [ID!]!) {\n    checkoutLineItemsRemove(checkoutId: $checkoutId, lineItemIds: $lineItemIds) {\n      checkout {\n        id\n        email\n        webUrl\n        lineItems(first: 100) {\n          nodes {\n            ...LineItem\n          }\n        }\n      }\n      checkoutUserErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n  #graphql\n  fragment LineItem on CheckoutLineItem {\n    id\n    title\n    quantity\n    variant {\n      id\n    }\n  }\n\n': {
+    return: CheckoutLineItemsRemoveMutation;
+    variables: CheckoutLineItemsRemoveMutationVariables;
+  };
+  '#graphql\n  mutation checkoutLineItemsUpdate($checkoutId: ID!, $lineItems: [CheckoutLineItemUpdateInput!]!) {\n    checkoutLineItemsUpdate(checkoutId: $checkoutId, lineItems: $lineItems) {\n      checkout {\n        id\n        email\n        webUrl\n        subtotalPrice {\n          amount\n          currencyCode\n        }\n      }\n      checkoutUserErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
+    return: CheckoutLineItemsUpdateMutation;
+    variables: CheckoutLineItemsUpdateMutationVariables;
   };
 }
 

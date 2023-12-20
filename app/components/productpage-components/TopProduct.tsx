@@ -24,10 +24,10 @@ export default function TopProduct(props: TopProductProps) {
         },
       ]
     : [];
-  console.log(selectedProduct);
+  // console.log(selectedProduct);
 
   return (
-    <div className="absolute z-30 w-fit right-16 top-20 grid justify-items-center">
+    <div className="absolute z-30 w-fit right-6 top-20 grid justify-items-center">
       <div className="btn homepage-btn w-fit px-6 bg-altlierBlue text-white text-center">
         <span className="text-white pixel-font text-4xl">
           {props.topProduct.title}

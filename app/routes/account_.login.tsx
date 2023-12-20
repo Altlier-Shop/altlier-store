@@ -51,6 +51,8 @@ export async function action({request, context}: ActionFunctionArgs) {
     if (!customerAccessTokenCreate?.customerAccessToken?.accessToken) {
       throw new Error(customerAccessTokenCreate?.customerUserErrors[0].message);
     }
+    console.log('cart:', cart);
+    console.log('cart ID:', cart.getCartId());
 
     const {customerAccessToken} = customerAccessTokenCreate;
     session.set('customerAccessToken', customerAccessToken);
@@ -66,7 +68,7 @@ export async function action({request, context}: ActionFunctionArgs) {
 
     const {checkoutCreate} = await storefront.mutate(CREATE_CHECKOUT_MUTATION);
 
-    console.log(checkoutCreate?.checkout);
+    console.log('new checkout ID', checkoutCreate?.checkout);
 
     const {checkoutCustomerAssociateV2} = await storefront.mutate(
       CHECKOUT_CUSTOMER_ASSOCIATE,
@@ -80,51 +82,21 @@ export async function action({request, context}: ActionFunctionArgs) {
         },
       },
     );
-    console.log(checkoutCustomerAssociateV2?.checkout);
-
-    // const result = await cart.updateBuyerIdentity({
-    //   customerAccessToken: customerAccessToken.accessToken,
-    //   email: customer?.email,
-    //   countryCode: storefront.i18n.country,
-    //   deliveryAddressPreferences: [
-    //     {
-    //       deliveryAddress: {
-    //         firstName: customer?.firstName,
-    //         lastName: customer?.lastName,
-    //         address1: customer?.defaultAddress?.address1,
-    //         address2: customer?.defaultAddress?.address2,
-    //         city: customer?.defaultAddress?.city,
-    //         province: customer?.defaultAddress?.province,
-    //         zip: customer?.defaultAddress?.zip,
-    //         country:
-    //           customer?.defaultAddress?.country ?? storefront.i18n.country,
-    //         phone: customer?.defaultAddress?.phone,
-    //       },
-    //     },
-    //   ],
-    // });
-    const data = await storefront.mutate(ADD_LINE_ITEMS_MUTATION, {
-      variables: {
-        checkoutId:
-          checkoutCreate && checkoutCreate?.checkout
-            ? checkoutCreate.checkout.id
-            : '',
-        customerAccessToken: customerAccessToken.accessToken,
-        lineItems: [
-          {
-            quantity: 1,
-            variantId: 'gid://shopify/ProductVariant/43930300481685',
-          },
-        ],
-      },
-    });
-    console.log('added lines', JSON.stringify(data));
-
-    //console.log(JSON.stringify(customer));
-
+    console.log('updated checkout ID', checkoutCustomerAssociateV2?.checkout);
+    const checkoutId: string = checkoutCustomerAssociateV2?.checkout?.id || '';
+    const checkoutUrl: string =
+      checkoutCustomerAssociateV2?.checkout?.webUrl || '';
     // pretty log json
     // console.log(JSON.stringify(customer, null, 2));
+    console.log('checkoutId at cart action: ' + checkoutId);
+    const checkoutRegex = new RegExp('Checkout\\/(.*)\\?');
+    const checkoutIdentification = checkoutId.match(checkoutRegex);
+    if (checkoutIdentification) {
+      session.set('checkoutIdentifier', checkoutIdentification[1]);
+    }
 
+    session.set('checkoutId', checkoutId);
+    session.set('checkoutUrl', checkoutUrl);
     // const headers = cart.setCartId(result.cart.id);
 
     //headers.append('Set-Cookie', await session.commit());
@@ -242,28 +214,6 @@ const CREATE_CHECKOUT_MUTATION = `#graphql
     checkoutCreate(input: {}) {
       checkout {
         id
-      }
-      checkoutUserErrors {
-        code
-        field
-        message
-      }
-    }
-  }
-` as const;
-
-// GraphQL mutation to add line items to a checkout
-const ADD_LINE_ITEMS_MUTATION = `#graphql
-  mutation checkoutLineItemsAdd($checkoutId: ID!, $lineItems: [CheckoutLineItemInput!]!) {
-    checkoutLineItemsAdd(checkoutId: $checkoutId, lineItems: $lineItems) {
-      checkout {
-        id
-        email
-        webUrl
-        subtotalPrice {
-          amount
-          currencyCode
-        }
       }
       checkoutUserErrors {
         code

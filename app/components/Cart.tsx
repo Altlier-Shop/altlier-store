@@ -8,10 +8,13 @@ type CartLine = CartApiQueryFragment['lines']['nodes'][0];
 
 type CartMainProps = {
   cart: CartApiQueryFragment | null;
+  checkoutUrl: string | null;
   layout: 'page' | 'aside';
 };
 
-export function CartMain({layout, cart}: CartMainProps) {
+export function CartMain({layout, cart, checkoutUrl}: CartMainProps) {
+  // console.log('checkouturl at cartmain:', checkoutUrl);
+
   const linesCount = Boolean(cart?.lines?.nodes?.length || 0);
   const withDiscount =
     cart &&
@@ -21,12 +24,12 @@ export function CartMain({layout, cart}: CartMainProps) {
   return (
     <div className={className}>
       <CartEmpty hidden={linesCount} layout={layout} />
-      <CartDetails cart={cart} layout={layout} />
+      <CartDetails cart={cart} layout={layout} checkoutUrl={checkoutUrl} />
     </div>
   );
 }
 
-function CartDetails({layout, cart}: CartMainProps) {
+function CartDetails({layout, cart, checkoutUrl}: CartMainProps) {
   const cartHasItems = !!cart && cart.totalQuantity > 0;
 
   return (
@@ -38,7 +41,7 @@ function CartDetails({layout, cart}: CartMainProps) {
           layout={layout}
           discountCodes={cart.discountCodes}
         >
-          <CartCheckoutActions checkoutUrl={cart.checkoutUrl} />
+          <CartCheckoutActions checkoutUrl={checkoutUrl} />
         </CartSummary>
       )}
     </div>
@@ -80,7 +83,7 @@ function CartLineItem({
   return (
     <li key={id} className="cart-line border-t-2 border-root-tertiary">
       <div className="flex w-full justify-between relative">
-        <CartLineRemoveButton lineIds={[lineId]} />
+        <CartLineRemoveButton lineId={lineId} variantId={merchandise.id} />
         <div className="flex">
           {image && (
             <Image
@@ -128,8 +131,10 @@ function CartLineItem({
   );
 }
 
-function CartCheckoutActions({checkoutUrl}: {checkoutUrl: string}) {
+function CartCheckoutActions({checkoutUrl}: {checkoutUrl: string | null}) {
   if (!checkoutUrl) return null;
+
+  // console.log('checkoutUrl at checkout:', checkoutUrl);
 
   const handleCheckOut = () => {
     window.location.href = checkoutUrl;
@@ -212,13 +217,25 @@ export function CartSummary({
   );
 }
 
-function CartLineRemoveButton({lineIds}: {lineIds: string[]}) {
+function CartLineRemoveButton({
+  lineId,
+  variantId,
+}: {
+  lineId: string;
+  variantId: string;
+}) {
+  const formInput = [
+    JSON.stringify({
+      lineId,
+      variantId,
+    }),
+  ];
   return (
     <div className="absolute right-0">
       <CartForm
         route="/cart"
         action={CartForm.ACTIONS.LinesRemove}
-        inputs={{lineIds}}
+        inputs={{lineIds: formInput}}
       >
         <button
           type="submit"
@@ -251,7 +268,15 @@ function CartLineChangeQuantity({line}: {line: CartLine}) {
   const nextQuantity = Number((quantity + 1).toFixed(0));
   return (
     <div className="flex items-center gap-3">
-      <CartLineUpdateButton lines={[{id: lineId, quantity: prevQuantity}]}>
+      <CartLineUpdateButton
+        lines={[
+          {
+            id: lineId,
+            quantity: prevQuantity,
+            merchandiseId: line.merchandise.id,
+          },
+        ]}
+      >
         <button
           aria-label="Decrease quantity"
           disabled={quantity <= 1}
@@ -263,7 +288,15 @@ function CartLineChangeQuantity({line}: {line: CartLine}) {
         </button>
       </CartLineUpdateButton>
       <span className="text-lg ">{quantity}</span>
-      <CartLineUpdateButton lines={[{id: lineId, quantity: nextQuantity}]}>
+      <CartLineUpdateButton
+        lines={[
+          {
+            id: lineId,
+            quantity: nextQuantity,
+            merchandiseId: line.merchandise.id,
+          },
+        ]}
+      >
         <button
           aria-label="Increase quantity"
           name="increase-quantity"
