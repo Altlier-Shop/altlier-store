@@ -12,16 +12,16 @@ export default function Links(props: LinksProps) {
   return (
     <div className="flex">
       <div className="max-w-lg w-full">
-        <div className="flex gap-6">
+        <div className="flex gap-6 w-full">
           <button
             onClick={props.onShill}
-            className="btn homepage-btn btn-dark pixel-font pointer-events-auto"
+            className="btn homepage-btn w-1/2 btn-dark pixel-font pointer-events-auto 2xl:text-4xl lg:text-2xl md:text-lg"
           >
             SHILL
           </button>
           <button
             onClick={props.onFud}
-            className="btn homepage-btn btn-light pixel-font pointer-events-auto"
+            className="btn homepage-btn w-1/2 btn-light pixel-font pointer-events-auto 2xl:text-4xl lg:text-2xl md:text-lg"
           >
             FUD
           </button>

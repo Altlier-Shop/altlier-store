@@ -55,15 +55,6 @@ export async function action({request, context}: ActionFunctionArgs) {
     const {customerAccessToken} = customerAccessTokenCreate;
     session.set('customerAccessToken', customerAccessToken);
 
-    // const {customer} = await storefront.query(CUSTOMER_QUERY, {
-    //   variables: {
-    //     customerAccessToken: customerAccessToken.accessToken,
-    //     country: storefront.i18n.country,
-    //     language: storefront.i18n.language,
-    //   },
-    //   cache: storefront.CacheNone(),
-    // });
-
     const {checkoutCreate} = await storefront.mutate(CREATE_CHECKOUT_MUTATION);
 
     console.log('new checkout ID', checkoutCreate?.checkout);
@@ -80,7 +71,35 @@ export async function action({request, context}: ActionFunctionArgs) {
         },
       },
     );
-    console.log('updated checkout ID', checkoutCustomerAssociateV2?.checkout);
+    console.log(
+      'updated checkout',
+      JSON.stringify(checkoutCustomerAssociateV2?.checkout),
+      '\n',
+    );
+    if (
+      checkoutCustomerAssociateV2 &&
+      checkoutCustomerAssociateV2.customer &&
+      checkoutCustomerAssociateV2.customer.defaultAddress
+    ) {
+      const {checkoutShippingAddressUpdateV2} = await storefront.mutate(
+        UPDATE_SHIPPING_ADDRESS,
+        {
+          variables: {
+            checkoutId:
+              checkoutCreate && checkoutCreate?.checkout
+                ? checkoutCreate.checkout.id
+                : '',
+            shippingAddress:
+              checkoutCustomerAssociateV2.customer.defaultAddress,
+          },
+        },
+      );
+      console.log(
+        'updated checkout shipping address',
+        JSON.stringify(checkoutShippingAddressUpdateV2?.checkout),
+      );
+    }
+
     const checkoutId: string = checkoutCustomerAssociateV2?.checkout?.id || '';
     const checkoutUrl: string =
       checkoutCustomerAssociateV2?.checkout?.webUrl || '';
@@ -191,6 +210,17 @@ const CHECKOUT_CUSTOMER_ASSOCIATE = `#graphql
         email
         id
         webUrl
+        taxExempt
+        buyerIdentity {
+          countryCode
+        }
+        shippingLine {
+          title
+          price {
+            amount
+            currencyCode
+          }
+        }
       }
       checkoutUserErrors {
         code
@@ -200,7 +230,17 @@ const CHECKOUT_CUSTOMER_ASSOCIATE = `#graphql
       customer {
         id
         email
-        acceptsMarketing
+        defaultAddress {
+          address1
+          address2
+          city
+          company
+          country
+          firstName
+          lastName
+          zip
+          province
+        }
       }
     }
   }
@@ -216,6 +256,36 @@ const CREATE_CHECKOUT_MUTATION = `#graphql
         code
         field
         message
+      }
+    }
+  }
+` as const;
+
+const UPDATE_SHIPPING_ADDRESS = `#graphql
+  mutation updateShippingAddress($checkoutId: ID!, $shippingAddress: MailingAddressInput!) {
+    checkoutShippingAddressUpdateV2(checkoutId: $checkoutId, shippingAddress: $shippingAddress) {
+      checkout {
+        id
+        shippingAddress {
+          address1
+          address2
+          city
+          company
+          country
+          firstName
+          lastName
+          province
+          zip
+        }
+      }
+      userErrors {
+        field
+        message
+      }
+      checkoutUserErrors {
+        field
+        message
+        code
       }
     }
   }
