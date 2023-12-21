@@ -6,6 +6,7 @@ import {
 } from '@shopify/remix-oxygen';
 import {Form, Link, useActionData} from '@remix-run/react';
 import type {CustomerCreateMutation} from 'storefrontapi.generated';
+import GridPage from '~/components/startpage-components/GridPage';
 
 type ActionResponse = {
   error: string | null;
@@ -107,60 +108,80 @@ export default function Register() {
   const data = useActionData<ActionResponse>();
   const error = data?.error || null;
   return (
-    <div className="login">
-      <h1>Register.</h1>
-      <Form method="POST">
-        <fieldset>
-          <label htmlFor="email">Email address</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            autoComplete="email"
-            required
-            placeholder="Email address"
-            aria-label="Email address"
-            // eslint-disable-next-line jsx-a11y/no-autofocus
-            autoFocus
-          />
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            autoComplete="current-password"
-            placeholder="Password"
-            aria-label="Password"
-            minLength={8}
-            required
-          />
-          <label htmlFor="passwordConfirm">Re-enter password</label>
-          <input
-            id="passwordConfirm"
-            name="passwordConfirm"
-            type="password"
-            autoComplete="current-password"
-            placeholder="Re-enter password"
-            aria-label="Re-enter password"
-            minLength={8}
-            required
-          />
-        </fieldset>
-        {error ? (
-          <p>
-            <mark>
-              <small>{error}</small>
-            </mark>
-          </p>
-        ) : (
-          <br />
-        )}
-        <button type="submit">Register</button>
-      </Form>
-      <br />
-      <p>
-        <Link to="/account/login">Login →</Link>
-      </p>
+    <div className="login w-screen h-screen flex">
+      <div className="flex w-1/2 h-full bg-root-secondary relative">
+        <GridPage />
+      </div>
+      <div className="w-1/2 h-full bg-root-primary relative">
+        <div className="mt-[25%] px-[15%]">
+          <div className="grid gap-6 md:gap-2">
+            <h1 className="pixel-font 2xl:text-5xl lg:text-4xl md:text-3xl">
+              Shill With Us!
+            </h1>
+          </div>
+          <Form method="POST">
+            <fieldset className="gap-6 mt-[10%]">
+              <input
+                className="input-box"
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                placeholder="Email"
+                aria-label="Email"
+                // eslint-disable-next-line jsx-a11y/no-autofocus
+                autoFocus
+              />
+              <input
+                className="input-box"
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                placeholder="Password"
+                aria-label="Password"
+                minLength={8}
+                required
+              />
+              <input
+                className="input-box"
+                id="passwordConfirm"
+                name="passwordConfirm"
+                type="password"
+                autoComplete="current-password"
+                placeholder="Re-enter password"
+                aria-label="Re-enter password"
+                minLength={8}
+                required
+              />
+            </fieldset>
+            {error ? (
+              <p>
+                <mark>
+                  <small>{error}</small>
+                </mark>
+              </p>
+            ) : (
+              <br />
+            )}
+            <div className="flex mt-8 w-full gap-6 items-center">
+              <button
+                type="submit"
+                className="btn homepage-btn btn-dark w-full lg:text-2xl text-lg"
+              >
+                Register
+              </button>
+              <Link
+                className="grid justify-end  text-emerald-light whitespace-nowrap"
+                to="/account/recover"
+              >
+                Have An Account?
+              </Link>
+            </div>
+          </Form>
+        </div>
+      </div>
     </div>
   );
 }
