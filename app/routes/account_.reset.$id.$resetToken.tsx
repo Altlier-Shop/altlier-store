@@ -1,5 +1,6 @@
 import {type ActionFunctionArgs, json, redirect} from '@shopify/remix-oxygen';
-import {Form, useActionData, type MetaFunction} from '@remix-run/react';
+import {Form, useActionData, type MetaFunction, Link} from '@remix-run/react';
+import GridPage from '~/components/startpage-components/GridPage';
 
 type ActionResponse = {
   error: string | null;
@@ -64,51 +65,63 @@ export default function Reset() {
   const action = useActionData<ActionResponse>();
 
   return (
-    <div className="account-reset">
-      <h1>Reset Password.</h1>
-      <p>Enter a new password for your account.</p>
-      <Form method="POST">
-        <fieldset>
-          <label htmlFor="password">Password</label>
-          <input
-            aria-label="Password"
-            autoComplete="current-password"
-            // eslint-disable-next-line jsx-a11y/no-autofocus
-            autoFocus
-            id="password"
-            minLength={8}
-            name="password"
-            placeholder="Password"
-            required
-            type="password"
-          />
-          <label htmlFor="passwordConfirm">Re-enter password</label>
-          <input
-            aria-label="Re-enter password"
-            autoComplete="current-password"
-            id="passwordConfirm"
-            minLength={8}
-            name="passwordConfirm"
-            placeholder="Re-enter password"
-            required
-            type="password"
-          />
-        </fieldset>
-        {action?.error ? (
-          <p>
-            <mark>
-              <small>{action.error}</small>
-            </mark>
-          </p>
-        ) : (
-          <br />
-        )}
-        <button type="submit">Reset</button>
-      </Form>
-      <br />
-      <p>
-        <a href="/account/login">Back to login →</a>
-      </p>
+    <div className="login w-screen h-screen flex">
+      <div className="flex w-1/2 h-full bg-root-secondary relative">
+        <GridPage />
+      </div>
+      <div className="w-1/2 h-full bg-root-primary relative">
+        <div className="mt-[25%] px-[15%]">
+          <div className="grid gap-6 md:gap-2">
+            <h1 className="pixel-font 2xl:text-3xl lg:text-xl md:text-lg">
+              Reset Password
+            </h1>
+            <p className="mt-2">Enter a new password for your account</p>
+          </div>
+          <Form method="POST">
+            <fieldset className="gap-6 mt-[15%]">
+              <input
+                className="input-box"
+                aria-label="Password"
+                autoComplete="current-password"
+                // eslint-disable-next-line jsx-a11y/no-autofocus
+                autoFocus
+                id="password"
+                minLength={8}
+                name="password"
+                placeholder="Password"
+                required
+                type="password"
+              />
+              <input
+                className="input-box"
+                aria-label="Re-enter password"
+                autoComplete="current-password"
+                id="passwordConfirm"
+                minLength={8}
+                name="passwordConfirm"
+                placeholder="Re-enter password"
+                required
+                type="password"
+              />
+            </fieldset>
+
+            <div className="flex mt-8 w-full gap-6 items-center">
+              <button
+                type="submit"
+                className="btn homepage-btn btn-light w-full"
+              >
+                Reset
+              </button>
+              <Link
+                className="text-emerald-light whitespace-nowrap grid justify-end"
+                to="/account/recover"
+              >
+                Back To Login!
+              </Link>
+            </div>
+          </Form>
+        </div>
+      </div>
     </div>
   );
 }

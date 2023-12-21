@@ -5,6 +5,7 @@ import {
   type LoaderFunctionArgs,
 } from '@shopify/remix-oxygen';
 import {Form, Link, useActionData, type MetaFunction} from '@remix-run/react';
+import GridPage from '~/components/startpage-components/GridPage';
 
 type ActionResponse = {
   error: string | null;
@@ -133,53 +134,82 @@ export default function Login() {
   const error = data?.error || null;
 
   return (
-    <div className="login">
-      <h1>Sign in.</h1>
-      <Form method="POST">
-        <fieldset>
-          <label htmlFor="email">Email address</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            autoComplete="email"
-            required
-            placeholder="Email address"
-            aria-label="Email address"
-            // eslint-disable-next-line jsx-a11y/no-autofocus
-            autoFocus
-          />
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            autoComplete="current-password"
-            placeholder="Password"
-            aria-label="Password"
-            minLength={8}
-            required
-          />
-        </fieldset>
-        {error ? (
-          <p>
-            <mark>
-              <small>{error}</small>
-            </mark>
-          </p>
-        ) : (
-          <br />
-        )}
-        <button type="submit">Sign in</button>
-      </Form>
-      <br />
-      <div>
-        <p>
-          <Link to="/account/recover">Forgot password →</Link>
-        </p>
-        <p>
-          <Link to="/account/register">Register →</Link>
-        </p>
+    <div className="login w-screen h-screen flex">
+      <div className="flex w-1/2 h-full bg-root-secondary relative">
+        <GridPage />
+      </div>
+      <div className="w-1/2 h-full bg-root-primary relative">
+        <div className="mt-[25%] px-[15%]">
+          <div className="grid gap-6 md:gap-2">
+            <h1 className="pixel-font 2xl:text-5xl lg:text-4xl md:text-3xl">
+              WELCOME BACK
+            </h1>
+            <h1 className="pixel-font 2xl:text-5xl lg:text-4xl md:text-3xl">
+              ALTLIER!
+            </h1>
+          </div>
+          <Form method="POST">
+            <fieldset className="gap-6 mt-[15%]">
+              <input
+                className="input-box"
+                id="email"
+                name="email"
+                type="email"
+                autoComplete="email"
+                required
+                placeholder="Email"
+                aria-label="Email"
+                // eslint-disable-next-line jsx-a11y/no-autofocus
+                autoFocus
+              />
+              <input
+                className="input-box"
+                id="password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                placeholder="Password"
+                aria-label="Password"
+                minLength={8}
+                required
+              />
+            </fieldset>
+            {error ? (
+              <p>
+                <mark>
+                  <small>{error}</small>
+                </mark>
+              </p>
+            ) : (
+              <br />
+            )}
+            <div className="flex mt-8 w-full gap-6 items-center">
+              <button
+                type="submit"
+                className="btn homepage-btn btn-dark w-full"
+              >
+                Login
+              </button>
+              <Link
+                className="grid justify-end  text-emerald-light whitespace-nowrap"
+                to="/account/recover"
+              >
+                Forgot password?
+              </Link>
+            </div>
+            <div className="mt-6 w-full grid justify-center">
+              <p className="text-neutral-400">
+                Don't have an account? Anypone can be an Altlier!
+              </p>
+              <Link
+                className="mt-2 text-emerald-light justify-self-center"
+                to="/account/register"
+              >
+                Sign Up Here!
+              </Link>
+            </div>
+          </Form>
+        </div>
       </div>
     </div>
   );

@@ -41,9 +41,9 @@
     format('truetype');
 }
 
-img {
+/* img {
   border-radius: 4px;
-}
+} */
 
 @layer components {
   .btn {
@@ -52,22 +52,27 @@ img {
 }
 @layer components {
   .homepage-btn {
-    @apply py-2 px-4 w-full text-4xl;
+    @apply py-2 lg:px-8 px-4 w-full text-4xl;
   }
 }
 @layer components {
   .btn-dark {
-    @apply bg-altlierBlue text-emerald-light hover:text-altlierBlue hover:bg-emerald-light active:bg-emerald-dark;
+    @apply bg-altlierBlue text-emerald-light hover:text-altlierBlue hover:bg-emerald-light active:bg-emerald-dark pixel-font 2xl:text-4xl lg:text-2xl md:text-xl;
   }
 }
 @layer components {
   .btn-light {
-    @apply hover:bg-altlierBlue hover:text-root-primary active:bg-neutral-500;
+    @apply hover:bg-altlierBlue hover:text-root-primary active:bg-neutral-500 pixel-font 2xl:text-4xl lg:text-2xl md:text-lg;
   }
 }
 @layer components {
   .icon {
     @apply w-14 h-14 cursor-pointer bg-altlierBlue rounded-full p-2;
+  }
+}
+@layer components {
+  .input-box {
+    @apply bg-transparent w-full rounded-full px-4 py-2 text-neutral-500;
   }
 }
 @layer utilities {

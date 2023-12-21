@@ -145,7 +145,7 @@ function CartCheckoutActions({checkoutUrl}: {checkoutUrl: string | null}) {
   return (
     <div className="grid justify-center">
       <button
-        className="mt-6 px-6 btn homepage-btn btn-dark pixel-font"
+        className="mt-6 px-6 btn homepage-btn btn-dark"
         onClick={handleCheckOut}
       >
         Check Out

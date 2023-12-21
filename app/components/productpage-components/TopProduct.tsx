@@ -99,8 +99,8 @@ export default function TopProduct(props: TopProductProps) {
                 }
                 className={
                   selectedProduct && selectedProduct.availableForSale
-                    ? 'mt-4 btn homepage-btn btn-dark pixel-font w-56'
-                    : 'mt-4 btn homepage-btn pixel-font w-72'
+                    ? 'mt-4 btn homepage-btn btn-dark w-full'
+                    : 'mt-4 btn homepage-btn pixel-font w-full'
                 }
               >
                 {!selectedProduct || selectedProduct.availableForSale

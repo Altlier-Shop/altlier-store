@@ -1,7 +1,5 @@
 import {useState, useEffect, useRef} from 'react';
-import ProfileIcon from '../svg-components/ProfileIcon';
-import CartIcon from '../svg-components/CartIcon';
-import handleRequest from '~/entry.server';
+
 export default function GridPage() {
   const [gridSize, setGridSize] = useState(40); // Default grid size
   const gridDiv = useRef<HTMLDivElement>(null);
