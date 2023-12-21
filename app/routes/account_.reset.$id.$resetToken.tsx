@@ -75,7 +75,9 @@ export default function Reset() {
             <h1 className="pixel-font 2xl:text-3xl lg:text-xl md:text-lg">
               Reset Password
             </h1>
-            <p className="mt-2">Enter a new password for your account</p>
+            <p className="mt-2 text-neutral-400">
+              Enter a new password for your account
+            </p>
           </div>
           <Form method="POST">
             <fieldset className="gap-6 mt-[15%]">

@@ -84,7 +84,7 @@ export default function Recover() {
                   Forgot Password ¯\_(ツ)_/¯
                 </h1>
 
-                <p className="mt-2">
+                <p className="mt-2 text-neutral-400">
                   Enter your email address to receive a link to reset your
                   password!
                 </p>

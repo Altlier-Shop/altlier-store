@@ -6,6 +6,7 @@ import {
 } from '@shopify/remix-oxygen';
 import {Form, Link, useActionData, type MetaFunction} from '@remix-run/react';
 import GridPage from '~/components/startpage-components/GridPage';
+import ImageCarousel from '~/components/ImageCarousel';
 
 type ActionResponse = {
   error: string | null;
@@ -137,6 +138,7 @@ export default function Login() {
     <div className="login w-screen h-screen flex">
       <div className="flex w-1/2 h-full bg-root-secondary relative">
         <GridPage />
+        <ImageCarousel />
       </div>
       <div className="w-1/2 h-full bg-root-primary relative">
         <div className="mt-[25%] px-[15%]">

@@ -7,6 +7,7 @@ import {
 import {Form, Link, useActionData} from '@remix-run/react';
 import type {CustomerCreateMutation} from 'storefrontapi.generated';
 import GridPage from '~/components/startpage-components/GridPage';
+import ImageCarousel from '~/components/ImageCarousel';
 
 type ActionResponse = {
   error: string | null;
@@ -111,12 +112,16 @@ export default function Register() {
     <div className="login w-screen h-screen flex">
       <div className="flex w-1/2 h-full bg-root-secondary relative">
         <GridPage />
+        <ImageCarousel />
       </div>
       <div className="w-1/2 h-full bg-root-primary relative">
         <div className="mt-[25%] px-[15%]">
           <div className="grid gap-6 md:gap-2">
             <h1 className="pixel-font 2xl:text-5xl lg:text-4xl md:text-3xl">
-              Shill With Us!
+              <span className="line-through">Chill</span>Shill
+            </h1>
+            <h1 className="pixel-font 2xl:text-5xl lg:text-4xl md:text-3xl">
+              with us
             </h1>
           </div>
           <Form method="POST">
@@ -174,7 +179,7 @@ export default function Register() {
               </button>
               <Link
                 className="grid justify-end  text-emerald-light whitespace-nowrap"
-                to="/account/recover"
+                to="/account/login"
               >
                 Have An Account?
               </Link>
