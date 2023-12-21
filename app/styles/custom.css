@@ -40,6 +40,9 @@
   src: url('../../public/fonts/Kumbh_Sans/KumbhSans-Light.ttf')
     format('truetype');
 }
+.default-font {
+  font-family: 'KumbhSans';
+}
 
 /* img {
   border-radius: 4px;

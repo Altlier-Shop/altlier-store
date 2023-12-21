@@ -201,7 +201,7 @@ export default function Login() {
             </div>
             <div className="mt-6 w-full grid justify-center">
               <p className="text-neutral-400">
-                Don't have an account? Anypone can be an Altlier!
+                Don't have an account? Anyone can be an Altlier!
               </p>
               <Link
                 className="mt-2 text-emerald-light justify-self-center"

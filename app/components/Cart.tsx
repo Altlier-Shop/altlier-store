@@ -369,7 +369,7 @@ export function CartEmpty({
           href="/policies/refund-policy"
           className="underline underline-offset-[6px]"
         >
-          7-day refund policy.
+          14-day refund policy.
         </a>
       </p>
       <br />

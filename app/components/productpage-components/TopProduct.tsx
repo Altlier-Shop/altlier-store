@@ -58,7 +58,7 @@ export default function TopProduct(props: TopProductProps) {
         </div>
         <Listbox value={size} onChange={setSize}>
           <div className="grid justify-items-center">
-            <Listbox.Button className="group btn homepage-btn btn-light text-xl flex justify-between">
+            <Listbox.Button className="group btn homepage-btn btn-light text-xl flex justify-between default-font">
               <span className="group-hover:text-root-primary">
                 {size ? size : 'Select Size'}
               </span>
