@@ -3,6 +3,7 @@ import DiscordIcon from '../svg-components/DiscordIcon';
 import InstagramIcon from '../svg-components/InstagramIcon';
 import TelegramIcon from '../svg-components/TelegramIcon';
 import TwitterIcon from '../svg-components/TwitterIcon';
+import WebsiteIcon from '../svg-components/WebsiteIcon';
 import WhitePaperIcon from '../svg-components/WhitePaperIcon';
 interface LinksProps {
   onShill(): void;
@@ -78,6 +79,14 @@ export default function Links(props: LinksProps) {
             rel="noreferrer"
           >
             <WhitePaperIcon />
+          </a>
+          <a
+            className="pointer-events-auto w-12"
+            href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <WebsiteIcon />
           </a>
         </div>
       </div>

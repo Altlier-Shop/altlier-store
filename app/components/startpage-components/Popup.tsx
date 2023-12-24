@@ -1,5 +1,5 @@
 import WarningIcon from '../svg-components/WarningIcon';
-
+import XMarkIcon from '../svg-components/XMarkIcon';
 interface PopupProps {
   onClose(): void;
   onShill(): void;
@@ -13,7 +13,7 @@ export default function Popup(props: PopupProps) {
           onClick={props.onClose}
           className="w-8 h-8 flex items-center justify-center bg-root-tertiary active:bg-neutral-400 border-2 retro-border"
         >
-          &#x2715;
+          <XMarkIcon />
         </button>
       </div>
       <div className="bg-root-tertiary">

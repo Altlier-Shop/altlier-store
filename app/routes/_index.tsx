@@ -50,7 +50,7 @@ export async function loader({context}: LoaderFunctionArgs) {
 
 export default function Homepage() {
   const [landingPageBottom, setLandingPageBottom] = useState(false);
-  const [mobileView, setMobileView] = useState(true);
+  const [mobileView, setMobileView] = useState(false);
   const data = useLoaderData<typeof loader>();
   const openAside = (e: any) => {
     window.location.href = window.location.origin + '#cart-aside';
@@ -105,7 +105,7 @@ export default function Homepage() {
   const checkMobileView = () => {
     const windowHeight = window.innerHeight;
     const windowWidth = window.innerWidth;
-    if (windowWidth / windowHeight < 1 || windowWidth / windowHeight > 2) {
+    if (windowWidth / windowHeight < 1 || windowHeight < 450) {
       setMobileView(true);
     } else {
       setMobileView(false);
