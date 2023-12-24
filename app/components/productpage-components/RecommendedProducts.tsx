@@ -134,6 +134,9 @@ export default function RecommendedProducts({
       setTempHoveredProductId(id);
     }
   };
+  const openPopup = (id: string) => {
+    console.log('open popup');
+  };
   useEffect(() => {
     if (products && selectedProducts.length === 0) {
       const newProducts = JSON.parse(
@@ -173,6 +176,14 @@ export default function RecommendedProducts({
         className="circular z-40"
         style={{height: circleHeight * 3, width: circleWidth * 1.1}}
       >
+        <div className="absolute z-50 top-[72%] w-full grid justify-center">
+          <button
+            onClick={() => openPopup(topProduct.id)}
+            className="border-b-2 text-neutral-400 border-neutral-400 w-32 text-center hover:text-altlierBlue hover:border-altlierBlue cursor-pointer"
+          >
+            See more details
+          </button>
+        </div>
         <button
           disabled={disableRotation}
           onClick={() => handleRotate(false)}
@@ -193,16 +204,19 @@ export default function RecommendedProducts({
         </button>
 
         {selectProducts.map((product: any) => (
-          <div key={product.id}>
+          <button
+            key={product.id}
+            onMouseOver={() => handleImageHover(product.id)}
+            onFocus={() => ''}
+            onClick={() => openPopup(product.id)}
+            onMouseLeave={() => setTempHoveredProductId('')}
+          >
             <img
               className={
                 product.id === topProduct.id
                   ? 'rotating-object cursor-pointer w-full'
                   : 'rotating-object'
               }
-              onMouseOver={() => handleImageHover(product.id)}
-              onFocus={() => handleImageHover(product.id)}
-              onMouseLeave={() => setTempHoveredProductId('')}
               src={
                 hoveredProductId !== '' && hoveredProductId === product.id
                   ? product.images.nodes[1].url
@@ -216,7 +230,7 @@ export default function RecommendedProducts({
               }}
               alt="shirt"
             ></img>
-          </div>
+          </button>
         ))}
       </div>
     </div>

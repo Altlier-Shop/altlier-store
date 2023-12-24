@@ -27,86 +27,89 @@ export default function TopProduct(props: TopProductProps) {
   // console.log(selectedProduct);
 
   return (
-    <div className="absolute z-30 w-fit right-12 top-20 grid justify-items-center">
-      <div className="btn homepage-btn w-fit px-6 bg-altlierBlue text-white text-center">
-        <span className="text-white pixel-font text-2xl">
-          {props.topProduct.title}
-        </span>
-      </div>
-      <h1 className="mt-2 text-xl">
-        {productFirstNode.price.currencyCode}
-        {Math.round(productFirstNode.price.amount)}
-      </h1>
-      <div className="mt-4 w-fit [&>*]:text-neutral-400">
-        <p>Product Code: {props.topProduct.productCode}</p>
-        <p>Material: {props.topProduct.material}</p>
-        <div className="flex justify-between mt-3 mb-3 [&>*]:text-neutral-400">
-          <span>Size: {props.topProduct.sizes.join(', ')}</span>
-          <button
-            onClick={props.onOpenSizeGuide}
-            className="border-b-2 border-neutral-400 w-32 text-center hover:text-altlierBlue hover:border-altlierBlue cursor-pointer"
-          >
-            Size Guide
-          </button>
+    <>
+      <div className="absolute z-30 w-fit right-12 top-20 grid justify-items-center">
+        <div className="btn homepage-btn w-fit px-6 bg-altlierBlue text-white text-center">
+          <span className="text-white pixel-font text-2xl">
+            {props.topProduct.title}
+          </span>
         </div>
-        <Listbox value={size} onChange={setSize}>
-          <div className="grid justify-items-center">
-            <Listbox.Button className="group border-[1.5px] py-2 px-3 w-full rounded-full homepage-btn btn-light text-lg border-neutral-500 flex justify-between items-center default-font">
-              <span className="group-hover:text-root-primary text-neutral-500">
-                {size ? size : 'Select Size'}
-              </span>
-              <ChevronDownIcon className="h-8 group-hover:fill-root-primary" />
-            </Listbox.Button>
-
-            <Listbox.Options className="w-5/6">
-              {props.topProduct.sizes.map((size: string) => (
-                <Listbox.Option
-                  key={size}
-                  value={size}
-                  className="hover:bg-altlierBlue hover:text-root-primary px-2 border-b-2 border-x-2 border-altlierBlue my-0"
-                >
-                  {size}
-                </Listbox.Option>
-              ))}
-            </Listbox.Options>
+        <h1 className="mt-2 text-xl">
+          {productFirstNode.price.currencyCode}
+          {Math.round(productFirstNode.price.amount)}
+        </h1>
+        <div className="mt-4 w-fit [&>*]:text-neutral-400">
+          <p>Product Code: {props.topProduct.productCode}</p>
+          <p>Material: {props.topProduct.material}</p>
+          <div className="flex justify-between mt-3 mb-3 [&>*]:text-neutral-400">
+            <span>Size: {props.topProduct.sizes.join(', ')}</span>
+            <button
+              onClick={props.onOpenSizeGuide}
+              className="border-b-2 border-neutral-400 w-32 text-center hover:text-altlierBlue hover:border-altlierBlue cursor-pointer"
+            >
+              Size Guide
+            </button>
           </div>
-        </Listbox>
-        <div className="flex justify-center w-full">
-          <CartForm
-            route="/cart"
-            inputs={{lines}}
-            action={CartForm.ACTIONS.LinesAdd}
-          >
-            <>
-              <input name="analytics" type="hidden" />
+          <Listbox value={size} onChange={setSize}>
+            <div className="grid justify-items-center">
+              <Listbox.Button className="group border-[1.5px] py-2 px-3 w-full rounded-full homepage-btn btn-light text-lg border-neutral-500 flex justify-between items-center default-font">
+                <span className="group-hover:text-root-primary text-neutral-500">
+                  {size ? size : 'Select Size'}
+                </span>
+                <ChevronDownIcon className="h-8 group-hover:fill-root-primary" />
+              </Listbox.Button>
 
-              <button
-                onClick={() => {
-                  window.location.href = window.location.origin + '#cart-aside';
-                }}
-                type="submit"
-                disabled={
-                  selectedProduct && selectedProduct.availableForSale
-                    ? false
-                    : true
-                }
-                className={
-                  selectedProduct && selectedProduct.availableForSale
-                    ? 'mt-6 btn homepage-btn btn-dark w-full'
-                    : 'mt-6 btn homepage-btn pixel-font w-full 2xl:text-4xl lg:text-4xl md:text-xl'
-                }
-              >
-                {!selectedProduct || selectedProduct.availableForSale
-                  ? 'Trade'
-                  : 'Sold out'}
-              </button>
-            </>
-          </CartForm>
-        </div>
-        <div className="mt-4 text-sm text-root-tertiary italic flex justify-center">
-          Pay securely with Apple Pay & Paypal
+              <Listbox.Options className="w-5/6">
+                {props.topProduct.sizes.map((size: string) => (
+                  <Listbox.Option
+                    key={size}
+                    value={size}
+                    className="hover:bg-altlierBlue hover:text-root-primary px-2 border-b-2 border-x-2 border-altlierBlue my-0"
+                  >
+                    {size}
+                  </Listbox.Option>
+                ))}
+              </Listbox.Options>
+            </div>
+          </Listbox>
+          <div className="flex justify-center w-full">
+            <CartForm
+              route="/cart"
+              inputs={{lines}}
+              action={CartForm.ACTIONS.LinesAdd}
+            >
+              <>
+                <input name="analytics" type="hidden" />
+
+                <button
+                  onClick={() => {
+                    window.location.href =
+                      window.location.origin + '#cart-aside';
+                  }}
+                  type="submit"
+                  disabled={
+                    selectedProduct && selectedProduct.availableForSale
+                      ? false
+                      : true
+                  }
+                  className={
+                    selectedProduct && selectedProduct.availableForSale
+                      ? 'mt-6 btn homepage-btn btn-dark w-full'
+                      : 'mt-6 btn homepage-btn pixel-font w-full 2xl:text-4xl lg:text-4xl md:text-xl'
+                  }
+                >
+                  {!selectedProduct || selectedProduct.availableForSale
+                    ? 'Trade'
+                    : 'Sold out'}
+                </button>
+              </>
+            </CartForm>
+          </div>
+          <div className="mt-4 text-sm text-root-tertiary italic flex justify-center">
+            Pay securely with Apple Pay & Paypal
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
