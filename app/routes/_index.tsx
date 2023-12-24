@@ -64,6 +64,9 @@ export default function Homepage() {
     // Prevent the default scroll behavior of the mouse wheel
     // event.preventDefault();
 
+    if (window.location.hash.length > 1) {
+      return;
+    }
     const page = homepage.current;
     const landing = landingPage.current;
     const products = productPage.current;

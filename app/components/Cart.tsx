@@ -60,8 +60,8 @@ function CartLines({
   if (!lines) return null;
 
   return (
-    <div>
-      <ul>
+    <div className="h-1/2 overflow-y-scroll">
+      <ul className="mb-20">
         {lines.nodes.map((line) => (
           <CartLineItem key={line.id} line={line} layout={layout} />
         ))}
@@ -167,7 +167,9 @@ export function CartSummary({
   discountCodes: CartApiQueryFragment['discountCodes'];
 }) {
   const className =
-    layout === 'page' ? 'cart-summary-page' : 'cart-summary-aside pl-2 pr-6';
+    layout === 'page'
+      ? 'cart-summary-page bg-root-secondary'
+      : 'cart-summary-aside pl-2 pr-6 bg-root-secondary';
 
   return (
     <div aria-labelledby="cart-summary" className={className}>
