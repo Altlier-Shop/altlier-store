@@ -9,6 +9,9 @@ interface LinksProps {
   onFud(): void;
 }
 export default function Links(props: LinksProps) {
+  const handleArrowClick = () => {
+    window.scrollBy({left: 0, top: window.innerHeight, behavior: 'smooth'});
+  };
   return (
     <div className="flex">
       <div className="max-w-lg w-full">
@@ -70,9 +73,12 @@ export default function Links(props: LinksProps) {
           </a>
         </div>
       </div>
-      <div className="ml-[10%]">
+      <button
+        className="ml-[10%] h-fit pointer-events-auto"
+        onClick={handleArrowClick}
+      >
         <ArrowIcon direction={'top'} width={'4rem'} />
-      </div>
+      </button>
     </div>
   );
 }

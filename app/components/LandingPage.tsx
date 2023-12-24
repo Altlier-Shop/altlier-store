@@ -1,21 +1,40 @@
-import {useState} from 'react';
+import {useState, useRef} from 'react';
 import GridPage from './startpage-components/GridPage';
 import Links from './startpage-components/Links';
 import Popup from './startpage-components/Popup';
 import ScrollableContent from './startpage-components/ScrollableContent';
 
-export default function LandingPage({data}: {data: any}) {
+export default function LandingPage({
+  data,
+  onBottom,
+}: {
+  data: any;
+  onBottom: (bottom: boolean) => void;
+}) {
   const [showFud, setShowFud] = useState(false);
 
+  const divRef = useRef<HTMLDivElement>(null);
   const handleShill = () => {
     window.location.href =
       window.location.href + data.isLoggedIn ? 'account' : 'account/register';
+  };
+  const handleScroll = () => {
+    const current = divRef.current;
+    if (current) {
+      if (current.scrollTop + window.innerHeight === current.scrollHeight) {
+        onBottom(true);
+      } else {
+        onBottom(false);
+      }
+    }
   };
 
   return (
     <div
       id="landing-page"
       className="flex w-full h-full bg-root-primary overflow-y-scroll relative"
+      onScroll={handleScroll}
+      ref={divRef}
     >
       <div className="2xl:px-20 px-10 pt-32" style={{width: '45%'}}>
         <ScrollableContent />

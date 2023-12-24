@@ -1,3 +1,4 @@
+import type {RefObject} from 'react';
 import {useEffect, useState, Suspense, useCallback} from 'react';
 import {Await} from '@remix-run/react';
 import RecommendedProducts from './productpage-components/RecommendedProducts';

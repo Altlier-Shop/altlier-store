@@ -8,6 +8,12 @@
   --color-light: #fff;
 }
 
+html,
+body {
+  background-color: #d7d5d4;
+  overscroll-behavior: none;
+}
+
 /*
 * --------------------------------------------------
 * components/Aside

@@ -1,7 +1,8 @@
 import {defer, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, Link, type MetaFunction} from '@remix-run/react';
-import {Suspense} from 'react';
+import {Suspense, useEffect, useRef, useState} from 'react';
 import {Footer} from '~/components/Footer';
+import useThrottle from '~/components/useThrottle';
 // import type {
 //   FeaturedCollectionFragment,
 //   RecommendedProductsQuery,
@@ -11,6 +12,7 @@ import ProductPage from '~/components/ProductPage';
 import CartIcon from '~/components/svg-components/CartIcon';
 import ProfileIcon from '~/components/svg-components/ProfileIcon';
 import {validateCustomerAccessToken} from '~/root';
+import FooterPage from '~/components/FooterPage';
 
 export const meta: MetaFunction = () => {
   return [{title: 'Hydrogen | Home'}];
@@ -46,12 +48,69 @@ export async function loader({context}: LoaderFunctionArgs) {
 }
 
 export default function Homepage() {
+  const [landingPageBottom, setLandingPageBottom] = useState(false);
   const data = useLoaderData<typeof loader>();
   const openAside = (e: any) => {
     window.location.href = window.location.origin + '#cart-aside';
   };
+  const homepage = useRef<HTMLDivElement>(null);
+  const landingPage = useRef<HTMLDivElement>(null);
+  const productPage = useRef<HTMLDivElement>(null);
+  const footerPage = useRef<HTMLDivElement>(null);
+
+  const handleScroll = (event: WheelEvent) => {
+    // Prevent the default scroll behavior of the mouse wheel
+    // event.preventDefault();
+
+    const page = homepage.current;
+    const landing = landingPage.current;
+    const products = productPage.current;
+    const footer = footerPage.current;
+    if (page && products && footer && landing) {
+      if (event.deltaY != 0) {
+        if (event.deltaY > 0) {
+          if (products.classList.contains('currentPage')) {
+            footer.classList.add('topPage');
+            footer.classList.remove('bottomPage');
+            products.classList.remove('currentPage');
+            footer.classList.add('currentPage');
+          } else if (landing.classList.contains('currentPage')) {
+            if (landingPageBottom) {
+              products.classList.add('topPage');
+              products.classList.remove('bottomPage');
+              landing.classList.remove('currentPage');
+              products.classList.add('currentPage');
+            }
+          }
+        } else {
+          if (footer.classList.contains('currentPage')) {
+            footer.classList.add('bottomPage');
+            footer.classList.remove('topPage');
+            footer.classList.remove('currentPage');
+            products.classList.add('currentPage');
+          } else if (products.classList.contains('currentPage')) {
+            products.classList.add('bottomPage');
+            products.classList.remove('topPage');
+            products.classList.remove('currentPage');
+            landing.classList.add('currentPage');
+          }
+        }
+      }
+    }
+  };
+  const throttledScrollHandler = useThrottle(handleScroll, 1500);
+
+  useEffect(() => {
+    window.addEventListener('wheel', throttledScrollHandler);
+    // Cleanup the event listener on component unmount
+    return () => window.removeEventListener('wheel', throttledScrollHandler);
+  }, [throttledScrollHandler]);
+
   return (
-    <div className="home w-screen h-screen">
+    <div
+      ref={homepage}
+      className="home w-screen h-screen overflow-hidden relative"
+    >
       <div className="fixed z-20 top-[55%] flex flex-col gap-8 right-24">
         <button onClick={openAside} className="pointer-events-auto">
           <CartIcon notification={false} />
@@ -63,13 +122,29 @@ export default function Homepage() {
           <ProfileIcon notification={false} />
         </a>
       </div>
-      <LandingPage data={data} />
-      <ProductPage data={data} />
-      <Suspense>
-        <Await resolve={data.footer}>
-          {(footer) => <Footer menu={footer?.menu} shop={null} />}
-        </Await>
-      </Suspense>
+      <div ref={landingPage} className="absolute w-screen h-screen currentPage">
+        <LandingPage
+          data={data}
+          onBottom={(bottom: boolean) => setLandingPageBottom(bottom)}
+        />
+      </div>
+      <div
+        ref={productPage}
+        className="absolute z-10 w-screen h-screen bottomPage"
+      >
+        <ProductPage data={data} />
+      </div>
+      <div
+        ref={footerPage}
+        className="absolute z-20 w-screen h-screen bottomPage"
+      >
+        <FooterPage />
+      </div>
+      {/* <Suspense>
+          <Await resolve={data.footer}>
+            {(footer) => <Footer menu={footer?.menu} shop={null} />}
+          </Await>
+        </Suspense> */}
       {/* <FeaturedCollection collection={data.featuredCollection} /> */}
       {/* <RecommendedProducts products={data.recommendedProducts} /> */}
     </div>
