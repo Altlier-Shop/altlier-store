@@ -13,6 +13,7 @@ import CartIcon from '~/components/svg-components/CartIcon';
 import ProfileIcon from '~/components/svg-components/ProfileIcon';
 import {validateCustomerAccessToken} from '~/root';
 import FooterPage from '~/components/FooterPage';
+import UnderMaintenance from '~/components/UnderMaintenance';
 
 export const meta: MetaFunction = () => {
   return [{title: 'Hydrogen | Home'}];
@@ -49,6 +50,7 @@ export async function loader({context}: LoaderFunctionArgs) {
 
 export default function Homepage() {
   const [landingPageBottom, setLandingPageBottom] = useState(false);
+  const [mobileView, setMobileView] = useState(true);
   const data = useLoaderData<typeof loader>();
   const openAside = (e: any) => {
     window.location.href = window.location.origin + '#cart-aside';
@@ -100,55 +102,80 @@ export default function Homepage() {
   };
   const throttledScrollHandler = useThrottle(handleScroll, 1500);
 
+  const checkMobileView = () => {
+    const windowHeight = window.innerHeight;
+    const windowWidth = window.innerWidth;
+    if (windowWidth / windowHeight < 1 || windowWidth / windowHeight > 2) {
+      setMobileView(true);
+    } else {
+      setMobileView(false);
+    }
+  };
+
   useEffect(() => {
     window.addEventListener('wheel', throttledScrollHandler);
     // Cleanup the event listener on component unmount
     return () => window.removeEventListener('wheel', throttledScrollHandler);
   }, [throttledScrollHandler]);
 
-  return (
-    <div
-      ref={homepage}
-      className="home w-screen h-screen overflow-hidden relative"
-    >
-      <div className="fixed z-20 top-[55%] flex flex-col gap-8 right-24">
-        <button onClick={openAside} className="pointer-events-auto">
-          <CartIcon notification={false} />
-        </button>
-        <a
-          href={data.isLoggedIn ? '/account' : '/account/login'}
-          className="pointer-events-auto"
+  useEffect(() => {
+    window.addEventListener('resize', checkMobileView);
+    return () => window.removeEventListener('resize', checkMobileView);
+  }, []);
+
+  if (!mobileView) {
+    return (
+      <div
+        ref={homepage}
+        className="home w-screen h-screen overflow-hidden relative"
+      >
+        <div className="fixed z-20 top-[53%] flex flex-col gap-6 right-20">
+          <button onClick={openAside} className="pointer-events-auto">
+            <CartIcon notification={false} />
+          </button>
+          <a
+            href={data.isLoggedIn ? '/account' : '/account/login'}
+            className="pointer-events-auto"
+          >
+            <ProfileIcon notification={false} />
+          </a>
+        </div>
+        <div
+          ref={landingPage}
+          className="absolute w-screen h-screen currentPage"
+          id="landingPage"
         >
-          <ProfileIcon notification={false} />
-        </a>
-      </div>
-      <div ref={landingPage} className="absolute w-screen h-screen currentPage">
-        <LandingPage
-          data={data}
-          onBottom={(bottom: boolean) => setLandingPageBottom(bottom)}
-        />
-      </div>
-      <div
-        ref={productPage}
-        className="absolute z-10 w-screen h-screen bottomPage"
-      >
-        <ProductPage data={data} />
-      </div>
-      <div
-        ref={footerPage}
-        className="absolute z-20 w-screen h-screen bottomPage"
-      >
-        <FooterPage />
-      </div>
-      {/* <Suspense>
+          <LandingPage
+            data={data}
+            onBottom={(bottom: boolean) => setLandingPageBottom(bottom)}
+          />
+        </div>
+        <div
+          ref={productPage}
+          className="absolute z-10 w-screen h-screen bottomPage"
+          id="productPage"
+        >
+          <ProductPage data={data} />
+        </div>
+        <div
+          ref={footerPage}
+          className="absolute z-20 w-screen h-screen bottomPage"
+          id="footerPage"
+        >
+          <FooterPage />
+        </div>
+        {/* <Suspense>
           <Await resolve={data.footer}>
             {(footer) => <Footer menu={footer?.menu} shop={null} />}
           </Await>
         </Suspense> */}
-      {/* <FeaturedCollection collection={data.featuredCollection} /> */}
-      {/* <RecommendedProducts products={data.recommendedProducts} /> */}
-    </div>
-  );
+        {/* <FeaturedCollection collection={data.featuredCollection} /> */}
+        {/* <RecommendedProducts products={data.recommendedProducts} /> */}
+      </div>
+    );
+  } else {
+    return <UnderMaintenance />;
+  }
 }
 
 const PRODUCT_VARIANT_FRAGMENT = `#graphql

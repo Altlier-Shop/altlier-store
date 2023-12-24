@@ -10,6 +10,14 @@ interface LinksProps {
 }
 export default function Links(props: LinksProps) {
   const handleArrowClick = () => {
+    const landing = document.getElementById('landingPage');
+    const products = document.getElementById('productPage');
+    if (landing && products) {
+      products.classList.add('topPage');
+      products.classList.remove('bottomPage');
+      landing.classList.remove('currentPage');
+      products.classList.add('currentPage');
+    }
     window.scrollBy({left: 0, top: window.innerHeight, behavior: 'smooth'});
   };
   return (
@@ -18,7 +26,7 @@ export default function Links(props: LinksProps) {
         <div className="flex gap-6 w-full">
           <button
             onClick={props.onShill}
-            className="btn homepage-btn w-full btn-dark pointer-events-auto"
+            className="btn homepage-btn w-full btn-dark pointer-events-auto "
           >
             SHILL
           </button>

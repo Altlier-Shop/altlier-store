@@ -27,39 +27,32 @@ export default function TopProduct(props: TopProductProps) {
   // console.log(selectedProduct);
 
   return (
-    <div className="absolute z-30 w-fit right-6 top-20 grid justify-items-center">
+    <div className="absolute z-30 w-fit right-12 top-20 grid justify-items-center">
       <div className="btn homepage-btn w-fit px-6 bg-altlierBlue text-white text-center">
-        <span className="text-white pixel-font text-4xl">
+        <span className="text-white pixel-font text-2xl">
           {props.topProduct.title}
         </span>
       </div>
-      <h1 className="mt-4 text-2xl">
+      <h1 className="mt-2 text-xl">
         {productFirstNode.price.currencyCode}
         {Math.round(productFirstNode.price.amount)}
       </h1>
-      <div className="mt-4 w-fit text-neutral-500">
-        <p className="text-neutral-500">
-          Product Code: {props.topProduct.productCode}
-        </p>
-        <p className="text-neutral-500">
-          Material: {props.topProduct.material}
-        </p>
-        <br />
-        <div className="flex justify-between mb-4">
-          <span className="text-neutral-500">
-            Size: {props.topProduct.sizes.join(', ')}
-          </span>
+      <div className="mt-4 w-fit [&>*]:text-neutral-400">
+        <p>Product Code: {props.topProduct.productCode}</p>
+        <p>Material: {props.topProduct.material}</p>
+        <div className="flex justify-between mt-3 mb-3 [&>*]:text-neutral-400">
+          <span>Size: {props.topProduct.sizes.join(', ')}</span>
           <button
             onClick={props.onOpenSizeGuide}
-            className="border-b-2 border-neutral-500 text-neutral-500 w-32 text-center hover:text-altlierBlue hover:border-altlierBlue cursor-pointer"
+            className="border-b-2 border-neutral-400 w-32 text-center hover:text-altlierBlue hover:border-altlierBlue cursor-pointer"
           >
             Size Guide
           </button>
         </div>
         <Listbox value={size} onChange={setSize}>
           <div className="grid justify-items-center">
-            <Listbox.Button className="group btn homepage-btn btn-light text-xl flex justify-between default-font">
-              <span className="group-hover:text-root-primary">
+            <Listbox.Button className="group border-[1.5px] py-2 px-3 w-full rounded-full homepage-btn btn-light text-lg border-neutral-500 flex justify-between items-center default-font">
+              <span className="group-hover:text-root-primary text-neutral-500">
                 {size ? size : 'Select Size'}
               </span>
               <ChevronDownIcon className="h-8 group-hover:fill-root-primary" />
@@ -99,8 +92,8 @@ export default function TopProduct(props: TopProductProps) {
                 }
                 className={
                   selectedProduct && selectedProduct.availableForSale
-                    ? 'mt-4 btn homepage-btn btn-dark w-full'
-                    : 'mt-4 btn homepage-btn pixel-font w-full'
+                    ? 'mt-6 btn homepage-btn btn-dark w-full'
+                    : 'mt-6 btn homepage-btn pixel-font w-full 2xl:text-4xl lg:text-4xl md:text-xl'
                 }
               >
                 {!selectedProduct || selectedProduct.availableForSale
@@ -110,7 +103,7 @@ export default function TopProduct(props: TopProductProps) {
             </>
           </CartForm>
         </div>
-        <div className="mt-4 text-neutral-400 italic flex justify-center">
+        <div className="mt-4 text-sm text-root-tertiary italic flex justify-center">
           Pay securely with Apple Pay & Paypal
         </div>
       </div>
