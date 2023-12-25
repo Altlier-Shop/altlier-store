@@ -132,7 +132,7 @@ export default function Homepage() {
         ref={homepage}
         className="home w-screen h-screen overflow-hidden relative"
       >
-        <div className="fixed z-50 top-[53%] flex flex-col gap-6 right-20">
+        <div className="fixed z-50 top-[55%] flex flex-col gap-6 right-20">
           <button onClick={openAside} className="pointer-events-auto">
             <Suspense>
               <Await resolve={data.cart}>
@@ -177,13 +177,19 @@ export default function Homepage() {
           className="absolute z-20 w-screen h-screen bottomPage"
           id="footerPage"
         >
-          <FooterPage />
+          <Suspense>
+            <Await resolve={data.footer}>
+              {(footer) => <FooterPage menu={footer?.menu} />}
+            </Await>
+          </Suspense>
         </div>
-        {/* <Suspense>
-          <Await resolve={data.footer}>
-            {(footer) => <Footer menu={footer?.menu} shop={null} />}
-          </Await>
-        </Suspense> */}
+        {/* <div className="z-50">
+          <Suspense>
+            <Await resolve={data.footer}>
+              {(footer) => <Footer menu={footer?.menu} shop={null} />}
+            </Await>
+          </Suspense>
+        </div> */}
         {/* <FeaturedCollection collection={data.featuredCollection} /> */}
         {/* <RecommendedProducts products={data.recommendedProducts} /> */}
       </div>

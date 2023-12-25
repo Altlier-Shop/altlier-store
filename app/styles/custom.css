@@ -21,27 +21,43 @@
 }
 
 @font-face {
-  font-family: 'KumbhSans';
+  font-family: 'KumbhSansLight';
   src: url('../../public/fonts/Kumbh_Sans/KumbhSans-Medium.ttf')
     format('truetype');
+  font-weight: normal;
+  font-style: normal;
 }
+@font-face {
+  font-family: 'KumbhSans';
+  src: url('../../public/fonts/Kumbh_Sans/KumbhSans-Light.ttf')
+    format('truetype');
+  font-weight: lighter;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'KumbhSansBolder';
+  src: url('../../public/fonts/Kumbh_Sans/KumbhSans-ExtraBold.ttf')
+    format('truetype');
+  font-weight: bolder;
+  font-style: normal;
+}
+
 @font-face {
   font-family: 'KumbhSansBold';
   src: url('../../public/fonts/Kumbh_Sans/KumbhSans-Bold.ttf')
     format('truetype');
+  font-weight: bold;
+  font-style: normal;
 }
-@font-face {
-  font-family: 'KumbhSansExtraBold';
-  src: url('../../public/fonts/Kumbh_Sans/KumbhSans-ExtraBold.ttf')
-    format('truetype');
-}
-@font-face {
-  font-family: 'KumbhSansLight';
-  src: url('../../public/fonts/Kumbh_Sans/KumbhSans-Light.ttf')
-    format('truetype');
-}
+
 .default-font {
   font-family: 'KumbhSans';
+}
+.default-font-bold {
+  font-family: 'KumbhSansBold';
+}
+.default-font-bolder {
+  font-family: 'KumbhSansBold';
 }
 
 /* img {
@@ -87,6 +103,9 @@
 .arrow-down {
   animation: moveUpDown 2s ease-in-out infinite;
 }
+.arrow-up {
+  animation: moveUpDownReverseArrow 2s ease-in-out infinite;
+}
 .arrow-right {
   animation: moveLeftRight 2s ease-in-out infinite;
 }
@@ -101,6 +120,15 @@
   }
   50% {
     transform: translateY(20px); /* Adjust the movement distance as needed */
+  }
+}
+@keyframes moveUpDownReverseArrow {
+  0%,
+  100% {
+    transform: rotate(180deg) translateY(0);
+  }
+  50% {
+    transform: rotate(180deg) translateY(20px); /* Adjust the movement distance as needed */
   }
 }
 @keyframes moveLeftRight {
@@ -238,10 +266,10 @@
 }
 
 .bottomPage {
-  animation: slideDown 0.5s ease-in-out forwards;
+  animation: slideDown 0.4s ease-out forwards;
 }
 .topPage {
-  animation: slideUp 0.5s ease-in-out forwards;
+  animation: slideUp 0.4s ease-out forwards;
 }
 @keyframes slideUp {
   from {

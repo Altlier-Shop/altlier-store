@@ -19,8 +19,10 @@ export default function ArrowIcon({
   } else if (direction === 'right') {
     directionClass = '-rotate-90';
     motionClass = still ? '' : 'arrow-right';
-  } else {
+  } else if (direction === 'down') {
     directionClass = 'arrow-down';
+  } else {
+    directionClass = 'arrow-up';
   }
 
   // console.log(useMotionClass, motionClass);
@@ -36,11 +38,11 @@ export default function ArrowIcon({
       onMouseLeave={() => setUseMotionClass(false)}
     >
       <defs>
-        <style>{`.cls-1{stroke-width:0px;}`}</style>
+        <style>{`.cls-1-arrow{stroke-width:0px;}`}</style>
       </defs>
       <polygon
         id="Arrow"
-        className="cls-1"
+        className="cls-1-arrow"
         points="75 77.75 75 56.12 46.58 73.27 46.58 0 28.41 0 28.41 73.27 0 56.12 0 77.75 37.5 104.07 75 77.75"
       />
     </svg>

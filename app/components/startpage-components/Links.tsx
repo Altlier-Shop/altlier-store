@@ -1,9 +1,9 @@
 import ArrowIcon from '../svg-components/ArrowIcon';
 import DiscordIcon from '../svg-components/DiscordIcon';
 import InstagramIcon from '../svg-components/InstagramIcon';
+import MirrorIcon from '../svg-components/MirrorIcon';
 import TelegramIcon from '../svg-components/TelegramIcon';
 import TwitterIcon from '../svg-components/TwitterIcon';
-import WebsiteIcon from '../svg-components/WebsiteIcon';
 import WhitePaperIcon from '../svg-components/WhitePaperIcon';
 interface LinksProps {
   onShill(): void;
@@ -14,9 +14,9 @@ export default function Links(props: LinksProps) {
     const landing = document.getElementById('landingPage');
     const products = document.getElementById('productPage');
     if (landing && products) {
+      landing.classList.remove('currentPage', 'z-30');
       products.classList.add('topPage');
       products.classList.remove('bottomPage');
-      landing.classList.remove('currentPage');
       products.classList.add('currentPage');
     }
     window.scrollBy({left: 0, top: window.innerHeight, behavior: 'smooth'});
@@ -82,11 +82,11 @@ export default function Links(props: LinksProps) {
           </a>
           <a
             className="pointer-events-auto w-12"
-            href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            href="https://mirror.xyz/0xa4F906979A0886C4DB7b9683115fea2f3FfA84f2"
             target="_blank"
             rel="noreferrer"
           >
-            <WebsiteIcon />
+            <MirrorIcon />
           </a>
         </div>
       </div>
@@ -94,7 +94,7 @@ export default function Links(props: LinksProps) {
         className="ml-[10%] h-fit pointer-events-auto"
         onClick={handleArrowClick}
       >
-        <ArrowIcon direction={'top'} width={'4rem'} />
+        <ArrowIcon direction={'down'} width={'4rem'} />
       </button>
     </div>
   );

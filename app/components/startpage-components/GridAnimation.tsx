@@ -80,7 +80,7 @@ export default function GridAnimation(props: GridProps) {
   }, [props, imageListLength]);
 
   return (
-    <div className="absolute top-0 z-10">
+    <div className="absolute -top-[5%] z-10">
       {gridImage !== null ? (
         <img src={imageList[gridImage]} alt="grid-animation" />
       ) : (

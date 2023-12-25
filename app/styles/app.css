@@ -179,7 +179,7 @@ aside li {
 * --------------------------------------------------
 */
 .footer {
-  background: var(--color-dark);
+  background: '#1D1B2F';
   margin-top: auto;
 }
 
@@ -189,10 +189,10 @@ aside li {
 }
 
 .footer-menu {
-  align-items: center;
+  width: 100%;
   display: flex;
+  justify-content: space-between;
   grid-gap: 1rem;
-  padding: 1rem;
 }
 
 .footer-menu a {

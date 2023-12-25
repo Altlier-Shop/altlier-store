@@ -1,4 +1,5 @@
 import {NavLink} from '@remix-run/react';
+import type {MenuItem} from '@shopify/hydrogen/storefront-api-types';
 import type {FooterQuery, HeaderQuery} from 'storefrontapi.generated';
 import {useRootLoaderData} from '~/root';
 
@@ -7,7 +8,7 @@ export function Footer({
   shop,
 }: FooterQuery & {shop: HeaderQuery['shop'] | null}) {
   return (
-    <footer className="footer pt-20">
+    <footer className="absolute pt-20 left-0 bottom-0 w-[45%] h-[30%] bg-altlierBlue pl-[5%] pr-[10%] pt-12 flex justify-between [&>*]:text-white [&>*]:text-sm">
       <FooterMenu menu={menu} primaryDomainUrl={''} />
     </footer>
   );
@@ -22,15 +23,44 @@ function FooterMenu({
 }) {
   const {publicStoreDomain} = useRootLoaderData();
 
+  const policies = menu?.items.filter(
+    (item: any) => item.type === 'SHOP_POLICY',
+  );
+  // console.log(JSON.stringify(menu));
+  // console.log(policies);
+
   return (
     <nav className="footer-menu" role="navigation">
-      {(menu || FALLBACK_FOOTER_MENU).items.map((item) => {
+      <FooterLegal
+        menu={policies ? policies : []}
+        publicStoreDomain={publicStoreDomain}
+        primaryDomainUrl={primaryDomainUrl}
+      />
+      <FooterSupport />
+      <FooterAbout />
+    </nav>
+  );
+}
+
+interface FooterProps {
+  menu: Pick<
+    MenuItem,
+    'id' | 'url' | 'resourceId' | 'tags' | 'title' | 'type'
+  >[];
+  publicStoreDomain: string;
+  primaryDomainUrl: string;
+}
+function FooterLegal(props: FooterProps) {
+  return (
+    <div className="flex flex-col gap-2">
+      <h1 className="text-white default-font-bold">LEGAL INFO</h1>
+      {props.menu.map((item) => {
         if (!item.url) return null;
         // if the url is internal, we strip the domain
         const url =
           item.url.includes('myshopify.com') ||
-          item.url.includes(publicStoreDomain) ||
-          item.url.includes(primaryDomainUrl)
+          item.url.includes(props.publicStoreDomain) ||
+          item.url.includes(props.primaryDomainUrl)
             ? new URL(item.url).pathname
             : item.url;
         const isExternal = !url.startsWith('/');
@@ -50,51 +80,42 @@ function FooterMenu({
           </NavLink>
         );
       })}
-    </nav>
+    </div>
   );
 }
 
-const FALLBACK_FOOTER_MENU = {
-  id: 'gid://shopify/Menu/199655620664',
-  items: [
-    {
-      id: 'gid://shopify/MenuItem/461633060920',
-      resourceId: 'gid://shopify/ShopPolicy/23358046264',
-      tags: [],
-      title: 'Privacy Policy',
-      type: 'SHOP_POLICY',
-      url: '/policies/privacy-policy',
-      items: [],
-    },
-    {
-      id: 'gid://shopify/MenuItem/461633093688',
-      resourceId: 'gid://shopify/ShopPolicy/23358013496',
-      tags: [],
-      title: 'Refund Policy',
-      type: 'SHOP_POLICY',
-      url: '/policies/refund-policy',
-      items: [],
-    },
-    {
-      id: 'gid://shopify/MenuItem/461633126456',
-      resourceId: 'gid://shopify/ShopPolicy/23358111800',
-      tags: [],
-      title: 'Shipping Policy',
-      type: 'SHOP_POLICY',
-      url: '/policies/shipping-policy',
-      items: [],
-    },
-    {
-      id: 'gid://shopify/MenuItem/461633159224',
-      resourceId: 'gid://shopify/ShopPolicy/23358079032',
-      tags: [],
-      title: 'Terms of Service',
-      type: 'SHOP_POLICY',
-      url: '/policies/terms-of-service',
-      items: [],
-    },
-  ],
-};
+function FooterSupport() {
+  return (
+    <div className="flex flex-col gap-2">
+      <h1 className="text-white default-font-bold">SUPPORT</h1>
+      <NavLink end prefetch="intent" style={activeLinkStyle} to={'/contact'}>
+        Contact Us
+      </NavLink>
+      <NavLink end prefetch="intent" style={activeLinkStyle} to={'/faq'}>
+        FAQ
+      </NavLink>
+    </div>
+  );
+}
+
+function FooterAbout() {
+  return (
+    <div className="flex flex-col gap-2">
+      <h1 className="text-white default-font-bold">ABOUT</h1>
+      <NavLink end prefetch="intent" style={activeLinkStyle} to={'/our-story'}>
+        Our Story
+      </NavLink>
+      <NavLink
+        end
+        prefetch="intent"
+        style={activeLinkStyle}
+        to={'/white-paper'}
+      >
+        White Paper
+      </NavLink>
+    </div>
+  );
+}
 
 function activeLinkStyle({
   isActive,

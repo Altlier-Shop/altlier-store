@@ -1,4 +1,4 @@
-export function MirrorIcon() {
+export default function MirrorIcon() {
   return (
     <svg
       version="1.1"
@@ -7,6 +7,8 @@ export function MirrorIcon() {
       y="0px"
       viewBox="0 0 55 55"
       xmlSpace="preserve"
+      width="40"
+      height="40"
     >
       <style type="text/css">
         {`
