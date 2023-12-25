@@ -20,7 +20,7 @@ export const meta: MetaFunction = () => {
 };
 
 export async function loader({context}: LoaderFunctionArgs) {
-  const {storefront, session} = context;
+  const {storefront, session, cart} = context;
   const customerAccessToken = session.get('customerAccessToken');
 
   // validate the customer access token is valid
@@ -39,12 +39,13 @@ export async function loader({context}: LoaderFunctionArgs) {
   //const {collections} = await storefront.query(FEATURED_COLLECTION_QUERY);
   //const featuredCollection = collections.nodes[0];
   const recommendedProducts = storefront.query(RECOMMENDED_PRODUCTS_QUERY);
-
+  const cartPromise = cart.get();
   return defer({
     recommendedProducts,
     isLoggedIn,
     headers,
     footer: footerPromise,
+    cart: cartPromise,
   });
 }
 
@@ -134,7 +135,19 @@ export default function Homepage() {
       >
         <div className="fixed z-20 top-[53%] flex flex-col gap-6 right-20">
           <button onClick={openAside} className="pointer-events-auto">
-            <CartIcon notification={false} />
+            <Suspense>
+              <Await resolve={data.cart}>
+                {(cart) => (
+                  <div>
+                    <CartIcon
+                      notification={
+                        cart && cart.totalQuantity > 0 ? true : false
+                      }
+                    />
+                  </div>
+                )}
+              </Await>
+            </Suspense>
           </button>
           <a
             href={data.isLoggedIn ? '/account' : '/account/login'}
