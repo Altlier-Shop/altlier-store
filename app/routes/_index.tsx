@@ -64,7 +64,6 @@ export default function Homepage() {
   const handleScroll = (event: WheelEvent) => {
     // Prevent the default scroll behavior of the mouse wheel
     // event.preventDefault();
-
     if (window.location.hash.length > 1) {
       return;
     }
@@ -76,28 +75,28 @@ export default function Homepage() {
       if (event.deltaY != 0) {
         if (event.deltaY > 0) {
           if (products.classList.contains('currentPage')) {
+            products.classList.remove('currentPage');
             footer.classList.add('topPage');
             footer.classList.remove('bottomPage');
-            products.classList.remove('currentPage');
             footer.classList.add('currentPage');
           } else if (landing.classList.contains('currentPage')) {
             if (landingPageBottom) {
+              landing.classList.remove('currentPage', 'z-30');
               products.classList.add('topPage');
               products.classList.remove('bottomPage');
-              landing.classList.remove('currentPage');
               products.classList.add('currentPage');
             }
           }
         } else {
           if (footer.classList.contains('currentPage')) {
+            footer.classList.remove('currentPage');
             footer.classList.add('bottomPage');
             footer.classList.remove('topPage');
-            footer.classList.remove('currentPage');
             products.classList.add('currentPage');
           } else if (products.classList.contains('currentPage')) {
+            products.classList.remove('currentPage');
             products.classList.add('bottomPage');
             products.classList.remove('topPage');
-            products.classList.remove('currentPage');
             landing.classList.add('currentPage');
           }
         }
@@ -133,7 +132,7 @@ export default function Homepage() {
         ref={homepage}
         className="home w-screen h-screen overflow-hidden relative"
       >
-        <div className="fixed z-20 top-[53%] flex flex-col gap-6 right-20">
+        <div className="fixed z-50 top-[53%] flex flex-col gap-6 right-20">
           <button onClick={openAside} className="pointer-events-auto">
             <Suspense>
               <Await resolve={data.cart}>
@@ -158,7 +157,7 @@ export default function Homepage() {
         </div>
         <div
           ref={landingPage}
-          className="absolute w-screen h-screen currentPage"
+          className="absolute z-30 w-screen h-screen currentPage"
           id="landingPage"
         >
           <LandingPage

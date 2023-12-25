@@ -3,6 +3,7 @@ import GridPage from './startpage-components/GridPage';
 import Links from './startpage-components/Links';
 import Popup from './startpage-components/Popup';
 import ScrollableContent from './startpage-components/ScrollableContent';
+import GridAnimation from './startpage-components/GridAnimation';
 
 export default function LandingPage({
   data,
@@ -12,6 +13,7 @@ export default function LandingPage({
   onBottom: (bottom: boolean) => void;
 }) {
   const [showFud, setShowFud] = useState(false);
+  const [scrollProportion, setScrollProportion] = useState(0);
 
   const divRef = useRef<HTMLDivElement>(null);
   const handleShill = () => {
@@ -26,6 +28,12 @@ export default function LandingPage({
       } else {
         onBottom(false);
       }
+      const scrollProportion =
+        Math.round(
+          (current.scrollTop / (current.scrollHeight - window.innerHeight)) *
+            100,
+        ) / 100;
+      setScrollProportion(scrollProportion);
     }
   };
 
@@ -47,6 +55,7 @@ export default function LandingPage({
         style={{width: '55%'}}
       >
         <GridPage />
+        <GridAnimation scrollProportion={scrollProportion} />
       </div>
       {showFud ? (
         <div className="fixed h-full w-full flex items-center justify-center">

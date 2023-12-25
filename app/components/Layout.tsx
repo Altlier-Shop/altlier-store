@@ -31,7 +31,7 @@ export function Layout({
     <>
       <button
         onClick={handleHomeClick}
-        className="fixed z-20 top-8 2xl:px-20 px-10"
+        className="fixed z-50 top-8 2xl:px-20 px-10"
       >
         <AltlierLogo />
       </button>

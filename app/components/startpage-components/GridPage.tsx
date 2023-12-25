@@ -21,6 +21,8 @@ export default function GridPage() {
     return () => window.removeEventListener('resize', updateGridSize);
   }, []);
 
+  // console.log(props?.scrollProportion);
+
   return (
     <div
       ref={gridDiv}
