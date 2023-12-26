@@ -49,7 +49,7 @@ export default function Policy() {
     <div className="h-screen w-screen bg-root-secondary relative">
       <GridPage />
       <div className="policy absolute z-10 top-0 h-full w-full flex items-center justify-center ">
-        <div className="bg-root-primary w-3/4 h-3/4 px-20 py-14">
+        <div className="bg-root-primary w-3/4 h-3/4 px-20 py-14 rounded-xl shadow-xl	">
           <h1 className="pixel-font text-4xl">{policy.title}</h1>
           <div
             className="mt-10 overflow-scroll h-5/6"

@@ -1,7 +1,6 @@
 import {defer, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, Link, type MetaFunction} from '@remix-run/react';
 import {Suspense, useEffect, useRef, useState} from 'react';
-import {Footer} from '~/components/Footer';
 import useThrottle from '~/components/useThrottle';
 // import type {
 //   FeaturedCollectionFragment,
@@ -325,7 +324,7 @@ const MENU_FRAGMENT = `#graphql
   }
 ` as const;
 
-const FOOTER_QUERY = `#graphql
+export const FOOTER_QUERY = `#graphql
   query Footer(
     $country: CountryCode
     $footerMenuHandle: String!

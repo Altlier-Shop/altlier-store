@@ -1,5 +1,9 @@
-import {json, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
-import {useLoaderData, type MetaFunction} from '@remix-run/react';
+import {defer, json, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
+import {useLoaderData, type MetaFunction, Await} from '@remix-run/react';
+import GridPage from '~/components/startpage-components/GridPage';
+import {FOOTER_QUERY} from '~/routes/_index';
+import {Suspense} from 'react';
+import {Footer} from '~/components/Footer';
 
 export const meta: MetaFunction<typeof loader> = ({data}) => {
   return [{title: `Hydrogen | ${data?.page.title ?? ''}`}];
@@ -15,23 +19,43 @@ export async function loader({params, context}: LoaderFunctionArgs) {
       handle: params.handle,
     },
   });
+  // defer the footer query (below the fold)
+  const footerPromise = context.storefront.query(FOOTER_QUERY, {
+    cache: context.storefront.CacheLong(),
+    variables: {
+      footerMenuHandle: 'footer', // Adjust to your footer menu handle
+    },
+  });
 
   if (!page) {
     throw new Response('Not Found', {status: 404});
   }
 
-  return json({page});
+  return defer({
+    footer: footerPromise,
+    page,
+  });
 }
 
 export default function Page() {
-  const {page} = useLoaderData<typeof loader>();
-
+  const {page, footer} = useLoaderData<typeof loader>();
   return (
-    <div className="page">
-      <header>
-        <h1>{page.title}</h1>
-      </header>
-      <main dangerouslySetInnerHTML={{__html: page.body}} />
+    <div className="h-screen w-screen bg-root-secondary relative">
+      <GridPage />
+      <div className="page absolute z-10 top-[12%] px-20 h-full w-full ">
+        <div className="bg-root-primary w-full h-1/2 px-20 py-14 rounded-xl shadow-xl	">
+          <h1 className="pixel-font text-4xl">{page.title}</h1>
+          <div
+            className="mt-10 overflow-scroll h-5/6"
+            dangerouslySetInnerHTML={{__html: page.body}}
+          />
+        </div>
+      </div>
+      <Suspense>
+        <Await resolve={footer}>
+          {(footer) => <Footer menu={footer?.menu} shop={null} full={true} />}
+        </Await>
+      </Suspense>
     </div>
   );
 }
