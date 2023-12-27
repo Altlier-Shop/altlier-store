@@ -21,7 +21,8 @@ export default function ImageCarousel() {
             {new Array(length).fill('').map((_, i) => (
               <button
                 aria-label={'button'}
-                key={'button'}
+                // eslint-disable-next-line react/no-array-index-key
+                key={`button-${i}`}
                 className={`block h-3 w-3 cursor-pointer rounded-full transition-all ${
                   activeIndex === i ? 'bg-altlierBlue' : 'bg-altlierBlue/50'
                 }`}

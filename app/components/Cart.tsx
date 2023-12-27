@@ -356,7 +356,7 @@ export function CartEmpty({
       <br />
       <p>
         Your cart is currently empty. Explore our curated selection to find
-        products that match your preferences. Shop confidently with our 7-day
+        products that match your preferences. Shop confidently with our 14-day
         refund policy.
       </p>
       <br />

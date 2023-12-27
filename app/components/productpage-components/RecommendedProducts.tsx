@@ -24,7 +24,7 @@ export default function RecommendedProducts({
   >(null);
   const [disableRotation, setDisableRotation] = useState(false);
   const [openSizeGuide, setOpenSizeGuide] = useState(false);
-  const [showDetails, setShowDetails] = useState(true);
+  const [showDetails, setShowDetails] = useState(false);
 
   const popupContext = useContext(UpdateContext);
   //   console.log(products);
@@ -174,7 +174,7 @@ export default function RecommendedProducts({
     }
   }, [tempHoveredProductId, hoveredProductId]);
 
-  console.log(topProduct);
+  // console.log(topProduct);
 
   return (
     <div className="h-full w-full grid justify-center items-center">
@@ -188,10 +188,7 @@ export default function RecommendedProducts({
       )}
 
       {topProduct && showDetails ? (
-        <button
-          className="fixed top-0 z-[1000] bg-black bg-opacity-40 h-screen w-screen flex items-center justify-center"
-          onClick={closePopup}
-        >
+        <div className="fixed top-0 z-[1000] bg-black bg-opacity-40 h-screen w-screen flex items-center justify-center">
           <div className="h-5/6 w-5/6 bg-root-secondary p-6">
             <div className="w-full h-full grid grid-cols-12 grid-rows-10">
               <div className="col-span-10 flex justify-between items-end">
@@ -264,7 +261,7 @@ export default function RecommendedProducts({
               </div>
             </div>
           </div>
-        </button>
+        </div>
       ) : (
         <div />
       )}

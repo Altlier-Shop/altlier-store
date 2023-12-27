@@ -283,6 +283,10 @@ const CREATE_CHECKOUT_MUTATION = `#graphql
     checkoutCreate(input: {}) {
       checkout {
         id
+        lineItems {
+          quantity
+          variantId // TODO: input cart line items
+        }
       }
       checkoutUserErrors {
         code
