@@ -23,12 +23,7 @@ export default function LandingPage({
   const handleScroll = () => {
     const current = divRef.current;
     if (current) {
-      console.log(
-        current.scrollTop + window.innerHeight === current.scrollHeight,
-      );
-      console.log(current.scrollTop, window.innerHeight, current.scrollHeight);
-
-      if (current.scrollTop + window.innerHeight === current.scrollHeight) {
+      if (current.scrollTop + window.innerHeight >= current.scrollHeight) {
         onBottom(true);
       } else {
         onBottom(false);
