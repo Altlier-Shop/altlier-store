@@ -1,6 +1,7 @@
 import {type ActionFunctionArgs, json, redirect} from '@shopify/remix-oxygen';
 import {Form, useActionData, type MetaFunction, Link} from '@remix-run/react';
 import GridPage from '~/components/startpage-components/GridPage';
+import password_reset from '../../public/login-page-images/password_reset.png';
 
 type ActionResponse = {
   error: string | null;
@@ -68,6 +69,13 @@ export default function Reset() {
     <div className="login w-screen h-screen flex">
       <div className="flex w-1/2 h-full bg-root-secondary relative">
         <GridPage />
+        <div className="absolute h-full w-full grid items-center justify-items-center">
+          <img
+            className="w-2/3"
+            src={password_reset}
+            alt="password forgotten"
+          />
+        </div>
       </div>
       <div className="w-1/2 h-full bg-root-primary relative">
         <div className="mt-[25%] px-[15%]">
