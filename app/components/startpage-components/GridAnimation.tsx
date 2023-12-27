@@ -84,7 +84,7 @@ export default function GridAnimation(props: GridProps) {
       {gridImage !== null ? (
         <img src={imageList[gridImage]} alt="grid-animation" />
       ) : (
-        <div></div>
+        <div />
       )}
     </div>
   );

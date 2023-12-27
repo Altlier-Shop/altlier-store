@@ -294,3 +294,17 @@
   overflow: hidden;
   transition: max-height 0.2s ease-out;
 }
+
+.masked-button {
+  pointer-events: none;
+}
+.masked-button::after {
+  content: '';
+  border-radius: 20px;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.4); /* Semi-transparent black */
+}

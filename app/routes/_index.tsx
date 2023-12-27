@@ -1,6 +1,6 @@
 import {defer, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, Link, type MetaFunction} from '@remix-run/react';
-import {Suspense, useEffect, useRef, useState} from 'react';
+import {Suspense, useContext, useEffect, useRef, useState} from 'react';
 import useThrottle from '~/components/useThrottle';
 // import type {
 //   FeaturedCollectionFragment,
@@ -13,6 +13,7 @@ import ProfileIcon from '~/components/svg-components/ProfileIcon';
 import {validateCustomerAccessToken} from '~/root';
 import FooterPage from '~/components/FooterPage';
 import UnderMaintenance from '~/components/UnderMaintenance';
+import {UpdateContext} from '~/components/Layout';
 
 export const meta: MetaFunction = () => {
   return [{title: 'Hydrogen | Home'}];
@@ -51,6 +52,7 @@ export async function loader({context}: LoaderFunctionArgs) {
 export default function Homepage() {
   const [landingPageBottom, setLandingPageBottom] = useState(false);
   const [mobileView, setMobileView] = useState(false);
+  const [isPopup, setIsPopup] = useState(true);
   const data = useLoaderData<typeof loader>();
   const openAside = (e: any) => {
     window.location.href = window.location.origin + '#cart-aside';
@@ -59,6 +61,7 @@ export default function Homepage() {
   const landingPage = useRef<HTMLDivElement>(null);
   const productPage = useRef<HTMLDivElement>(null);
   const footerPage = useRef<HTMLDivElement>(null);
+  const popupContext = useContext(UpdateContext);
 
   const handleScroll = (event: WheelEvent) => {
     // Prevent the default scroll behavior of the mouse wheel
@@ -131,7 +134,7 @@ export default function Homepage() {
         ref={homepage}
         className="home w-screen h-screen overflow-hidden relative"
       >
-        <div className="fixed z-50 top-[55%] flex flex-col gap-6 right-20">
+        <div className={`fixed z-50 top-[55%] flex flex-col gap-6 right-20`}>
           <button onClick={openAside} className="pointer-events-auto">
             <Suspense>
               <Await resolve={data.cart}>
@@ -182,13 +185,6 @@ export default function Homepage() {
             </Await>
           </Suspense>
         </div>
-        {/* <div className="z-50">
-          <Suspense>
-            <Await resolve={data.footer}>
-              {(footer) => <Footer menu={footer?.menu} shop={null} />}
-            </Await>
-          </Suspense>
-        </div> */}
         {/* <FeaturedCollection collection={data.featuredCollection} /> */}
         {/* <RecommendedProducts products={data.recommendedProducts} /> */}
       </div>

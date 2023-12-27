@@ -62,7 +62,7 @@ export default function LandingPage({
           <Popup onClose={() => setShowFud(false)} onShill={handleShill} />
         </div>
       ) : (
-        <div></div>
+        <div />
       )}
     </div>
   );

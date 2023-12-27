@@ -1,5 +1,5 @@
 import {Await} from '@remix-run/react';
-import {Suspense} from 'react';
+import {Suspense, useState, createContext} from 'react';
 import type {
   CartApiQueryFragment,
   FooterQuery,
@@ -21,26 +21,41 @@ export type LayoutProps = {
   checkoutUrl?: string;
 };
 
+type UpdateContextType = {
+  popupFunc: (popup: boolean) => void;
+  popup: boolean;
+};
+export const UpdateContext = createContext<UpdateContextType | null>(null);
+
 export function Layout({
   cart,
   children = null,
   header,
   checkoutUrl,
 }: LayoutProps) {
+  const [isPopup, setIsPopup] = useState(false);
+  const updateParentComponent: UpdateContextType = {
+    popupFunc: (popup: boolean) => {
+      setIsPopup(popup);
+    },
+    popup: isPopup,
+  };
+
   return (
-    <>
+    <UpdateContext.Provider value={updateParentComponent}>
       <button
         onClick={handleHomeClick}
-        className="fixed z-50 top-8 2xl:px-20 px-10"
+        className={`fixed z-50 top-8 2xl:mx-20 mx-10 ${
+          isPopup ? 'masked-button' : ''
+        }`}
       >
         <AltlierLogo />
       </button>
       <CartAside cart={cart} checkoutUrl={checkoutUrl} />
       <SearchAside />
       <MobileMenuAside menu={header?.menu} shop={header?.shop} />
-      {/* {header && <Header header={header} cart={cart} isLoggedIn={isLoggedIn} />} */}
       <main>{children}</main>
-    </>
+    </UpdateContext.Provider>
   );
 }
 

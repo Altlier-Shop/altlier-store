@@ -14,8 +14,8 @@ export default function ImageCarousel() {
         loop={true}
         autoplayDelay={2500}
         className="rounded-xl absolute h-fit w-2/3"
-        prevArrow={() => <div></div>}
-        nextArrow={() => <div></div>}
+        prevArrow={() => <div />}
+        nextArrow={() => <div />}
         navigation={({setActiveIndex, activeIndex, length}) => (
           <div className="absolute bottom-0 left-2/4 z-50 flex -translate-x-2/4 gap-4">
             {new Array(length).fill('').map((_, i) => (
