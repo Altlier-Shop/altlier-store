@@ -42,8 +42,8 @@ export default function Page() {
   return (
     <div className="h-screen w-screen bg-root-secondary relative">
       <GridPage />
-      <div className="page absolute z-10 top-[12%] px-20 h-full w-full ">
-        <div className="bg-root-primary w-full h-1/2 px-20 py-14 rounded-xl shadow-xl	">
+      <div className="page absolute z-10 top-[12%] h-1/2 px-20 w-full ">
+        <div className="bg-root-primary w-full h-full px-20 py-14 rounded-xl shadow-xl	">
           <h1 className="pixel-font text-4xl">{page.title}</h1>
           <div
             className="mt-10 overflow-scroll h-5/6"

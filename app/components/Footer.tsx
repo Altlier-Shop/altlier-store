@@ -17,7 +17,7 @@ export function Footer({
 }: FooterQuery & {shop: HeaderQuery['shop'] | null; full?: boolean}) {
   if (full) {
     return (
-      <footer className="absolute pt-16 left-0 bottom-0 w-full h-[30%] bg-altlierBlue pl-[10%] pr-[10%] pt-12 flex justify-between gap-16 [&>*]:text-root-secondary [&>*]:text-sm">
+      <footer className="absolute pt-16 left-0 bottom-0 w-full h-[30%] bg-altlierBlue xl:pl-[5%] xl:pr-[10%] lg:px-10 px-4 pt-12 pt-12 flex justify-between gap-16 [&>*]:text-root-secondary [&>*]:text-sm">
         <div className="w-[55%] z-10">
           <FooterSocials />
         </div>
@@ -28,7 +28,7 @@ export function Footer({
     );
   } else {
     return (
-      <footer className="absolute pt-16 left-0 bottom-0 w-[45%] h-[30%] bg-altlierBlue pl-[5%] pr-[10%] pt-12 flex justify-between [&>*]:text-root-secondary [&>*]:text-sm">
+      <footer className="absolute pt-16 left-0 bottom-0 w-[45%] h-[30%] bg-altlierBlue xl:pl-[5%] xl:pr-[10%] lg:px-10 px-4 pt-12 flex justify-between [&>*]:text-root-secondary [&>*]:text-sm">
         <FooterMenu menu={menu} primaryDomainUrl={''} />
       </footer>
     );
@@ -45,11 +45,11 @@ function FooterSocials() {
   };
   return (
     <div className="[&>*]:text-root-secondary">
-      <h1 className=" pixel-font text-3xl">Shill For us!</h1>
+      <h1 className="pixel-font text-3xl">Shill For us!</h1>
 
       <div className="mt-4 w-full flex gap-6 items-end">
         <div className="w-full [&>*]:text-root-secondary">
-          <label htmlFor="email" className="text-lg default-font-bold">
+          <label htmlFor="email" className="text-base default-font-bold">
             Email
           </label>
           <input
@@ -67,60 +67,71 @@ function FooterSocials() {
             email !== ''
               ? 'hover:bg-root-secondary hover:text-altlierBlue'
               : 'pixel-font'
-          } text-lg h-[38px] px-2 w-1/2 border-root-secondary pixel-font`}
+          } text-base h-[38px] px-2 w-1/2 border-root-secondary pixel-font`}
         >
           Subscribe
         </button>
       </div>
-      <div className="mt-6 flex w-3/4 justify-between">
-        <a
-          className="pointer-events-auto w-12"
-          href="https://t.me/altlier_co"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <TelegramIcon />
-        </a>
-        <a
-          className="pointer-events-auto w-12"
-          href="https://twitter.com/Altlier_co"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <TwitterIcon />
-        </a>
-        <a
-          className="pointer-events-auto w-12"
-          href="https://www.instagram.com/altlier.co/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <InstagramIcon />
-        </a>
-        <a
-          className="pointer-events-auto w-12"
-          href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <DiscordIcon />
-        </a>
-        <a
-          className="pointer-events-auto w-12"
-          href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <WhitePaperIcon />
-        </a>
-        <a
-          className="pointer-events-auto w-12"
-          href="https://mirror.xyz/0xa4F906979A0886C4DB7b9683115fea2f3FfA84f2"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <MirrorIcon />
-        </a>
+
+      <div className="mt-6 flex w-full items-center gap-6">
+        <div>
+          <span className="text-base default-font-bold text-root-secondary">
+            Our
+          </span>
+          <span className="text-base default-font-bold text-root-secondary">
+            &nbsp;Socials:
+          </span>
+        </div>
+        <div className="flex w-full justify-between">
+          <a
+            className="pointer-events-auto w-12"
+            href="https://t.me/altlier_co"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <TelegramIcon />
+          </a>
+          <a
+            className="pointer-events-auto w-12"
+            href="https://twitter.com/Altlier_co"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <TwitterIcon />
+          </a>
+          <a
+            className="pointer-events-auto w-12"
+            href="https://www.instagram.com/altlier.co/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <InstagramIcon />
+          </a>
+          <a
+            className="pointer-events-auto w-12"
+            href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <DiscordIcon />
+          </a>
+          <a
+            className="pointer-events-auto w-12"
+            href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <WhitePaperIcon />
+          </a>
+          <a
+            className="pointer-events-auto w-12"
+            href="https://mirror.xyz/0xa4F906979A0886C4DB7b9683115fea2f3FfA84f2"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <MirrorIcon />
+          </a>
+        </div>
       </div>
     </div>
   );
@@ -228,7 +239,7 @@ function FooterAbout() {
         style={activeLinkStyle}
         to={'/root-secondary-paper'}
       >
-        root-secondary Paper
+        White Paper
       </NavLink>
     </div>
   );

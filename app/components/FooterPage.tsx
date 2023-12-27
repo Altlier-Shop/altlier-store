@@ -44,7 +44,7 @@ export default function FooterPage({menu}: {menu: FooterQuery['menu']}) {
             <AltlierLogoCircular />
           </div>
         </div>
-        <div className="mt-12 w-full flex gap-2 items-end">
+        <div className="mt-8 w-full flex gap-2 items-end">
           <div className="w-full">
             <label htmlFor="email" className="text-lg default-font-bold">
               Email
@@ -67,7 +67,7 @@ export default function FooterPage({menu}: {menu: FooterQuery['menu']}) {
             Subscribe
           </button>
         </div>
-        <div className="mt-12 w-5/6">
+        <div className="mt-8 w-5/6">
           <span className="text-lg default-font-bold">Our Socials</span>
 
           <div className="mt-4 flex gap-6">
