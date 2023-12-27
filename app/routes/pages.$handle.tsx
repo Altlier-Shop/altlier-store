@@ -6,6 +6,8 @@ import {Suspense} from 'react';
 import {Footer} from '~/components/Footer';
 import computer from '../../public/Computer.png';
 import altlierCircularWhite from '../../public/Altlier_Circular_light.png';
+import {convert} from 'html-to-text';
+import {ChevronUpIcon, ChevronDownIcon} from '@heroicons/react/20/solid';
 
 export const meta: MetaFunction<typeof loader> = ({data}) => {
   return [{title: `Hydrogen | ${data?.page.title ?? ''}`}];
@@ -37,6 +39,11 @@ export async function loader({params, context}: LoaderFunctionArgs) {
     footer: footerPromise,
     page,
   });
+}
+
+interface FAQ {
+  q: string;
+  a: string;
 }
 
 export default function Page() {
@@ -78,16 +85,47 @@ export default function Page() {
       </div>
     );
   } else {
+    const text = convert(page.body).split('\n');
+    const faqList: FAQ[] = [];
+    const faqObj: FAQ = {
+      q: '',
+      a: '',
+    };
+    text.forEach((line) => {
+      if (line.startsWith('Question:')) {
+        faqObj.q = line.replace('Question:', '');
+      } else if (line.startsWith('Answer:')) {
+        faqObj.a = line.replace('Answer:', '');
+        faqList.push({...faqObj});
+      }
+    });
+
     return (
       <div className="h-screen w-screen bg-root-secondary relative">
         <GridPage />
         <div className="page absolute z-10 top-[12%] h-1/2 px-20 w-full ">
           <div className="bg-root-primary w-full h-full px-20 py-14 rounded-xl shadow-xl	">
             <h1 className="pixel-font text-4xl">{page.title}</h1>
-            <div
-              className="mt-10 overflow-scroll h-5/6"
-              dangerouslySetInnerHTML={{__html: page.body}}
-            />
+            <div className="mt-4 overflow-scroll h-5/6">
+              {faqList.map((item) => (
+                <div key={item.q} className="mt-4">
+                  <button
+                    id="collapsible-card"
+                    className="flex w-full justify-between"
+                    onClick={handleCollapsible}
+                  >
+                    <span className="font-bold text-2xl default-font-bold">
+                      {item.q}
+                    </span>
+                    <ChevronDownIcon id="downArrow" className="h-12" />
+                    <ChevronUpIcon id="upArrow" className="h-12 hidden" />
+                  </button>
+                  <div className="collapsible-content" id="collapsible-content">
+                    <span className="font-bold mt-2 text-l">{item.a}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
         <Suspense>
@@ -97,6 +135,30 @@ export default function Page() {
         </Suspense>
       </div>
     );
+  }
+}
+
+function handleCollapsible(e: any) {
+  let target = e.target;
+  while (target.id !== 'collapsible-card') {
+    // could be we clicked a child element like the text or one of the arrow svgs
+    target = target.parentNode;
+  }
+  const content = target.nextElementSibling; // we unfold the content and also switch up the arrow svgs
+  const downArrow = target.querySelector('#downArrow');
+  const upArrow = target.querySelector('#upArrow');
+  if (content.style.maxHeight) {
+    content.style.maxHeight = null;
+    setTimeout(() => {
+      downArrow.classList.remove('hidden');
+      upArrow.classList.add('hidden');
+    }, 100);
+  } else {
+    content.style.maxHeight = content.scrollHeight + 'px';
+    setTimeout(() => {
+      downArrow.classList.add('hidden');
+      upArrow.classList.remove('hidden');
+    }, 100);
   }
 }
 

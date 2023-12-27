@@ -219,7 +219,7 @@ function FooterSupport() {
       >
         Contact Us
       </NavLink>
-      <NavLink end prefetch="intent" style={activeLinkStyle} to={'/faq'}>
+      <NavLink end prefetch="intent" style={activeLinkStyle} to={'/pages/faq'}>
         FAQ
       </NavLink>
     </div>
