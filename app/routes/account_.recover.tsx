@@ -59,6 +59,7 @@ export default function Recover() {
           <GridPage />
           <div className="absolute h-full w-full grid items-center justify-items-center">
             <img
+              loading="lazy"
               className="w-2/3"
               src={password_reset}
               alt="password forgotten"

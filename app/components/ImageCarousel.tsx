@@ -32,26 +32,31 @@ export default function ImageCarousel() {
         )}
       >
         <img
+          loading="lazy"
           src={artboard_2}
           alt="test1"
           className="h-full w-full object-cover"
         />
         <img
+          loading="lazy"
           src={artboard_3}
           alt="test2"
           className="h-full w-full object-cover"
         />
         <img
+          loading="lazy"
           src={artboard_4}
           alt="test3"
           className="h-full w-full object-cover"
         />
         <img
+          loading="lazy"
           src={artboard_5}
           alt="test3"
           className="h-full w-full object-cover"
         />
         <img
+          loading="lazy"
           src={artboard_6}
           alt="test3"
           className="h-full w-full object-cover"

@@ -212,6 +212,7 @@ export default function RecommendedProducts({
             onMouseLeave={() => setTempHoveredProductId('')}
           >
             <img
+              loading="lazy"
               className={
                 product.id === topProduct.id
                   ? 'rotating-object cursor-pointer w-full'

@@ -65,12 +65,14 @@ export default function Page() {
           </div>
           <div className="relative h-full w-1/3 flex justify-center items-end">
             <img
+              loading="lazy"
               src={computer}
               alt="computer"
               className="w-full max-h-full object-contain"
             />
 
             <img
+              loading="lazy"
               src={altlierCircularWhite}
               alt="logo_circular"
               className="animate-spinSlow absolute xl:top-[15%] lg:top-[20%] md:top-[30%] top-[35%] w-1/2 h-1/3 object-contain flex justify-center"

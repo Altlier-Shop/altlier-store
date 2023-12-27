@@ -137,6 +137,7 @@ export default function FooterPage({menu}: {menu: FooterQuery['menu']}) {
       </div>
       <div className="absolute top-[10%] left-[35%] h-screen">
         <img
+          loading="lazy"
           className="max-h-[88%] object-contain"
           src={footer_img}
           alt="shirt-and-box-footer"
