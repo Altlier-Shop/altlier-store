@@ -4,8 +4,8 @@ export default function TelegramIcon() {
       id="Layer_1"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 55 55"
-      width="40"
-      height="40"
+      width="36"
+      height="36"
     >
       <defs>
         <style>{`.cls-1,.cls-2{stroke-width:0px;}.cls-2{fill:#fff;}`}</style>

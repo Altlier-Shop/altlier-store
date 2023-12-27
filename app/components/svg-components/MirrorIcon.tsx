@@ -7,8 +7,8 @@ export default function MirrorIcon() {
       y="0px"
       viewBox="0 0 55 55"
       xmlSpace="preserve"
-      width="40"
-      height="40"
+      width="36"
+      height="36"
     >
       <style type="text/css">
         {`
