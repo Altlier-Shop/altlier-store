@@ -18,7 +18,7 @@ export default function ScrollableContent() {
         <div className="-ml-[2%]">
           <NotAPonzi />
         </div>
-        <p className="xl:leading-6 lg:leading-4 text-lg">
+        <p className="xl:leading-6 leading-4 text-lg">
           Altlier, a community for alternative outliers, blends wearable
           products with documentation of the Crypto/Web3 cultural movement,
           capturing the era’s excitement in every unique design.
@@ -34,7 +34,7 @@ export default function ScrollableContent() {
         <h1 className="4xl:text-4xl 3xl:text-3xl xl:text-2xl l:text-xl md:text-xl pixel-font  [word-spacing:-10px]">
           INTO DAILY LIFE
         </h1>
-        <p className="xl:leading-6 lg:leading-4 text-lg">
+        <p className="xl:leading-6 leading-4 text-lg">
           Discover Altlier: In the digital age's heart, we're a brand born from
           a crypto community's vision, embodying the web3 culture. Altlier isn't
           just about fashion; it's about a cultural metamorphosis, capturing the
