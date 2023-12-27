@@ -8,7 +8,7 @@ export default function Popup(props: PopupProps) {
   return (
     <div className="retro-border border-4 text-xl w-[600px]">
       <div className="bg-gradient-to-r from-neutral-900 from-5% to-neutral-500 to-85%  p-2 flex justify-between items-center">
-        <span className="font-bold text-white">ERROR 404: FUDDER</span>
+        <span className="font-bold text-root-secondary">ERROR 404: FUDDER</span>
         <button
           onClick={props.onClose}
           className="w-8 h-8 flex items-center justify-center bg-root-tertiary active:bg-neutral-400 border-2 retro-border"

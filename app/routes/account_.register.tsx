@@ -178,7 +178,7 @@ export default function Register() {
                 Register
               </button>
               <Link
-                className="grid justify-end  text-emerald-light whitespace-nowrap"
+                className="grid justify-end  text-emerald-light root-secondaryspace-nowrap"
                 to="/account/login"
               >
                 Have An Account?

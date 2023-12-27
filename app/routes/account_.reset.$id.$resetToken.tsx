@@ -115,7 +115,7 @@ export default function Reset() {
                 Reset
               </button>
               <Link
-                className="text-emerald-light whitespace-nowrap grid justify-end"
+                className="text-emerald-light root-secondaryspace-nowrap grid justify-end"
                 to="/account/recover"
               >
                 Back To Login!

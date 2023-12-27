@@ -7,8 +7,8 @@ import TelegramIcon from './svg-components/TelegramIcon';
 import TwitterIcon from './svg-components/TwitterIcon';
 import InstagramIcon from './svg-components/InstagramIcon';
 import DiscordIcon from './svg-components/DiscordIcon';
-import WhitePaperIcon from './svg-components/WhitePaperIcon';
 import MirrorIcon from './svg-components/MirrorIcon';
+import WhitePaperIcon from './svg-components/WhitePaperIcon';
 
 export function Footer({
   menu,
@@ -17,7 +17,7 @@ export function Footer({
 }: FooterQuery & {shop: HeaderQuery['shop'] | null; full?: boolean}) {
   if (full) {
     return (
-      <footer className="absolute pt-16 left-0 bottom-0 w-full h-[30%] bg-altlierBlue pl-[10%] pr-[10%] pt-12 flex justify-between gap-16 [&>*]:text-white [&>*]:text-sm">
+      <footer className="absolute pt-16 left-0 bottom-0 w-full h-[30%] bg-altlierBlue pl-[10%] pr-[10%] pt-12 flex justify-between gap-16 [&>*]:text-root-secondary [&>*]:text-sm">
         <div className="w-[55%] z-10">
           <FooterSocials />
         </div>
@@ -28,7 +28,7 @@ export function Footer({
     );
   } else {
     return (
-      <footer className="absolute pt-16 left-0 bottom-0 w-[45%] h-[30%] bg-altlierBlue pl-[5%] pr-[10%] pt-12 flex justify-between [&>*]:text-white [&>*]:text-sm">
+      <footer className="absolute pt-16 left-0 bottom-0 w-[45%] h-[30%] bg-altlierBlue pl-[5%] pr-[10%] pt-12 flex justify-between [&>*]:text-root-secondary [&>*]:text-sm">
         <FooterMenu menu={menu} primaryDomainUrl={''} />
       </footer>
     );
@@ -44,11 +44,11 @@ function FooterSocials() {
     }
   };
   return (
-    <div className="[&>*]:text-white">
+    <div className="[&>*]:text-root-secondary">
       <h1 className=" pixel-font text-3xl">Shill For us!</h1>
 
       <div className="mt-4 w-full flex gap-6 items-end">
-        <div className="w-full [&>*]:text-white">
+        <div className="w-full [&>*]:text-root-secondary">
           <label htmlFor="email" className="text-lg default-font-bold">
             Email
           </label>
@@ -57,7 +57,7 @@ function FooterSocials() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             id="email"
-            className="input-box border-white"
+            className="input-box border-root-secondary"
           ></input>
         </div>
         <button
@@ -65,9 +65,9 @@ function FooterSocials() {
           onClick={handleSubscribe}
           className={`btn homepage-btn ${
             email !== ''
-              ? 'hover:bg-white hover:text-altlierBlue'
+              ? 'hover:bg-root-secondary hover:text-altlierBlue'
               : 'pixel-font'
-          } text-lg h-[38px] px-2 w-1/2 border-white pixel-font`}
+          } text-lg h-[38px] px-2 w-1/2 border-root-secondary pixel-font`}
         >
           Subscribe
         </button>
@@ -165,7 +165,7 @@ interface FooterProps {
 function FooterLegal(props: FooterProps) {
   return (
     <div className="flex flex-col gap-2">
-      <h1 className="text-white default-font-bold">LEGAL INFO</h1>
+      <h1 className="text-root-secondary default-font-bold">LEGAL INFO</h1>
       {props.menu.map((item) => {
         if (!item.url) return null;
         // if the url is internal, we strip the domain
@@ -199,7 +199,7 @@ function FooterLegal(props: FooterProps) {
 function FooterSupport() {
   return (
     <div className="flex flex-col gap-2">
-      <h1 className="text-white default-font-bold">SUPPORT</h1>
+      <h1 className="text-root-secondary default-font-bold">SUPPORT</h1>
       <NavLink
         end
         prefetch="intent"
@@ -218,7 +218,7 @@ function FooterSupport() {
 function FooterAbout() {
   return (
     <div className="flex flex-col gap-2">
-      <h1 className="text-white default-font-bold">ABOUT</h1>
+      <h1 className="text-root-secondary default-font-bold">ABOUT</h1>
       <NavLink end prefetch="intent" style={activeLinkStyle} to={'/our-story'}>
         Our Story
       </NavLink>
@@ -226,9 +226,9 @@ function FooterAbout() {
         end
         prefetch="intent"
         style={activeLinkStyle}
-        to={'/white-paper'}
+        to={'/root-secondary-paper'}
       >
-        White Paper
+        root-secondary Paper
       </NavLink>
     </div>
   );
@@ -243,6 +243,6 @@ function activeLinkStyle({
 }) {
   return {
     fontWeight: isActive ? 'bold' : undefined,
-    color: isPending ? 'grey' : 'white',
+    color: isPending ? 'grey' : 'root-secondary',
   };
 }

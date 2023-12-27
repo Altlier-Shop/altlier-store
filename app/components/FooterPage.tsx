@@ -115,7 +115,7 @@ export default function FooterPage({menu}: {menu: FooterQuery['menu']}) {
         </div>
         <Footer menu={menu} shop={null} />
       </div>
-      {/* <div className="absolute left-0 bottom-0 w-[45%] h-[30%] bg-altlierBlue pl-[5%] pr-[12%] pt-12 flex justify-between [&>*]:text-white"> */}
+      {/* <div className="absolute left-0 bottom-0 w-[45%] h-[30%] bg-altlierBlue pl-[5%] pr-[12%] pt-12 flex justify-between [&>*]:text-root-secondary"> */}
 
       {/* <div>
           <h1>LEGAL INFO</h1>

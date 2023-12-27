@@ -63,7 +63,7 @@ hr {
 }
 
 pre {
-  white-space: pre-wrap;
+  root-secondary-space: pre-wrap;
 }
 
 body {

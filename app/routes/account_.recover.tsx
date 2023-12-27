@@ -123,7 +123,7 @@ export default function Recover() {
                     Send Email
                   </button>
                   <Link
-                    className="whitespace-nowrap grid justify-end text-emerald-light"
+                    className="root-secondaryspace-nowrap grid justify-end text-emerald-light"
                     to="/account/login"
                   >
                     I remember again!

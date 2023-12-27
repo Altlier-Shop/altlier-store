@@ -193,7 +193,7 @@ export default function Login() {
                 Login
               </button>
               <Link
-                className="grid justify-end  text-emerald-light whitespace-nowrap"
+                className="grid justify-end  text-emerald-light root-secondaryspace-nowrap"
                 to="/account/recover"
               >
                 Forgot password?
