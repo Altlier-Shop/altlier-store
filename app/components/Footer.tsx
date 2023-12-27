@@ -3,6 +3,12 @@ import type {MenuItem} from '@shopify/hydrogen/storefront-api-types';
 import {useState} from 'react';
 import type {FooterQuery, HeaderQuery} from 'storefrontapi.generated';
 import {useRootLoaderData} from '~/root';
+import TelegramIcon from './svg-components/TelegramIcon';
+import TwitterIcon from './svg-components/TwitterIcon';
+import InstagramIcon from './svg-components/InstagramIcon';
+import DiscordIcon from './svg-components/DiscordIcon';
+import WhitePaperIcon from './svg-components/WhitePaperIcon';
+import MirrorIcon from './svg-components/MirrorIcon';
 
 export function Footer({
   menu,
@@ -65,6 +71,56 @@ function FooterSocials() {
         >
           Subscribe
         </button>
+      </div>
+      <div className="mt-6 flex w-3/4 justify-between">
+        <a
+          className="pointer-events-auto w-12"
+          href="https://t.me/altlier_co"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <TelegramIcon />
+        </a>
+        <a
+          className="pointer-events-auto w-12"
+          href="https://twitter.com/Altlier_co"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <TwitterIcon />
+        </a>
+        <a
+          className="pointer-events-auto w-12"
+          href="https://www.instagram.com/altlier.co/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <InstagramIcon />
+        </a>
+        <a
+          className="pointer-events-auto w-12"
+          href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <DiscordIcon />
+        </a>
+        <a
+          className="pointer-events-auto w-12"
+          href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <WhitePaperIcon />
+        </a>
+        <a
+          className="pointer-events-auto w-12"
+          href="https://mirror.xyz/0xa4F906979A0886C4DB7b9683115fea2f3FfA84f2"
+          target="_blank"
+          rel="noreferrer"
+        >
+          <MirrorIcon />
+        </a>
       </div>
     </div>
   );
