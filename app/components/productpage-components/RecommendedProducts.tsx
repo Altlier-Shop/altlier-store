@@ -188,7 +188,10 @@ export default function RecommendedProducts({
       )}
 
       {topProduct && showDetails ? (
-        <div className="fixed top-0 z-[1000] bg-black bg-opacity-40 h-screen w-screen flex items-center justify-center">
+        <button
+          className="fixed top-0 z-[1000] bg-black bg-opacity-40 h-screen w-screen flex items-center justify-center"
+          onClick={closePopup}
+        >
           <div className="h-5/6 w-5/6 bg-root-secondary p-6">
             <div className="w-full h-full grid grid-cols-12 grid-rows-10">
               <div className="col-span-10 flex justify-between items-end">
@@ -261,7 +264,7 @@ export default function RecommendedProducts({
               </div>
             </div>
           </div>
-        </div>
+        </button>
       ) : (
         <div />
       )}
