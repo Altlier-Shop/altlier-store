@@ -7,6 +7,7 @@ import {
 import {Form, Link, useActionData, type MetaFunction} from '@remix-run/react';
 import GridPage from '~/components/startpage-components/GridPage';
 import ImageCarousel from '~/components/ImageCarousel';
+import type {CheckoutLineItemInput} from '@shopify/hydrogen/storefront-api-types';
 
 type ActionResponse = {
   error: string | null;
@@ -53,22 +54,52 @@ export async function action({request, context}: ActionFunctionArgs) {
       throw new Error(customerAccessTokenCreate?.customerUserErrors[0].message);
     }
     console.log('cart ID:', cart.getCartId());
-
     const {customerAccessToken} = customerAccessTokenCreate;
     session.set('customerAccessToken', customerAccessToken);
 
-    const {checkoutCreate} = await storefront.mutate(CREATE_CHECKOUT_MUTATION);
+    const cartProperties = await cart.get();
+    const cartLines = cartProperties?.lines;
 
-    console.log('new checkout ID', checkoutCreate?.checkout);
+    let newCheckoutId = '';
+    if (cartLines) {
+      const convertedLines: CheckoutLineItemInput[] = cartLines?.nodes.map(
+        (line) => {
+          console.log('cart line', line);
+
+          return {
+            quantity: line.quantity || 0,
+            variantId: line.merchandise.id,
+          };
+        },
+      );
+      const {checkoutCreate} = await storefront.mutate(
+        CREATE_CHECKOUT_MUTATION,
+        {
+          variables: {
+            lineItems: convertedLines,
+          },
+        },
+      );
+      newCheckoutId = checkoutCreate?.checkout?.id || '';
+    } else {
+      const {checkoutCreate} = await storefront.mutate(
+        CREATE_CHECKOUT_MUTATION_EMPTY,
+      );
+      newCheckoutId = checkoutCreate?.checkout?.id || '';
+    }
+
+    // console.log('cartItems', cartItems?.lines);
+
+    if (newCheckoutId === '') {
+      throw new Error("Couldn't create new checkout");
+    }
+    console.log('new checkout ID', newCheckoutId);
 
     const {checkoutCustomerAssociateV2} = await storefront.mutate(
       CHECKOUT_CUSTOMER_ASSOCIATE,
       {
         variables: {
-          checkoutId:
-            checkoutCreate && checkoutCreate?.checkout
-              ? checkoutCreate.checkout.id
-              : '',
+          checkoutId: newCheckoutId,
           customerAccessToken: customerAccessToken.accessToken,
         },
       },
@@ -87,10 +118,7 @@ export async function action({request, context}: ActionFunctionArgs) {
         UPDATE_SHIPPING_ADDRESS,
         {
           variables: {
-            checkoutId:
-              checkoutCreate && checkoutCreate?.checkout
-                ? checkoutCreate.checkout.id
-                : '',
+            checkoutId: newCheckoutId,
             shippingAddress:
               checkoutCustomerAssociateV2.customer.defaultAddress,
           },
@@ -201,7 +229,7 @@ export default function Login() {
             </div>
             <div className="mt-6 w-full grid justify-center">
               <p className="text-neutral-400">
-                Don't have an account? Anyone can be an Altlier!
+                {`Don't have an account? Anyone can be an Altlier!`}
               </p>
               <Link
                 className="mt-2 text-emerald-light justify-self-center"
@@ -279,13 +307,14 @@ const CHECKOUT_CUSTOMER_ASSOCIATE = `#graphql
 ` as const;
 
 const CREATE_CHECKOUT_MUTATION = `#graphql
-  mutation checkoutCreate {
-    checkoutCreate(input: {}) {
+  mutation checkoutCreate($lineItems: [CheckoutLineItemInput!]!) {
+    checkoutCreate(input: {lineItems: $lineItems}) {
       checkout {
         id
-        lineItems {
-          quantity
-          variantId // TODO: input cart line items
+        lineItems(first: 100) {
+          nodes {
+          ...LineItem
+          }
         }
       }
       checkoutUserErrors {
@@ -293,6 +322,37 @@ const CREATE_CHECKOUT_MUTATION = `#graphql
         field
         message
       }
+    }
+  }
+  fragment LineItem on CheckoutLineItem {
+    id
+    title
+    quantity
+    variant {
+      id
+    }
+  }
+` as const;
+
+const CREATE_CHECKOUT_MUTATION_EMPTY = `#graphql
+  mutation checkoutCreateEmpty {
+    checkoutCreate(input: {}) {
+      checkout {
+        id
+      }
+      checkoutUserErrors {
+        code
+        field
+        message
+      }
+    }
+  }
+  fragment LineItem on CheckoutLineItem {
+    id
+    title
+    quantity
+    variant {
+      id
     }
   }
 ` as const;

@@ -943,6 +943,145 @@ export type CustomerActivateMutation = {
   }>;
 };
 
+export type LoginMutationVariables = StorefrontAPI.Exact<{
+  input: StorefrontAPI.CustomerAccessTokenCreateInput;
+}>;
+
+export type LoginMutation = {
+  customerAccessTokenCreate?: StorefrontAPI.Maybe<{
+    customerUserErrors: Array<
+      Pick<StorefrontAPI.CustomerUserError, 'code' | 'field' | 'message'>
+    >;
+    customerAccessToken?: StorefrontAPI.Maybe<
+      Pick<StorefrontAPI.CustomerAccessToken, 'accessToken' | 'expiresAt'>
+    >;
+  }>;
+};
+
+export type CheckoutCustomerAssociateV2MutationVariables = StorefrontAPI.Exact<{
+  checkoutId: StorefrontAPI.Scalars['ID']['input'];
+  customerAccessToken: StorefrontAPI.Scalars['String']['input'];
+}>;
+
+export type CheckoutCustomerAssociateV2Mutation = {
+  checkoutCustomerAssociateV2?: StorefrontAPI.Maybe<{
+    checkout?: StorefrontAPI.Maybe<
+      Pick<
+        StorefrontAPI.Checkout,
+        'createdAt' | 'email' | 'id' | 'webUrl' | 'taxExempt'
+      > & {
+        buyerIdentity: Pick<StorefrontAPI.CheckoutBuyerIdentity, 'countryCode'>;
+        shippingLine?: StorefrontAPI.Maybe<
+          Pick<StorefrontAPI.ShippingRate, 'title'> & {
+            price: Pick<StorefrontAPI.MoneyV2, 'amount' | 'currencyCode'>;
+          }
+        >;
+      }
+    >;
+    checkoutUserErrors: Array<
+      Pick<StorefrontAPI.CheckoutUserError, 'code' | 'field' | 'message'>
+    >;
+    customer?: StorefrontAPI.Maybe<
+      Pick<StorefrontAPI.Customer, 'id' | 'email'> & {
+        defaultAddress?: StorefrontAPI.Maybe<
+          Pick<
+            StorefrontAPI.MailingAddress,
+            | 'address1'
+            | 'address2'
+            | 'city'
+            | 'company'
+            | 'country'
+            | 'firstName'
+            | 'lastName'
+            | 'zip'
+            | 'province'
+          >
+        >;
+      }
+    >;
+  }>;
+};
+
+export type CheckoutCreateMutationVariables = StorefrontAPI.Exact<{
+  lineItems:
+    | Array<StorefrontAPI.CheckoutLineItemInput>
+    | StorefrontAPI.CheckoutLineItemInput;
+}>;
+
+export type CheckoutCreateMutation = {
+  checkoutCreate?: StorefrontAPI.Maybe<{
+    checkout?: StorefrontAPI.Maybe<
+      Pick<StorefrontAPI.Checkout, 'id'> & {
+        lineItems: {
+          nodes: Array<
+            Pick<
+              StorefrontAPI.CheckoutLineItem,
+              'id' | 'title' | 'quantity'
+            > & {
+              variant?: StorefrontAPI.Maybe<
+                Pick<StorefrontAPI.ProductVariant, 'id'>
+              >;
+            }
+          >;
+        };
+      }
+    >;
+    checkoutUserErrors: Array<
+      Pick<StorefrontAPI.CheckoutUserError, 'code' | 'field' | 'message'>
+    >;
+  }>;
+};
+
+export type LineItemFragment = Pick<
+  StorefrontAPI.CheckoutLineItem,
+  'id' | 'title' | 'quantity'
+> & {variant?: StorefrontAPI.Maybe<Pick<StorefrontAPI.ProductVariant, 'id'>>};
+
+export type CheckoutCreateEmptyMutationVariables = StorefrontAPI.Exact<{
+  [key: string]: never;
+}>;
+
+export type CheckoutCreateEmptyMutation = {
+  checkoutCreate?: StorefrontAPI.Maybe<{
+    checkout?: StorefrontAPI.Maybe<Pick<StorefrontAPI.Checkout, 'id'>>;
+    checkoutUserErrors: Array<
+      Pick<StorefrontAPI.CheckoutUserError, 'code' | 'field' | 'message'>
+    >;
+  }>;
+};
+
+export type UpdateShippingAddressMutationVariables = StorefrontAPI.Exact<{
+  checkoutId: StorefrontAPI.Scalars['ID']['input'];
+  shippingAddress: StorefrontAPI.MailingAddressInput;
+}>;
+
+export type UpdateShippingAddressMutation = {
+  checkoutShippingAddressUpdateV2?: StorefrontAPI.Maybe<{
+    checkout?: StorefrontAPI.Maybe<
+      Pick<StorefrontAPI.Checkout, 'id'> & {
+        shippingAddress?: StorefrontAPI.Maybe<
+          Pick<
+            StorefrontAPI.MailingAddress,
+            | 'address1'
+            | 'address2'
+            | 'city'
+            | 'company'
+            | 'country'
+            | 'firstName'
+            | 'lastName'
+            | 'province'
+            | 'zip'
+          >
+        >;
+      }
+    >;
+    userErrors: Array<Pick<StorefrontAPI.UserError, 'field' | 'message'>>;
+    checkoutUserErrors: Array<
+      Pick<StorefrontAPI.CheckoutUserError, 'field' | 'message' | 'code'>
+    >;
+  }>;
+};
+
 export type CustomerRecoverMutationVariables = StorefrontAPI.Exact<{
   email: StorefrontAPI.Scalars['String']['input'];
   country?: StorefrontAPI.InputMaybe<StorefrontAPI.CountryCode>;
@@ -1233,11 +1372,6 @@ export type BlogsQuery = {
     >;
   };
 };
-
-export type LineItemFragment = Pick<
-  StorefrontAPI.CheckoutLineItem,
-  'id' | 'title' | 'quantity'
-> & {variant?: StorefrontAPI.Maybe<Pick<StorefrontAPI.ProductVariant, 'id'>>};
 
 export type CheckoutLineItemsAddMutationVariables = StorefrontAPI.Exact<{
   checkoutId: StorefrontAPI.Scalars['ID']['input'];
@@ -2055,6 +2189,26 @@ interface GeneratedMutationTypes {
   '#graphql\n  mutation customerActivate(\n    $id: ID!,\n    $input: CustomerActivateInput!,\n    $country: CountryCode,\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    customerActivate(id: $id, input: $input) {\n      customerAccessToken {\n        accessToken\n        expiresAt\n      }\n      customerUserErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
     return: CustomerActivateMutation;
     variables: CustomerActivateMutationVariables;
+  };
+  '#graphql\n  mutation login($input: CustomerAccessTokenCreateInput!) {\n    customerAccessTokenCreate(input: $input) {\n      customerUserErrors {\n        code\n        field\n        message\n      }\n      customerAccessToken {\n        accessToken\n        expiresAt\n      }\n    }\n  }\n': {
+    return: LoginMutation;
+    variables: LoginMutationVariables;
+  };
+  '#graphql\n  mutation checkoutCustomerAssociateV2($checkoutId: ID!, $customerAccessToken: String!) {\n    checkoutCustomerAssociateV2(checkoutId: $checkoutId, customerAccessToken: $customerAccessToken) {\n      checkout {\n        createdAt\n        email\n        id\n        webUrl\n        taxExempt\n        buyerIdentity {\n          countryCode\n        }\n        shippingLine {\n          title\n          price {\n            amount\n            currencyCode\n          }\n        }\n      }\n      checkoutUserErrors {\n        code\n        field\n        message\n      }\n      customer {\n        id\n        email\n        defaultAddress {\n          address1\n          address2\n          city\n          company\n          country\n          firstName\n          lastName\n          zip\n          province\n        }\n      }\n    }\n  }\n': {
+    return: CheckoutCustomerAssociateV2Mutation;
+    variables: CheckoutCustomerAssociateV2MutationVariables;
+  };
+  '#graphql\n  mutation checkoutCreate($lineItems: [CheckoutLineItemInput!]!) {\n    checkoutCreate(input: {lineItems: $lineItems}) {\n      checkout {\n        id\n        lineItems(first: 100) {\n          nodes {\n          ...LineItem\n          }\n        }\n      }\n      checkoutUserErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n  fragment LineItem on CheckoutLineItem {\n    id\n    title\n    quantity\n    variant {\n      id\n    }\n  }\n': {
+    return: CheckoutCreateMutation;
+    variables: CheckoutCreateMutationVariables;
+  };
+  '#graphql\n  mutation checkoutCreateEmpty {\n    checkoutCreate(input: {}) {\n      checkout {\n        id\n      }\n      checkoutUserErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n  fragment LineItem on CheckoutLineItem {\n    id\n    title\n    quantity\n    variant {\n      id\n    }\n  }\n': {
+    return: CheckoutCreateEmptyMutation;
+    variables: CheckoutCreateEmptyMutationVariables;
+  };
+  '#graphql\n  mutation updateShippingAddress($checkoutId: ID!, $shippingAddress: MailingAddressInput!) {\n    checkoutShippingAddressUpdateV2(checkoutId: $checkoutId, shippingAddress: $shippingAddress) {\n      checkout {\n        id\n        shippingAddress {\n          address1\n          address2\n          city\n          company\n          country\n          firstName\n          lastName\n          province\n          zip\n        }\n      }\n      userErrors {\n        field\n        message\n      }\n      checkoutUserErrors {\n        field\n        message\n        code\n      }\n    }\n  }\n': {
+    return: UpdateShippingAddressMutation;
+    variables: UpdateShippingAddressMutationVariables;
   };
   '#graphql\n  mutation customerRecover(\n    $email: String!,\n    $country: CountryCode,\n    $language: LanguageCode\n  ) @inContext(country: $country, language: $language) {\n    customerRecover(email: $email) {\n      customerUserErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
     return: CustomerRecoverMutation;
