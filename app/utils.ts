@@ -1,6 +1,7 @@
 import {useLocation} from '@remix-run/react';
+
 import type {SelectedOption} from '@shopify/hydrogen/storefront-api-types';
-import {useMemo} from 'react';
+import {useMemo, useRef, useCallback} from 'react';
 
 export function useVariantUrl(
   handle: string,
@@ -43,4 +44,25 @@ export function getVariantUrl({
   const searchString = searchParams.toString();
 
   return path + (searchString ? '?' + searchParams.toString() : '');
+}
+
+export function useThrottle(
+  callback: (event: WheelEvent) => void,
+  delay: number,
+) {
+  const lastCall = useRef(0);
+
+  const throttledFunc = useCallback(
+    (...args: any[]) => {
+      const now = new Date().getTime();
+      if (now - lastCall.current >= delay) {
+        lastCall.current = now;
+        // @ts-expect-error
+        callback(...args);
+      }
+    },
+    [callback, delay],
+  );
+
+  return throttledFunc;
 }

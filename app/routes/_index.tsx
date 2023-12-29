@@ -1,7 +1,7 @@
 import {defer, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, Link, type MetaFunction} from '@remix-run/react';
 import {Suspense, useContext, useEffect, useRef, useState} from 'react';
-import useThrottle from '~/components/useThrottle';
+import {useThrottle} from '~/utils';
 // import type {
 //   FeaturedCollectionFragment,
 //   RecommendedProductsQuery,
