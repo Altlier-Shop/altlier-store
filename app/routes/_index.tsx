@@ -1,5 +1,5 @@
 import {defer, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
-import {Await, useLoaderData, Link, type MetaFunction} from '@remix-run/react';
+import {Await, useLoaderData, type MetaFunction} from '@remix-run/react';
 import {Suspense, useContext, useEffect, useRef, useState} from 'react';
 import {useThrottle} from '~/utils';
 // import type {
@@ -128,70 +128,68 @@ export default function Homepage() {
     return () => window.removeEventListener('resize', checkMobileView);
   }, []);
 
-  if (!mobileView) {
-    return (
-      <div
-        ref={homepage}
-        className="home w-screen h-screen overflow-hidden relative"
-      >
-        <div className={`fixed z-50 top-[55%] flex flex-col gap-6 right-20`}>
-          <button onClick={openAside} className="pointer-events-auto">
-            <Suspense>
-              <Await resolve={data.cart}>
-                {(cart) => (
-                  <div>
-                    <CartIcon
-                      notification={
-                        cart && cart.totalQuantity > 0 ? true : false
-                      }
-                    />
-                  </div>
-                )}
-              </Await>
-            </Suspense>
-          </button>
-          <a
-            href={data.isLoggedIn ? '/account' : '/account/login'}
-            className="pointer-events-auto"
-          >
-            <ProfileIcon notification={false} />
-          </a>
-        </div>
-        <div
-          ref={landingPage}
-          className="absolute z-30 w-screen h-screen currentPage"
-          id="landingPage"
-        >
-          <LandingPage
-            data={data}
-            onBottom={(bottom: boolean) => setLandingPageBottom(bottom)}
-          />
-        </div>
-        <div
-          ref={productPage}
-          className="absolute z-10 w-screen h-screen bottomPage"
-          id="productPage"
-        >
-          <ProductPage data={data} />
-        </div>
-        <div
-          ref={footerPage}
-          className="absolute z-20 w-screen h-screen bottomPage"
-          id="footerPage"
-        >
+  // if (!mobileView) {
+  return (
+    <div
+      ref={homepage}
+      className="home w-screen h-screen overflow-hidden relative"
+    >
+      <div className={`fixed z-50 top-[55%] flex flex-col gap-6 right-20`}>
+        <button onClick={openAside} className="pointer-events-auto">
           <Suspense>
-            <Await resolve={data.footer}>
-              {(footer) => <FooterPage menu={footer?.menu} />}
+            <Await resolve={data.cart}>
+              {(cart) => (
+                <div>
+                  <CartIcon
+                    notification={cart && cart.totalQuantity > 0 ? true : false}
+                  />
+                </div>
+              )}
             </Await>
           </Suspense>
-        </div>
-        {/* <FeaturedCollection collection={data.featuredCollection} /> */}
-        {/* <RecommendedProducts products={data.recommendedProducts} /> */}
+        </button>
+        <a
+          href={data.isLoggedIn ? '/account' : '/account/login'}
+          className="pointer-events-auto"
+        >
+          <ProfileIcon notification={false} />
+        </a>
       </div>
-    );
-  } else {
-    return <UnderMaintenance />;
-  }
+      <div
+        ref={landingPage}
+        className="absolute z-30 w-screen h-screen currentPage"
+        id="landingPage"
+      >
+        <LandingPage
+          data={data}
+          onBottom={(bottom: boolean) => setLandingPageBottom(bottom)}
+        />
+      </div>
+      <div
+        ref={productPage}
+        className="absolute z-10 w-screen h-screen bottomPage"
+        id="productPage"
+      >
+        <ProductPage data={data} />
+      </div>
+      <div
+        ref={footerPage}
+        className="absolute z-20 w-screen h-screen bottomPage"
+        id="footerPage"
+      >
+        <Suspense>
+          <Await resolve={data.footer}>
+            {(footer) => <FooterPage menu={footer?.menu} />}
+          </Await>
+        </Suspense>
+      </div>
+      {/* <FeaturedCollection collection={data.featuredCollection} /> */}
+      {/* <RecommendedProducts products={data.recommendedProducts} /> */}
+    </div>
+  );
+  // } else {
+  //   return <UnderMaintenance />;
+  // }
 }
 
 const PRODUCT_VARIANT_FRAGMENT = `#graphql

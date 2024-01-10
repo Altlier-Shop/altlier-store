@@ -128,6 +128,33 @@ export async function action({request, context}: ActionFunctionArgs) {
         'updated checkout shipping address',
         JSON.stringify(checkoutShippingAddressUpdateV2?.checkout),
       );
+
+      const cartResult = await cart.updateBuyerIdentity({
+        customerAccessToken: customerAccessToken.accessToken,
+        email: checkoutCustomerAssociateV2.customer.email,
+        countryCode: storefront.i18n.country,
+        deliveryAddressPreferences: [
+          {
+            deliveryAddress: {
+              firstName:
+                checkoutCustomerAssociateV2.customer.defaultAddress.firstName,
+              lastName:
+                checkoutCustomerAssociateV2.customer.defaultAddress.firstName,
+              address1:
+                checkoutCustomerAssociateV2.customer.defaultAddress.address1,
+              address2:
+                checkoutCustomerAssociateV2.customer.defaultAddress.address2,
+              city: checkoutCustomerAssociateV2.customer.defaultAddress.city,
+              province:
+                checkoutCustomerAssociateV2.customer.defaultAddress.province,
+              zip: checkoutCustomerAssociateV2.customer.defaultAddress.zip,
+              country:
+                checkoutCustomerAssociateV2.customer.defaultAddress?.country,
+            },
+          },
+        ],
+      });
+      console.log(cartResult.cart.deliveryGroups);
     }
 
     const checkoutId: string = checkoutCustomerAssociateV2?.checkout?.id || '';
@@ -143,6 +170,7 @@ export async function action({request, context}: ActionFunctionArgs) {
 
     session.set('checkoutId', checkoutId);
     session.set('checkoutUrl', checkoutUrl);
+
     // const headers = cart.setCartId(result.cart.id);
 
     //headers.append('Set-Cookie', await session.commit());
