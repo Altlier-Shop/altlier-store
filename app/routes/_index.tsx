@@ -183,8 +183,6 @@ export default function Homepage() {
           </Await>
         </Suspense>
       </div>
-      {/* <FeaturedCollection collection={data.featuredCollection} /> */}
-      {/* <RecommendedProducts products={data.recommendedProducts} /> */}
     </div>
   );
   // } else {
@@ -233,7 +231,7 @@ const PRODUCT_FRAGMENT = `#graphql
       name
       values
     }
-    images(first: 2) {
+    images(first: 11) {
       nodes {
         __typename
         id

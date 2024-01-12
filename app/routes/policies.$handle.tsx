@@ -44,7 +44,6 @@ export async function loader({params, context}: LoaderFunctionArgs) {
 
 export default function Policy() {
   const {policy} = useLoaderData<typeof loader>();
-  console.log(policy.body);
 
   return (
     <div className="h-screen w-screen bg-root-secondary relative">
