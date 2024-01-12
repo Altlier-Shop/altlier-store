@@ -59,6 +59,7 @@ export async function action({request, context}: ActionFunctionArgs) {
 
     const cartProperties = await cart.get();
     const cartLines = cartProperties?.lines;
+    console.log('cart lines', cartLines);
 
     let newCheckoutId = '';
     if (cartLines) {
@@ -129,32 +130,34 @@ export async function action({request, context}: ActionFunctionArgs) {
         JSON.stringify(checkoutShippingAddressUpdateV2?.checkout),
       );
 
-      const cartResult = await cart.updateBuyerIdentity({
-        customerAccessToken: customerAccessToken.accessToken,
-        email: checkoutCustomerAssociateV2.customer.email,
-        countryCode: storefront.i18n.country,
-        deliveryAddressPreferences: [
-          {
-            deliveryAddress: {
-              firstName:
-                checkoutCustomerAssociateV2.customer.defaultAddress.firstName,
-              lastName:
-                checkoutCustomerAssociateV2.customer.defaultAddress.firstName,
-              address1:
-                checkoutCustomerAssociateV2.customer.defaultAddress.address1,
-              address2:
-                checkoutCustomerAssociateV2.customer.defaultAddress.address2,
-              city: checkoutCustomerAssociateV2.customer.defaultAddress.city,
-              province:
-                checkoutCustomerAssociateV2.customer.defaultAddress.province,
-              zip: checkoutCustomerAssociateV2.customer.defaultAddress.zip,
-              country:
-                checkoutCustomerAssociateV2.customer.defaultAddress?.country,
+      if (cartProperties) {
+        const cartResult = await cart.updateBuyerIdentity({
+          customerAccessToken: customerAccessToken.accessToken,
+          email: checkoutCustomerAssociateV2.customer.email,
+          countryCode: storefront.i18n.country,
+          deliveryAddressPreferences: [
+            {
+              deliveryAddress: {
+                firstName:
+                  checkoutCustomerAssociateV2.customer.defaultAddress.firstName,
+                lastName:
+                  checkoutCustomerAssociateV2.customer.defaultAddress.firstName,
+                address1:
+                  checkoutCustomerAssociateV2.customer.defaultAddress.address1,
+                address2:
+                  checkoutCustomerAssociateV2.customer.defaultAddress.address2,
+                city: checkoutCustomerAssociateV2.customer.defaultAddress.city,
+                province:
+                  checkoutCustomerAssociateV2.customer.defaultAddress.province,
+                zip: checkoutCustomerAssociateV2.customer.defaultAddress.zip,
+                country:
+                  checkoutCustomerAssociateV2.customer.defaultAddress?.country,
+              },
             },
-          },
-        ],
-      });
-      console.log(cartResult.cart.deliveryGroups);
+          ],
+        });
+        console.log(cartResult.cart.deliveryGroups);
+      }
     }
 
     const checkoutId: string = checkoutCustomerAssociateV2?.checkout?.id || '';

@@ -104,12 +104,25 @@ function AccountLayout({
       ? `Welcome, ${customer.firstName}`
       : `Welcome to your account.`
     : 'Account Details';
+  // console.log('customer.altpoints:', customer?.altpoints);
+
+  // console.log('customer address: ', customer.defaultAddress);
+  // console.log('customer email: ', customer.email);
+  // console.log('customer firstname: ', customer.firstName);
+  // console.log('customer lastname: ', customer.lastName);
+  //console.log('customer firstname: ', customer?.digitalWalletAddress);
+  // console.log('customer payment info: ', customer.);
 
   return (
     <div className="account">
+      <AccountMenu />
       <h1>{heading}</h1>
       <br />
-      <AccountMenu />
+      <div className="w-full h-screen flex gap-12 items-center">
+        <div className="w-1/4">Account setting</div>
+        <div className="w-3/4">Purchase History</div>
+      </div>
+
       {children}
     </div>
   );
@@ -172,6 +185,10 @@ export const CUSTOMER_FRAGMENT = `#graphql
     lastName
     numberOfOrders
     phone
+    altpoints: metafield(namespace: "customer.metafields.custom.altpoints", key: "customer.metafields.custom.altpoints") {
+      value
+      type
+    }
   }
   fragment Address on MailingAddress {
     id
