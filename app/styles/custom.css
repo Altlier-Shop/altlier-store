@@ -3,15 +3,6 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: 'PixelifySans';
-  src: url('../../public/fonts/Press_Start_2P/PressStart2P-Regular.ttf')
-    format('truetype');
-}
-.pixel-font-legacy {
-  font-family: 'PixelifySans';
-}
-
-@font-face {
   font-family: 'Pixel Emulator';
   src: url('../../public/fonts/Pixel_Emulator/Pixel_Emulator.ttf')
     format('truetype');
