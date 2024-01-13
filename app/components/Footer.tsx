@@ -17,7 +17,7 @@ export function Footer({
 }: FooterQuery & {shop: HeaderQuery['shop'] | null; full?: boolean}) {
   if (full) {
     return (
-      <footer className="absolute pt-16 left-0 bottom-0 w-full h-[30%] bg-altlierBlue xl:pl-[5%] xl:pr-[10%] lg:px-10 px-4 pt-12 pt-12 flex justify-between gap-16 [&>*]:text-root-secondary [&>*]:text-sm">
+      <footer className="absolute left-0 bottom-0 w-full bg-altlierBlue xl:pl-[5%] xl:pr-[10%] lg:px-10 px-4 py-12 flex justify-between gap-16 [&>*]:text-root-secondary [&>*]:text-sm">
         <div className="w-[55%] z-10">
           <FooterSocials />
         </div>
@@ -28,7 +28,7 @@ export function Footer({
     );
   } else {
     return (
-      <footer className="absolute pt-16 left-0 bottom-0 w-[45%] h-[30%] bg-altlierBlue xl:pl-[5%] xl:pr-[10%] lg:px-10 px-4 pt-12 flex justify-between [&>*]:text-root-secondary [&>*]:text-sm">
+      <footer className="absolute left-0 bottom-0 w-[45%] bg-altlierBlue xl:pl-[5%] xl:pr-[10%] lg:px-10 px-4 py-12 flex justify-between [&>*]:text-root-secondary [&>*]:text-sm">
         <FooterMenu menu={menu} primaryDomainUrl={''} />
       </footer>
     );

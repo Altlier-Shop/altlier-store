@@ -35,16 +35,16 @@ export default function FooterPage({menu}: {menu: FooterQuery['menu']}) {
   };
   return (
     <div className="flex w-full h-full bg-root-primary relative">
-      <div className="pl-[5%] pr-[12%] pt-32 w-[45%]">
+      <div className="pl-[5%] pr-[12%] pt-24 xl:pt-32 w-[45%]">
         <div className="flex gap-6 items-center">
-          <div className="h-48 w-full flex items-center">
+          <div className="h-[10%] w-full flex items-center">
             <JoinAltlier />
           </div>
-          <div className="h-48 w-48 flex items-center animate-spinSlow">
+          <div className="h-[10%] w-48 flex items-center animate-spinSlow">
             <AltlierLogoCircular />
           </div>
         </div>
-        <div className="mt-8 w-full flex gap-2 items-end">
+        <div className="mt-2 xl:mt-8 w-full flex gap-2 items-end">
           <div className="w-full">
             <label htmlFor="email" className="text-lg default-font-bold">
               Email
@@ -67,7 +67,7 @@ export default function FooterPage({menu}: {menu: FooterQuery['menu']}) {
             Subscribe
           </button>
         </div>
-        <div className="mt-8 w-5/6">
+        <div className="mt-2 xl:mt-8 w-5/6">
           <span className="text-lg default-font-bold">Our Socials</span>
 
           <div className="mt-4 flex gap-6">
