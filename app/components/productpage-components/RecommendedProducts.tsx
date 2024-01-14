@@ -195,10 +195,9 @@ export default function RecommendedProducts({
       ) : (
         <div />
       )}
-
       <div
-        className="circular z-40"
-        style={{height: circleHeight * 3, width: circleWidth * 1.1}}
+        className="circular z-40 w-[500px] xl:w-[700px] 2xl:w-[50vw]"
+        style={{height: circleHeight * 3}}
       >
         <div className="absolute z-50 top-[72%] w-full grid justify-center">
           <button
