@@ -134,7 +134,7 @@ export default function Homepage() {
       ref={homepage}
       className="home w-screen h-screen overflow-hidden relative"
     >
-      <div className={`fixed z-50 top-[55%] flex flex-col gap-6 right-20`}>
+      <div className={`fixed z-50 top-[55%] flex flex-col gap-6 right-5 2xl:right-20`}>
         <button onClick={openAside} className="pointer-events-auto">
           <Suspense>
             <Await resolve={data.cart}>
