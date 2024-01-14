@@ -378,14 +378,6 @@ const CREATE_CHECKOUT_MUTATION_EMPTY = `#graphql
       }
     }
   }
-  fragment LineItem on CheckoutLineItem {
-    id
-    title
-    quantity
-    variant {
-      id
-    }
-  }
 ` as const;
 
 const UPDATE_SHIPPING_ADDRESS = `#graphql

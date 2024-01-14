@@ -2208,7 +2208,7 @@ interface GeneratedMutationTypes {
     return: CheckoutCreateMutation;
     variables: CheckoutCreateMutationVariables;
   };
-  '#graphql\n  mutation checkoutCreateEmpty {\n    checkoutCreate(input: {}) {\n      checkout {\n        id\n      }\n      checkoutUserErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n  fragment LineItem on CheckoutLineItem {\n    id\n    title\n    quantity\n    variant {\n      id\n    }\n  }\n': {
+  '#graphql\n  mutation checkoutCreateEmpty {\n    checkoutCreate(input: {}) {\n      checkout {\n        id\n      }\n      checkoutUserErrors {\n        code\n        field\n        message\n      }\n    }\n  }\n': {
     return: CheckoutCreateEmptyMutation;
     variables: CheckoutCreateEmptyMutationVariables;
   };
