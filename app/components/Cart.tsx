@@ -1,4 +1,10 @@
-import {CartForm, Image, Money} from '@shopify/hydrogen';
+import {
+  CartForm,
+  Image,
+  Money,
+  useOptimisticData,
+  OptimisticInput,
+} from '@shopify/hydrogen';
 import type {CartLineUpdateInput} from '@shopify/hydrogen/storefront-api-types';
 import {Link} from '@remix-run/react';
 import type {CartApiQueryFragment} from 'storefrontapi.generated';
@@ -77,15 +83,28 @@ function CartLineItem({
   layout: CartMainProps['layout'];
   line: CartLine;
 }) {
+  const optimisticId = `cart-line-${line?.id}`;
+  const optimisticData = useOptimisticData(optimisticId);
+
   const {id, merchandise} = line;
   const {product, title, image, selectedOptions} = merchandise;
   const lineItemUrl = useVariantUrl(product.handle, selectedOptions);
   const {id: lineId} = line;
 
   return (
-    <li key={id} className="cart-line border-t-2 border-root-tertiary">
+    <li
+      style={{
+        display: optimisticData?.type === 'remove' ? 'none' : 'flex',
+      }}
+      key={id}
+      className="cart-line border-t-2 border-root-tertiary"
+    >
       <div className="flex w-full justify-between relative">
-        <CartLineRemoveButton lineId={lineId} variantId={merchandise.id} />
+        <CartLineRemoveButton
+          optimisticId={optimisticId}
+          lineId={lineId}
+          variantId={merchandise.id}
+        />
         <div className="flex">
           {image && (
             <Image
@@ -224,9 +243,11 @@ export function CartSummary({
 function CartLineRemoveButton({
   lineId,
   variantId,
+  optimisticId,
 }: {
   lineId: string;
   variantId: string;
+  optimisticId: string;
 }) {
   const formInput = [
     JSON.stringify({
@@ -247,6 +268,7 @@ function CartLineRemoveButton({
         >
           &#x2715;
         </button>
+        <OptimisticInput id={optimisticId} data={{type: 'remove'}} />
       </CartForm>
     </div>
   );
@@ -266,10 +288,19 @@ function CartLineQuantity({line}: {line: CartLine}) {
 }
 
 function CartLineChangeQuantity({line}: {line: CartLine}) {
+  const optimisticId = `cart-line-${line?.id}`;
+
+  const optimisticData = useOptimisticData(optimisticId);
+  const optimisticQuantity = optimisticData?.quantity
+    ? (optimisticData.quantity as number)
+    : line?.quantity;
+
   if (!line || typeof line?.quantity === 'undefined') return null;
+
   const {id: lineId, quantity} = line;
   const prevQuantity = Number(Math.max(0, quantity - 1).toFixed(0));
   const nextQuantity = Number((quantity + 1).toFixed(0));
+
   return (
     <div className="flex items-center gap-3">
       <CartLineUpdateButton
@@ -283,15 +314,16 @@ function CartLineChangeQuantity({line}: {line: CartLine}) {
       >
         <button
           aria-label="Decrease quantity"
-          disabled={quantity <= 1}
+          disabled={optimisticQuantity <= 1}
           name="decrease-quantity"
           value={prevQuantity}
           className="rounded-full px-2.5 border border-altlierBlue"
         >
           <span className="text-lg">&#8722;</span>
+          <OptimisticInput id={optimisticId} data={{quantity: prevQuantity}} />
         </button>
       </CartLineUpdateButton>
-      <span className="text-lg ">{quantity}</span>
+      <span className="text-lg ">{optimisticQuantity}</span>
       <CartLineUpdateButton
         lines={[
           {
@@ -308,6 +340,7 @@ function CartLineChangeQuantity({line}: {line: CartLine}) {
           className="rounded-full px-2.5 border border-altlierBlue"
         >
           <span className="text-lg">&#43;</span>
+          <OptimisticInput id={optimisticId} data={{quantity: nextQuantity}} />
         </button>
       </CartLineUpdateButton>
     </div>
