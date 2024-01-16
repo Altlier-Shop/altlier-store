@@ -169,6 +169,7 @@ function AccountLayout({
 
   return (
     <div className="account">
+      <AccountMenu />
       <div className="mx-4 lg:mx-0 md:max-w-7xl grid grid-cols-1 lg:grid-cols-5 gap-8 mt-28">
         <div className="lg:col-span-2 h-24 bg-altlierBlue rounded-full flex gap-4">
           <img
@@ -194,124 +195,122 @@ function AccountLayout({
           </p>
         </div>
         <div className="flow-root lg:col-span-2">
-          <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-            <div className="overflow-hidden border-gray-400 border ring-1 ring-black ring-opacity-5 rounded-lg bg-white">
-              <div className="py-2 px-8 font-bold border-b border-gray-400 bg-root-primary">
-                Account Settings
-              </div>
-              <ul className="divide-y divide-gray-400">
-                <li className="flex justify-between gap-x-6 py-5 px-8">
-                  <div className="flex min-w-0 gap-x-4">
-                    <div className="min-w-0 flex-auto">
-                      <p className="text-sm font-semibold leading-6 text-gray-900">
-                        Name
-                      </p>
-                      <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                        {customer.firstName} {customer.lastName}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="shrink-0 flex flex-col justify-center w-[50px] items-start">
-                    <button className="text-sm leading-6 text-gray-900">
-                      Edit
-                    </button>
-                  </div>
-                </li>
-                <li className="flex justify-between gap-x-6 py-5 px-8">
-                  <div className="flex min-w-0 gap-x-4">
-                    <div className="min-w-0 flex-auto">
-                      <p className="text-sm font-semibold leading-6 text-gray-900">
-                        Email
-                      </p>
-                      <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                        {customer.email}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="shrink-0 flex flex-col justify-center w-[50px] items-start">
-                    <button className="text-sm leading-6 text-gray-900">
-                      Edit
-                    </button>
-                  </div>
-                </li>
-                <li className="flex justify-between gap-x-6 py-5 px-8">
-                  <div className="flex min-w-0 gap-x-4">
-                    <div className="min-w-0 flex-auto">
-                      <p className="text-sm font-semibold leading-6 text-gray-900">
-                        Password
-                      </p>
-                      <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                        ********
-                      </p>
-                    </div>
-                  </div>
-                  <div className="shrink-0 flex flex-col justify-center w-[50px] items-start">
-                    <button className="text-sm leading-6 text-gray-900">
-                      Reset
-                    </button>
-                  </div>
-                </li>
-                <li className="flex justify-between gap-x-6 py-5 px-8">
-                  <div className="flex min-w-0 gap-x-4">
-                    <div className="min-w-0 flex-auto">
-                      <p className="text-sm font-semibold leading-6 text-gray-900">
-                        Shipping Address
-                      </p>
-                      <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                        {customer.defaultAddress?.formatted}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="shrink-0 flex flex-col justify-center w-[50px] items-start">
-                    <button className="text-sm leading-6 text-gray-900">
-                      Edit
-                    </button>
-                  </div>
-                </li>
-                <li className="flex justify-between gap-x-6 py-5 px-8">
-                  <div className="flex min-w-0 gap-x-4">
-                    <div className="min-w-0 flex-auto">
-                      <p className="text-sm font-semibold leading-6 text-gray-900">
-                        Digital Wallet Address
-                      </p>
-                      <p className="mt-1 text-xs leading-5 text-gray-500">
-                        ******** <br />
-                        Your Wallet Address will be kept strictly confidential
-                        and will only be used to deposit NFT's and rewards
-                      </p>
-                    </div>
-                  </div>
-                  <div className="shrink-0 flex flex-col justify-center w-[50px] items-start">
-                    <button className="text-sm leading-6 text-gray-900">
-                      Edit
-                    </button>
-                  </div>
-                </li>
-                <li className="flex justify-between gap-x-6 py-5 px-8">
-                  <div className="flex min-w-0 gap-x-4">
-                    <div className="min-w-0 flex-auto">
-                      <p className="text-sm font-semibold leading-6 text-gray-900">
-                        Payment
-                      </p>
-                      <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                        ********
-                      </p>
-                    </div>
-                  </div>
-                  <div className="shrink-0 flex flex-col justify-center w-[50px] items-start">
-                    <button className="text-sm leading-6 text-gray-900">
-                      Update
-                    </button>
-                  </div>
-                </li>
-              </ul>
+          <div className="overflow-hidden border-gray-400 border ring-1 ring-black ring-opacity-5 rounded-lg bg-white">
+            <div className="py-2 px-8 font-bold border-b border-gray-400 bg-root-primary">
+              Account Settings
             </div>
+            <ul className="divide-y divide-gray-400">
+              <li className="flex justify-between gap-x-6 py-5 px-8">
+                <div className="flex min-w-0 gap-x-4">
+                  <div className="min-w-0 flex-auto">
+                    <p className="text-sm font-semibold leading-6 text-gray-900">
+                      Name
+                    </p>
+                    <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+                      {customer.firstName} {customer.lastName}
+                    </p>
+                  </div>
+                </div>
+                <div className="shrink-0 flex flex-col justify-center w-[50px] items-start">
+                  <button className="text-sm leading-6 text-gray-900">
+                    Edit
+                  </button>
+                </div>
+              </li>
+              <li className="flex justify-between gap-x-6 py-5 px-8">
+                <div className="flex min-w-0 gap-x-4">
+                  <div className="min-w-0 flex-auto">
+                    <p className="text-sm font-semibold leading-6 text-gray-900">
+                      Email
+                    </p>
+                    <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+                      {customer.email}
+                    </p>
+                  </div>
+                </div>
+                <div className="shrink-0 flex flex-col justify-center w-[50px] items-start">
+                  <button className="text-sm leading-6 text-gray-900">
+                    Edit
+                  </button>
+                </div>
+              </li>
+              <li className="flex justify-between gap-x-6 py-5 px-8">
+                <div className="flex min-w-0 gap-x-4">
+                  <div className="min-w-0 flex-auto">
+                    <p className="text-sm font-semibold leading-6 text-gray-900">
+                      Password
+                    </p>
+                    <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+                      ********
+                    </p>
+                  </div>
+                </div>
+                <div className="shrink-0 flex flex-col justify-center w-[50px] items-start">
+                  <button className="text-sm leading-6 text-gray-900">
+                    Reset
+                  </button>
+                </div>
+              </li>
+              <li className="flex justify-between gap-x-6 py-5 px-8">
+                <div className="flex min-w-0 gap-x-4">
+                  <div className="min-w-0 flex-auto">
+                    <p className="text-sm font-semibold leading-6 text-gray-900">
+                      Shipping Address
+                    </p>
+                    <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+                      {customer.defaultAddress?.formatted}
+                    </p>
+                  </div>
+                </div>
+                <div className="shrink-0 flex flex-col justify-center w-[50px] items-start">
+                  <button className="text-sm leading-6 text-gray-900">
+                    Edit
+                  </button>
+                </div>
+              </li>
+              <li className="flex justify-between gap-x-6 py-5 px-8">
+                <div className="flex min-w-0 gap-x-4">
+                  <div className="min-w-0 flex-auto">
+                    <p className="text-sm font-semibold leading-6 text-gray-900">
+                      Digital Wallet Address
+                    </p>
+                    <p className="mt-1 text-xs leading-5 text-gray-500">
+                      ******** <br />
+                      Your Wallet Address will be kept strictly confidential and
+                      will only be used to deposit NFT's and rewards
+                    </p>
+                  </div>
+                </div>
+                <div className="shrink-0 flex flex-col justify-center w-[50px] items-start">
+                  <button className="text-sm leading-6 text-gray-900">
+                    Edit
+                  </button>
+                </div>
+              </li>
+              <li className="flex justify-between gap-x-6 py-5 px-8">
+                <div className="flex min-w-0 gap-x-4">
+                  <div className="min-w-0 flex-auto">
+                    <p className="text-sm font-semibold leading-6 text-gray-900">
+                      Payment
+                    </p>
+                    <p className="mt-1 truncate text-xs leading-5 text-gray-500">
+                      ********
+                    </p>
+                  </div>
+                </div>
+                <div className="shrink-0 flex flex-col justify-center w-[50px] items-start">
+                  <button className="text-sm leading-6 text-gray-900">
+                    Update
+                  </button>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
-        <div className="flow-root lg:col-span-3 overflow-y-auto">
-          <div className="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-            <div className="overflow-hidden border-gray-400 border ring-1 ring-black ring-opacity-5 rounded-lg bg-white">
-              <table className="min-w-full divide-y divide-gray-300">
+        <div className="flow-root lg:col-span-3">
+          <div className="overflow-hidden border-gray-400 border ring-1 ring-black ring-opacity-5 rounded-lg bg-white">
+            <div className="overflow-y-auto">
+              <table className="divide-y divide-gray-300">
                 <thead className="bg-root-primary border-b border-gray-400">
                   <tr>
                     <th
@@ -410,8 +409,8 @@ function AccountMenu() {
 
   return (
     <div>
-      <AccountProfile />
-      <Orders />
+      {/*<AccountProfile />*/}
+      {/*<Orders />*7}
       {/* <nav role="navigation">
         <NavLink to="/account/orders" style={isActiveStyle}>
           Orders &nbsp;
