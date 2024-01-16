@@ -40,7 +40,7 @@ export default function RecommendedProducts({
     // Fetch Sizes
     topProduct.sizes = topProduct.options.find(
       (option: any) => option.name === 'Size',
-    ).values;
+    )?.values;
 
     // Fetch Material Information
     const reMaterial = new RegExp('Material:\\s*(.*)\\sProduct');

@@ -134,7 +134,9 @@ export default function Homepage() {
       ref={homepage}
       className="home w-screen h-screen overflow-hidden relative"
     >
-      <div className={`fixed z-50 top-[55%] flex flex-col gap-6 right-5 2xl:right-20`}>
+      <div
+        className={`fixed z-50 top-[55%] flex flex-col gap-6 right-5 2xl:right-20`}
+      >
         <button onClick={openAside} className="pointer-events-auto">
           <Suspense>
             <Await resolve={data.cart}>
@@ -282,7 +284,7 @@ const RECOMMENDED_PRODUCTS_QUERY = `#graphql
   ${PRODUCT_FRAGMENT}
   query RecommendedProducts ($country: CountryCode, $language: LanguageCode)
     @inContext(country: $country, language: $language) {
-    products(first: 8, sortKey: UPDATED_AT, reverse: true) {
+    products(first: 9, sortKey: UPDATED_AT, reverse: true) {
       nodes {
         ...RecommendedProduct
       }
