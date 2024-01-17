@@ -6,8 +6,7 @@ import {
 } from '@shopify/remix-oxygen';
 import {Form, Link, useActionData} from '@remix-run/react';
 import type {CustomerCreateMutation} from 'storefrontapi.generated';
-import GridPage from '~/components/startpage-components/GridPage';
-import ImageCarousel from '~/components/ImageCarousel';
+import {AuthLayout} from '~/components/AuthLayout';
 
 type ActionResponse = {
   error: string | null;
@@ -108,86 +107,77 @@ export async function action({request, context}: ActionFunctionArgs) {
 export default function Register() {
   const data = useActionData<ActionResponse>();
   const error = data?.error || null;
+
   return (
-    <div className="login w-screen h-screen flex">
-      <div className="flex w-1/2 h-full bg-root-secondary relative">
-        <GridPage />
-        <ImageCarousel />
+    <AuthLayout>
+      <div className="grid gap-2">
+        <h1 className="pixel-font 2xl:text-5xl lg:text-4xl text-3xl">
+          <span className="line-through">Chill</span>Shill
+        </h1>
+        <h1 className="pixel-font 2xl:text-5xl lg:text-4xl text-3xl">
+          with us
+        </h1>
       </div>
-      <div className="w-1/2 h-full bg-root-primary relative">
-        <div className="mt-[25%] px-[15%]">
-          <div className="grid gap-6 md:gap-2">
-            <h1 className="pixel-font 2xl:text-5xl lg:text-4xl md:text-3xl">
-              <span className="line-through">Chill</span>Shill
-            </h1>
-            <h1 className="pixel-font 2xl:text-5xl lg:text-4xl md:text-3xl">
-              with us
-            </h1>
-          </div>
-          <Form method="POST">
-            <fieldset className="gap-6 mt-[10%]">
-              <input
-                className="input-box"
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                placeholder="Email"
-                aria-label="Email"
-                // eslint-disable-next-line jsx-a11y/no-autofocus
-                autoFocus
-              />
-              <input
-                className="input-box"
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                placeholder="Password"
-                aria-label="Password"
-                minLength={8}
-                required
-              />
-              <input
-                className="input-box"
-                id="passwordConfirm"
-                name="passwordConfirm"
-                type="password"
-                autoComplete="current-password"
-                placeholder="Re-enter password"
-                aria-label="Re-enter password"
-                minLength={8}
-                required
-              />
-            </fieldset>
-            {error ? (
-              <p>
-                <mark>
-                  <small>{error}</small>
-                </mark>
-              </p>
-            ) : (
-              <br />
-            )}
-            <div className="flex mt-8 w-full gap-6 items-center">
-              <button
-                type="submit"
-                className="btn homepage-btn btn-dark w-full lg:text-2xl text-lg"
-              >
-                Register
-              </button>
-              <Link
-                className="grid justify-end  text-emerald-light root-secondaryspace-nowrap"
-                to="/account/login"
-              >
-                Have An Account?
-              </Link>
-            </div>
-          </Form>
+      <Form className="mt-8 md:max-w-[450px]" method="POST">
+        <fieldset className="gap-6">
+          <input
+            className="input-box"
+            id="email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            required
+            placeholder="Email"
+            aria-label="Email"
+            // eslint-disable-next-line jsx-a11y/no-autofocus
+            autoFocus
+          />
+          <input
+            className="input-box"
+            id="password"
+            name="password"
+            type="password"
+            autoComplete="current-password"
+            placeholder="Password"
+            aria-label="Password"
+            minLength={8}
+            required
+          />
+          <input
+            className="input-box"
+            id="passwordConfirm"
+            name="passwordConfirm"
+            type="password"
+            autoComplete="current-password"
+            placeholder="Re-enter password"
+            aria-label="Re-enter password"
+            minLength={8}
+            required
+          />
+        </fieldset>
+        {error && (
+          <p>
+            <mark>
+              <small>{error}</small>
+            </mark>
+          </p>
+        )}
+        <div className="flex mt-6 w-full gap-6 items-center justify-between">
+          <button
+            type="submit"
+            className="btn homepage-btn btn-dark max-w-[400px] lg:text-2xl text-lg"
+          >
+            Register
+          </button>
+          <Link
+            className="text-emerald-light whitespace-nowrap"
+            to="/account/login"
+          >
+            Have An Account?
+          </Link>
         </div>
-      </div>
-    </div>
+      </Form>
+    </AuthLayout>
   );
 }
 
