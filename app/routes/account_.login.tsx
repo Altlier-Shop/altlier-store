@@ -5,9 +5,8 @@ import {
   type LoaderFunctionArgs,
 } from '@shopify/remix-oxygen';
 import {Form, Link, useActionData, type MetaFunction} from '@remix-run/react';
-import GridPage from '~/components/startpage-components/GridPage';
-import ImageCarousel from '~/components/ImageCarousel';
 import type {CheckoutLineItemInput} from '@shopify/hydrogen/storefront-api-types';
+import {AuthLayout} from '~/components/AuthLayout';
 
 type ActionResponse = {
   error: string | null;
@@ -194,85 +193,75 @@ export default function Login() {
   const error = data?.error || null;
 
   return (
-    <div className="login w-screen h-screen flex">
-      <div className="flex w-1/2 h-full bg-root-secondary relative">
-        <GridPage />
-        <ImageCarousel />
+    <AuthLayout>
+      <div className="grid gap-2">
+        <h1 className="pixel-font 2xl:text-5xl lg:text-4xl text-3xl">
+          WELCOME BACK
+        </h1>
+        <h1 className="pixel-font 2xl:text-5xl lg:text-4xl text-3xl">
+          ALTLIER!
+        </h1>
       </div>
-      <div className="w-1/2 h-full bg-root-primary relative">
-        <div className="mt-[25%] px-[15%]">
-          <div className="grid gap-6 md:gap-2">
-            <h1 className="pixel-font 2xl:text-5xl lg:text-4xl md:text-3xl">
-              WELCOME BACK
-            </h1>
-            <h1 className="pixel-font 2xl:text-5xl lg:text-4xl md:text-3xl">
-              ALTLIER!
-            </h1>
-          </div>
-          <Form method="POST">
-            <fieldset className="gap-6 mt-[15%]">
-              <input
-                className="input-box"
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                placeholder="Email"
-                aria-label="Email"
-                // eslint-disable-next-line jsx-a11y/no-autofocus
-                autoFocus
-              />
-              <input
-                className="input-box"
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                placeholder="Password"
-                aria-label="Password"
-                minLength={8}
-                required
-              />
-            </fieldset>
-            {error ? (
-              <p>
-                <mark>
-                  <small>{error}</small>
-                </mark>
-              </p>
-            ) : (
-              <br />
-            )}
-            <div className="flex mt-8 w-full gap-6 items-center">
-              <button
-                type="submit"
-                className="btn homepage-btn btn-dark w-full"
-              >
-                Login
-              </button>
-              <Link
-                className="grid justify-end  text-emerald-light root-secondaryspace-nowrap"
-                to="/account/recover"
-              >
-                Forgot password?
-              </Link>
-            </div>
-            <div className="mt-6 w-full grid justify-center">
-              <p className="text-neutral-400">
-                {`Don't have an account? Anyone can be an Altlier!`}
-              </p>
-              <Link
-                className="mt-2 text-emerald-light justify-self-center"
-                to="/account/register"
-              >
-                Sign Up Here!
-              </Link>
-            </div>
-          </Form>
+      <Form className="mt-8 md:max-w-[450px]" method="POST">
+        <fieldset className="gap-6">
+          <input
+            className="input-box"
+            id="email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            required
+            placeholder="Email"
+            aria-label="Email"
+            // eslint-disable-next-line jsx-a11y/no-autofocus
+            autoFocus
+          />
+          <input
+            className="input-box"
+            id="password"
+            name="password"
+            type="password"
+            autoComplete="current-password"
+            placeholder="Password"
+            aria-label="Password"
+            minLength={8}
+            required
+          />
+        </fieldset>
+        {!!error && (
+          <p>
+            <mark>
+              <small>{error}</small>
+            </mark>
+          </p>
+        )}
+        <div className="flex mt-6 gap-6 items-center justify-between">
+          <button
+            type="submit"
+            className="btn homepage-btn btn-dark max-w-[400px]"
+          >
+            Login
+          </button>
+          <Link
+            className="text-emerald-light whitespace-nowrap"
+            to="/account/recover"
+          >
+            Forgot password?
+          </Link>
         </div>
-      </div>
-    </div>
+        <div className="mt-6 w-full grid justify-center">
+          <p className="text-neutral-400">
+            {`Don't have an account? Anyone can be an Altlier!`}
+          </p>
+          <Link
+            className="mt-2 text-emerald-light justify-self-center"
+            to="/account/register"
+          >
+            Sign Up Here!
+          </Link>
+        </div>
+      </Form>
+    </AuthLayout>
   );
 }
 

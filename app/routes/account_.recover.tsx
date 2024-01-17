@@ -5,7 +5,7 @@ import {
   type ActionFunctionArgs,
 } from '@shopify/remix-oxygen';
 import {Form, Link, useActionData} from '@remix-run/react';
-import GridPage from '~/components/startpage-components/GridPage';
+import {AuthLayout} from '~/components/AuthLayout';
 import password_reset from '../../public/login-page-images/password_reset.png';
 
 type ActionResponse = {
@@ -49,101 +49,87 @@ export async function action({request, context}: ActionFunctionArgs) {
   }
 }
 
+function RecoverRequestedMessage() {
+  return (
+    <>
+      <div className="grid gap-2">
+        <h1 className="pixel-font 2xl:text-3xl lg:text-xl text-lg">
+          Check Your Email!
+        </h1>
+        <p className="mt-2">
+          If that email address is in our system, you will receive an email with
+          instructions about how to reset your password in a few minutes.
+        </p>
+      </div>
+      <Link className="mt-6 w-full text-emerald-light" to="/account/login">
+        Back To Login!
+      </Link>
+    </>
+  );
+}
+
+function RecoverForm({error}: {error: string | undefined}) {
+  return (
+    <>
+      <div className="grid gap-2">
+        <h1 className="pixel-font 2xl:text-5xl lg:text-4xl text-3xl">
+          Forgot Password ¯\_(ツ)_/¯
+        </h1>
+        <p className="mt-2 text-neutral-400">
+          Enter your email address to receive a link to reset your password!
+        </p>
+      </div>
+      <Form className="mt-8 md:max-w-[450px]" method="POST">
+        <fieldset className="gap-6">
+          <input
+            className="input-box"
+            id="email"
+            name="email"
+            type="email"
+            autoComplete="email"
+            required
+            placeholder="Email"
+            aria-label="Email"
+            // eslint-disable-next-line jsx-a11y/no-autofocus
+            autoFocus
+          />
+        </fieldset>
+        {!!error && (
+          <p>
+            <mark>
+              <small>{error}</small>
+            </mark>
+          </p>
+        )}
+        <div className="flex mt-6 w-full gap-6 items-center justify-between">
+          <button
+            type="submit"
+            className="btn homepage-btn btn-light max-w-[400px] text-xl"
+          >
+            Send Email
+          </button>
+          <Link
+            className="text-emerald-light whitespace-nowrap"
+            to="/account/login"
+          >
+            I remember again!
+          </Link>
+        </div>
+      </Form>
+    </>
+  );
+}
+
 export default function Recover() {
   const action = useActionData<ActionResponse>();
-
   return (
-    <div className="account-recover">
-      <div className="login w-screen h-screen flex">
-        <div className="flex w-1/2 h-full bg-root-secondary relative">
-          <GridPage />
-          <div className="absolute h-full w-full grid items-center justify-items-center">
-            <img
-              loading="lazy"
-              className="w-2/3"
-              src={password_reset}
-              alt="password forgotten"
-            />
-          </div>
-        </div>
-        <div className="w-1/2 h-full bg-root-primary relative">
-          {action?.resetRequested ? (
-            <div className="mt-[25%] 3xl:px-[15%] px-[10%]">
-              <div className="grid gap-6 md:gap-2">
-                <h1 className="pixel-font 2xl:text-3xl lg:text-xl md:text-lg">
-                  Check Your Email!
-                </h1>
-                <p className="mt-2">
-                  If that email address is in our system, you will receive an
-                  email with instructions about how to reset your password in a
-                  few minutes.
-                </p>
-              </div>
-              <Link
-                className="flex mt-6 w-full text-emerald-light"
-                to="/account/login"
-              >
-                Back To Login!
-              </Link>
-            </div>
-          ) : (
-            <div className="mt-[25%] 3xl:px-[15%] px-[10%]">
-              <div className="grid gap-6 md:gap-2">
-                <h1 className="pixel-font 2xl:text-3xl lg:text-xl md:text-lg">
-                  Forgot Password ¯\_(ツ)_/¯
-                </h1>
-
-                <p className="mt-2 text-neutral-400">
-                  Enter your email address to receive a link to reset your
-                  password!
-                </p>
-              </div>
-
-              <Form method="POST">
-                <fieldset className="gap-6 mt-[10%]">
-                  <input
-                    className="input-box"
-                    id="email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    required
-                    placeholder="Email"
-                    aria-label="Email"
-                    // eslint-disable-next-line jsx-a11y/no-autofocus
-                    autoFocus
-                  />
-                </fieldset>
-
-                {action?.error ? (
-                  <p>
-                    <mark>
-                      <small>{action.error}</small>
-                    </mark>
-                  </p>
-                ) : (
-                  <br />
-                )}
-                <div className="flex mt-8 w-full gap-6 items-center">
-                  <button
-                    type="submit"
-                    className="btn homepage-btn btn-light w-full text-xl"
-                  >
-                    Send Email
-                  </button>
-                  <Link
-                    className="root-secondaryspace-nowrap grid justify-end text-emerald-light"
-                    to="/account/login"
-                  >
-                    I remember again!
-                  </Link>
-                </div>
-              </Form>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
+    <AuthLayout staticImage={{src: password_reset, alt: 'password forgotten'}}>
+      {action?.resetRequested ? (
+        <RecoverRequestedMessage />
+      ) : (
+        <RecoverForm error={action?.error} />
+      )}
+    </AuthLayout>
   );
 }
 
