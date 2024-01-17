@@ -2,6 +2,7 @@ import {Suspense} from 'react';
 import {defer, redirect, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
 import {Await, Link, useLoaderData, type MetaFunction} from '@remix-run/react';
 import type {
+  FooterQuery,
   ProductFragment,
   ProductVariantFragment,
 } from 'storefrontapi.generated';
@@ -82,7 +83,7 @@ function ProductMain({
     <>
       <div className="h-full grid grid-cols-2 gap-16">
         {products.map((product: any) => (
-          <div key={product.id}>
+          <Link to={`/products/${product.handle}`} key={product.id}>
             <ProductImage image={product.images.nodes[0]} />
             <h1>{product.title}</h1>
             <h1>
@@ -91,7 +92,7 @@ function ProductMain({
             </h1>
 
             <br />
-          </div>
+          </Link>
         ))}
         {/* TODO: footer needs to be mobile and non-sticky */}
         <Suspense>
