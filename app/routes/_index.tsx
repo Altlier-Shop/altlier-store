@@ -12,7 +12,6 @@ import CartIcon from '~/components/svg-components/CartIcon';
 import ProfileIcon from '~/components/svg-components/ProfileIcon';
 import {validateCustomerAccessToken} from '~/root';
 import FooterPage from '~/components/FooterPage';
-import UnderMaintenance from '~/components/UnderMaintenance';
 import {UpdateContext} from '~/components/Layout';
 
 export const meta: MetaFunction = () => {
@@ -187,12 +186,9 @@ export default function Homepage() {
       </div>
     </div>
   );
-  // } else {
-  //   return <UnderMaintenance />;
-  // }
 }
 
-const PRODUCT_VARIANT_FRAGMENT = `#graphql
+export const PRODUCT_VARIANT_FRAGMENT = `#graphql
   fragment RecommendedProductVariant on ProductVariant {
     availableForSale
     compareAtPrice {
@@ -221,7 +217,7 @@ const PRODUCT_VARIANT_FRAGMENT = `#graphql
   }
 ` as const;
 
-const PRODUCT_FRAGMENT = `#graphql
+export const PRODUCT_FRAGMENT = `#graphql
   fragment RecommendedProduct on Product {
     id
     title
@@ -256,7 +252,7 @@ const PRODUCT_FRAGMENT = `#graphql
   ${PRODUCT_VARIANT_FRAGMENT}
 ` as const;
 
-const PRODUCT_VARIANTS_FRAGMENT = `#graphql
+export const PRODUCT_VARIANTS_FRAGMENT = `#graphql
   fragment RecommendedProductVariants on Product {
     variants(first: 250) {
       nodes {
@@ -280,7 +276,7 @@ export const VARIANTS_QUERY = `#graphql
   }
 ` as const;
 
-const RECOMMENDED_PRODUCTS_QUERY = `#graphql
+export const RECOMMENDED_PRODUCTS_QUERY = `#graphql
   ${PRODUCT_FRAGMENT}
   query RecommendedProducts ($country: CountryCode, $language: LanguageCode)
     @inContext(country: $country, language: $language) {
