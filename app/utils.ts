@@ -66,3 +66,8 @@ export function useThrottle(
 
   return throttledFunc;
 }
+
+export const openAside = () => {
+  const location = window.location;
+  window.location.href = location.origin + location.pathname + '#cart-aside';
+};

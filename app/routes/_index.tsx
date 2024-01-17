@@ -1,7 +1,7 @@
 import {defer, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, type MetaFunction} from '@remix-run/react';
 import {Suspense, useContext, useEffect, useRef, useState} from 'react';
-import {useThrottle} from '~/utils';
+import {useThrottle, openAside} from '~/utils';
 // import type {
 //   FeaturedCollectionFragment,
 //   RecommendedProductsQuery,
@@ -23,7 +23,7 @@ export async function loader({context}: LoaderFunctionArgs) {
   const customerAccessToken = session.get('customerAccessToken');
 
   // validate the customer access token is valid
-  const {isLoggedIn, headers} = await validateCustomerAccessToken(
+  const {isLoggedIn} = await validateCustomerAccessToken(
     session,
     customerAccessToken,
   );
@@ -42,7 +42,6 @@ export async function loader({context}: LoaderFunctionArgs) {
   return defer({
     recommendedProducts,
     isLoggedIn,
-    headers,
     footer: footerPromise,
     cart: cartPromise,
   });
@@ -53,9 +52,7 @@ export default function Homepage() {
   const [mobileView, setMobileView] = useState(false);
   const [isPopup, setIsPopup] = useState(true);
   const data = useLoaderData<typeof loader>();
-  const openAside = (e: any) => {
-    window.location.href = window.location.origin + '#cart-aside';
-  };
+
   const homepage = useRef<HTMLDivElement>(null);
   const landingPage = useRef<HTMLDivElement>(null);
   const productPage = useRef<HTMLDivElement>(null);
