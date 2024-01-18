@@ -12,6 +12,7 @@ import ProfileIcon from '~/components/svg-components/ProfileIcon';
 import {validateCustomerAccessToken} from '~/root';
 import {Footer} from '~/components/Footer';
 import TopProduct from '~/components/productpage-components/TopProduct';
+import {Carousel} from '@material-tailwind/react';
 
 export const meta: MetaFunction<typeof loader> = ({data}) => {
   return [{title: `Hydrogen | ${data?.product.title ?? ''}`}];
@@ -156,11 +157,17 @@ function ProductMain({product}: {product: any}) {
   }
   const {images} = product;
   return (
-    <div className="product-main">
-      <ProductImages images={images.nodes} />
-      <br />
-      <TopProduct topProduct={product} onOpenSizeGuide={openSizeGuide} />
-      <br />
+    <div className="px-4 mt-24">
+      <div>
+        <ProductImages images={images.nodes} />
+      </div>
+      <div className="my-4">
+        <TopProduct
+          topProduct={product}
+          onOpenSizeGuide={openSizeGuide}
+          mobile={true}
+        />
+      </div>
     </div>
   );
 }
@@ -173,11 +180,11 @@ function ProductImages({images}: {images: any[]}) {
     const reversed = [...images.reverse()];
 
     return (
-      <div className="product-image">
+      <Carousel>
         {reversed.map((image) => (
           <img key={image.url} src={image.url} alt="product" />
         ))}
-      </div>
+      </Carousel>
     );
   }
 }

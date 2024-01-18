@@ -3,10 +3,12 @@ import {Listbox} from '@headlessui/react';
 import {ChevronDownIcon} from '@heroicons/react/20/solid';
 import {CartForm} from '@shopify/hydrogen';
 import {openAside} from '~/utils';
+import {isMobile} from '@headlessui/react/dist/utils/platform';
 
 interface TopProductProps {
   topProduct: any;
   onOpenSizeGuide: () => void;
+  mobile?: boolean;
 }
 
 export default function TopProduct(props: TopProductProps) {
@@ -45,7 +47,13 @@ export default function TopProduct(props: TopProductProps) {
 
   return (
     <>
-      <div className="absolute z-30 w-fit right-12 top-20 grid justify-items-center">
+      <div
+        className={
+          !props.mobile
+            ? 'absolute z-30 w-fit right-12 top-20 grid justify-items-center'
+            : ''
+        }
+      >
         <div className="btn homepage-btn w-fit px-6 bg-altlierBlue text-root-secondary text-center flex items-center">
           <span className="text-root-secondary pixel-font text-2xl">
             {props.topProduct.title}
@@ -55,7 +63,11 @@ export default function TopProduct(props: TopProductProps) {
           {productFirstNode.price.currencyCode}
           {Math.round(productFirstNode.price.amount)}
         </h1>
-        <div className="mt-4 w-fit [&>*]:text-neutral-400">
+        <div
+          className={`mt-4 ${
+            props.mobile ? 'w-full' : 'w-fit'
+          } [&>*]:text-neutral-400`}
+        >
           <p>Product Code: {props.topProduct.productCode}</p>
           <p>Material: {props.topProduct.material}</p>
           <div className="flex justify-between mt-3 mb-3 [&>*]:text-neutral-400">

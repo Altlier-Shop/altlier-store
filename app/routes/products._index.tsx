@@ -123,8 +123,10 @@ function ProductMain({products}: {products: ProductFragment[]}) {
         {products.map((product: any) => (
           <Link to={`/products/${product.handle}`} key={product.id}>
             <div className="border border-altlierBlue h-full bg-altlierBlue">
-              <div className={`${colors[getRandomNumber()]} py-4`}>
-                <ProductImage image={product.images.nodes[product.images.nodes.length - 1} />
+              <div>
+                <ProductImage
+                  image={product.images.nodes[product.images.nodes.length - 1]}
+                />
               </div>
               <div className="p-1 text-xs">
                 <h1 className="text-white">{product.title}</h1>
