@@ -22,13 +22,20 @@ body {
 aside {
   background: var(--color-light);
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.3);
-  height: 100vh;
+  height: 95vh;
   max-width: var(--aside-width);
   min-width: var(--aside-width);
   position: fixed;
-  right: calc(-1 * var(--aside-width));
-  top: 0;
-  transition: transform 200ms ease-in-out;
+  top: 2.5%;
+  left: 50%;
+
+  @media (min-width: 768px) {
+    height: 100vh;
+    right: calc(-1 * var(--aside-width));
+    top: 0;
+    left: unset;
+    transition: transform 200ms ease-in-out;
+  }
 }
 
 aside header {
@@ -100,7 +107,10 @@ aside li {
   left: 0;
   position: absolute;
   top: 0;
-  width: calc(100% - var(--aside-width));
+  width: 100%;
+  @media (min-width: 768px) {
+    width: calc(100% - var(--aside-width));
+  }
 }
 
 .overlay .light {
@@ -121,7 +131,11 @@ aside li {
 }
 /* reveal aside */
 .overlay:target aside {
-  transform: translateX(calc(var(--aside-width) * -1));
+  transform: translateX(-50%);
+
+  @media (min-width: 768px) {
+    transform: translateX(calc(var(--aside-width) * -1));
+  }
 }
 
 /*
