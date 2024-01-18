@@ -1,14 +1,26 @@
 import {db} from './firebase-setup';
-import {collection, addDoc} from 'firebase/firestore';
+import {collection, addDoc, getDoc, doc} from 'firebase/firestore';
 
-export const test = async () => {
+export const setUserEmail = async (email: string) => {
   try {
-    const docRef = await addDoc(collection(db, 'users'), {
-      first: 'Ada',
-      last: 'Lovelace',
-      born: 1815,
+    const exisitngDoc = await getUserEmail(email);
+    if (exisitngDoc) {
+      return;
+    }
+    await addDoc(collection(db, 'usersNewsletter'), {
+      email,
     });
-    console.log('Document written with ID: ', docRef.id);
+    // console.log('Document written with ID: ', docRef.id);
+  } catch (e) {
+    console.error('Error adding document: ', e);
+  }
+};
+
+export const getUserEmail = async (email: string) => {
+  try {
+    const docRef = doc(db, 'users', email);
+    const docSnap = await getDoc(docRef);
+    return docSnap.data();
   } catch (e) {
     console.error('Error adding document: ', e);
   }
