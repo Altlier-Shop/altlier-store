@@ -30,9 +30,9 @@ export default function LandingPageMobile({data}: {data: any}) {
               <NotAPonzi />
             </div>
             <p className="xl:leading-6 leading-4 text-lg mt-8">
-              Altlier, a community for alternative outliers, blends wearable
+              {`Altlier, a community for alternative outliers, blends wearable
               products with documentation of the Crypto/Web3 cultural movement,
-              capturing the era’s excitement in every unique design.
+              capturing the era's excitement in every unique design.`}
             </p>
             <div
               className="bg-root-secondary pointer-events-none w-screen -mx-10 mt-8"
@@ -65,14 +65,14 @@ export default function LandingPageMobile({data}: {data: any}) {
               INTO DAILY LIFE
             </h1>
             <p className="leading-6 text-lg">
-              Discover Altlier: In the digital age's heart, we're a brand born
+              {`Discover Altlier: In the digital age's heart, we're a brand born
               from a crypto community's vision, embodying the web3 culture.
               Altlier isn't just about fashion; it's about a cultural
               metamorphosis, capturing the spirit of this era through clothing
               that's more than garments - each piece is a story, a symbol of
               innovation and connection. Join us, wear your story, and be part
               of this revolutionary movement. Altlier - Dressing the Revolution,
-              One Stitch at a Time
+              One Stitch at a Time`}
             </p>
             <div className="my-20">
               <div className="relative h-96 flex justify-center items-end">

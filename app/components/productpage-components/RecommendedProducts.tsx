@@ -36,23 +36,6 @@ export default function RecommendedProducts({
 
   const topProduct = selectProducts.find((products) => products.top);
 
-  if (topProduct) {
-    // Fetch Sizes
-    topProduct.sizes = topProduct.options.find(
-      (option: any) => option.name === 'Size',
-    )?.values;
-
-    // Fetch Material Information
-    const reMaterial = new RegExp('Material:\\s*(.*)\\sProduct');
-    const materialMatch = topProduct.description.match(reMaterial);
-    topProduct.material = materialMatch ? materialMatch[1].trim() : '';
-
-    // Fetch Product Code
-    const reProduct = new RegExp('Product\\sCode\\s*:(.*)');
-    const productCodeMatch = topProduct.description.match(reProduct);
-    topProduct.productCode = productCodeMatch ? productCodeMatch[1].trim() : '';
-  }
-
   const handleRotate = (clockWise: boolean) => {
     setDisableRotation(true);
     const products = JSON.parse(JSON.stringify(productsQueue)) as any[];

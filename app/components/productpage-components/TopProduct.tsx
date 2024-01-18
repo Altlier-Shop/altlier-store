@@ -24,7 +24,23 @@ export default function TopProduct(props: TopProductProps) {
         },
       ]
     : [];
-  // console.log(selectedProduct);
+
+  // Fetch Sizes
+  props.topProduct.sizes = props.topProduct.options.find(
+    (option: any) => option.name === 'Size',
+  )?.values;
+
+  // Fetch Material Information
+  const reMaterial = new RegExp('Material:\\s*(.*)\\sProduct');
+  const materialMatch = props.topProduct.description.match(reMaterial);
+  props.topProduct.material = materialMatch ? materialMatch[1].trim() : '';
+
+  // Fetch Product Code
+  const reProduct = new RegExp('Product\\sCode\\s*:(.*)');
+  const productCodeMatch = props.topProduct.description.match(reProduct);
+  props.topProduct.productCode = productCodeMatch
+    ? productCodeMatch[1].trim()
+    : '';
 
   return (
     <>

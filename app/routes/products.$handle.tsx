@@ -1,19 +1,17 @@
 import {Suspense} from 'react';
 import {defer, redirect, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, type MetaFunction} from '@remix-run/react';
-import type {
-  ProductFragment,
-  ProductVariantsQuery,
-} from 'storefrontapi.generated';
+
 import {FOOTER_QUERY} from '~/routes/_index';
 
 import {getSelectedProductOptions} from '@shopify/hydrogen';
-import type {SelectedOption} from '@shopify/hydrogen/storefront-api-types';
-import {getVariantUrl, openAside} from '~/utils';
+
+import {openAside} from '~/utils';
 import CartIcon from '~/components/svg-components/CartIcon';
 import ProfileIcon from '~/components/svg-components/ProfileIcon';
 import {validateCustomerAccessToken} from '~/root';
 import {Footer} from '~/components/Footer';
+import TopProduct from '~/components/productpage-components/TopProduct';
 
 export const meta: MetaFunction<typeof loader> = ({data}) => {
   return [{title: `Hydrogen | ${data?.product.title ?? ''}`}];
@@ -48,13 +46,13 @@ export async function loader({params, request, context}: LoaderFunctionArgs) {
     throw new Response(null, {status: 404});
   }
 
-  const firstVariant = product.variants.nodes[0];
-  const firstVariantIsDefault = Boolean(
-    firstVariant.selectedOptions.find(
-      (option: SelectedOption) =>
-        option.name === 'Title' && option.value === 'Default Title',
-    ),
-  );
+  // const firstVariant = product.variants.nodes[0];
+  // const firstVariantIsDefault = Boolean(
+  //   firstVariant.selectedOptions.find(
+  //     (option: SelectedOption) =>
+  //       option.name === 'Title' && option.value === 'Default Title',
+  //   ),
+  // );
 
   // if (firstVariantIsDefault) {
   //   product.selectedVariant = firstVariant;
@@ -81,18 +79,8 @@ export async function loader({params, request, context}: LoaderFunctionArgs) {
     },
   });
 
-  // In order to show which variants are available in the UI, we need to query
-  // all of them. But there might be a *lot*, so instead separate the variants
-  // into it's own separate query that is deferred. So there's a brief moment
-  // where variant options might show as available when they're not, but after
-  // this deffered query resolves, the UI will update.
-  const variants = storefront.query(VARIANTS_QUERY, {
-    variables: {handle},
-  });
-
   return defer({
     product,
-    variants,
     isLoggedIn,
     cart: cartPromise,
     footer: footerPromise,
@@ -107,7 +95,7 @@ export async function loader({params, request, context}: LoaderFunctionArgs) {
 //   request: Request;
 // }) {
 //   const url = new URL(request.url);
-//   const firstVariant = product.variants.nodes[0];
+// const firstVariant = product.variants.nodes[0];
 
 //   return redirect(
 //     getVariantUrl({
@@ -123,9 +111,8 @@ export async function loader({params, request, context}: LoaderFunctionArgs) {
 // }
 
 export default function Product() {
-  const {product, variants, isLoggedIn, cart, footer} =
-    useLoaderData<typeof loader>();
-  const {selectedVariant} = product;
+  const {product, isLoggedIn, cart, footer} = useLoaderData<typeof loader>();
+
   return (
     <div className="product">
       <div
@@ -152,11 +139,7 @@ export default function Product() {
         </a>
       </div>
 
-      <ProductMain
-        selectedVariant={selectedVariant}
-        product={product}
-        variants={variants}
-      />
+      <ProductMain product={product} />
       {/* TODO: footer needs to be mobile and non-sticky */}
       <Suspense>
         <Await resolve={footer}>
@@ -167,31 +150,16 @@ export default function Product() {
   );
 }
 
-function ProductMain({
-  selectedVariant,
-  product,
-  variants,
-}: {
-  product: any;
-  selectedVariant: any;
-  variants: Promise<ProductVariantsQuery>;
-}) {
-  const {title, descriptionHtml, images} = product;
+function ProductMain({product}: {product: any}) {
+  function openSizeGuide() {
+    console.log('open size guide');
+  }
+  const {images} = product;
   return (
     <div className="product-main">
-      <h1>{title}</h1>
-      <h1>
-        {selectedVariant?.price.currencyCode}
-        {selectedVariant?.price.amount}
-      </h1>
-
       <ProductImages images={images.nodes} />
       <br />
-      <p>
-        <strong>Description</strong>
-      </p>
-      <br />
-      <div dangerouslySetInnerHTML={{__html: descriptionHtml}} />
+      <TopProduct topProduct={product} onOpenSizeGuide={openSizeGuide} />
       <br />
     </div>
   );
@@ -275,7 +243,7 @@ const PRODUCT_FRAGMENT = `#graphql
     selectedVariant: variantBySelectedOptions(selectedOptions: $selectedOptions) {
       ...ProductVariant
     }
-    variants(first: 1) {
+    variants(first: 3) {
       nodes {
         ...ProductVariant
       }
@@ -300,28 +268,4 @@ const PRODUCT_QUERY_DETAIL = `#graphql
     }
   }
   ${PRODUCT_FRAGMENT}
-` as const;
-
-const PRODUCT_VARIANTS_FRAGMENT = `#graphql
-  fragment ProductVariants on Product {
-    variants(first: 250) {
-      nodes {
-        ...ProductVariant
-      }
-    }
-  }
-  ${PRODUCT_VARIANT_FRAGMENT}
-` as const;
-
-const VARIANTS_QUERY = `#graphql
-  ${PRODUCT_VARIANTS_FRAGMENT}
-  query ProductVariants(
-    $country: CountryCode
-    $language: LanguageCode
-    $handle: String!
-  ) @inContext(country: $country, language: $language) {
-    product(handle: $handle) {
-      ...ProductVariants
-    }
-  }
 ` as const;
