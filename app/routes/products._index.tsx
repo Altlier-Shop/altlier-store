@@ -110,12 +110,6 @@ function ProductImage({image}: {image: ProductVariantFragment['image']}) {
   );
 }
 
-function getRandomNumber(): number {
-  return Math.floor(Math.random() * 3);
-}
-
-const colors = ['bg-amber-300', 'bg-green-400', 'bg-rose-500'];
-
 function ProductMain({products}: {products: ProductFragment[]}) {
   return (
     <>
