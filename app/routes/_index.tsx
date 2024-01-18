@@ -13,6 +13,8 @@ import ProfileIcon from '~/components/svg-components/ProfileIcon';
 import {validateCustomerAccessToken} from '~/root';
 import FooterPage from '~/components/FooterPage';
 import {UpdateContext} from '~/components/Layout';
+import LandingPageMobile from '~/components/LandingPageMobile';
+import {Footer, FooterMobile} from '~/components/Footer';
 
 export const meta: MetaFunction = () => {
   return [{title: 'Hydrogen | Home'}];
@@ -124,7 +126,20 @@ export default function Homepage() {
     return () => window.removeEventListener('resize', checkMobileView);
   }, []);
 
-  // if (!mobileView) {
+  if (mobileView) {
+    return (
+      <div>
+        <LandingPageMobile data={data} />
+        <div className="relative">
+          <Suspense>
+            <Await resolve={data.footer}>
+              {(footer) => <FooterMobile menu={footer?.menu} shop={null} />}
+            </Await>
+          </Suspense>
+        </div>
+      </div>
+    );
+  }
   return (
     <div
       ref={homepage}
