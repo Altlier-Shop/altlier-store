@@ -1,17 +1,23 @@
-export default function DiscordIcon() {
-  return (
-    <svg
-      version="1.1"
-      id="Layer_1"
-      x="0px"
-      y="0px"
-      viewBox="0 0 55 55"
-      xmlSpace="preserve"
-      width="36"
-      height="36"
-    >
-      <style type="text/css">
-        {`
+import discord_white from '~/../public/icons-white/discord_white.png';
+export default function DiscordIcon({color}: {color?: string}) {
+  if (color === 'green') {
+    return <></>;
+  } else if (color === 'white') {
+    return <img src={discord_white} alt="mirror icon white" />;
+  } else {
+    return (
+      <svg
+        version="1.1"
+        id="Layer_1"
+        x="0px"
+        y="0px"
+        viewBox="0 0 55 55"
+        xmlSpace="preserve"
+        width="36"
+        height="36"
+      >
+        <style type="text/css">
+          {`
 	.st0-dis{fill:#1D1B2F;}
 	.st1-dis{fill:#F4EBE4;}
 	.st2-dis{fill-rule:evenodd;clip-rule:evenodd;fill:#F4EBE4;}
@@ -29,16 +35,16 @@ export default function DiscordIcon() {
 	.st14-dis{fill:#4CAF77;stroke:#14141E;stroke-width:2;stroke-miterlimit:10;}
 	.st15-dis{fill:#296D45;stroke:#14141E;stroke-width:2;stroke-miterlimit:10;}
 	.st16-dis{fill:#6D6D6D;stroke:#14141E;stroke-width:2;stroke-miterlimit:10;}`}
-      </style>
+        </style>
 
-      <g id="Discord">
-        <g>
-          <circle className="st0-dis" cx="27.5" cy="27.5" r="27.5" />
+        <g id="Discord">
+          <g>
+            <circle className="st0-dis" cx="27.5" cy="27.5" r="27.5" />
+          </g>
         </g>
-      </g>
-      <path
-        className="st1-dis"
-        d="M11.71,34.3c0.88,1.01,1.86,1.9,2.93,2.71c1.67,1.26,3.5,2.23,5.47,2.93c0.14,0.05,0.14,0.08,0.06,0.19
+        <path
+          className="st1-dis"
+          d="M11.71,34.3c0.88,1.01,1.86,1.9,2.93,2.71c1.67,1.26,3.5,2.23,5.47,2.93c0.14,0.05,0.14,0.08,0.06,0.19
 	c-0.49,0.65-0.98,1.3-1.46,1.95c-0.07,0.09-0.14,0.12-0.25,0.12c-1.12-0.05-2.22-0.22-3.31-0.48c-2.31-0.53-4.47-1.41-6.45-2.74
 	c-1.17-0.79-2.22-1.71-3.16-2.77c-0.05-0.06-0.06-0.12-0.06-0.19c0.07-1.04,0.16-2.07,0.27-3.11c0.12-1.09,0.26-2.17,0.44-3.25
 	c0.55-3.37,1.36-6.67,2.55-9.88c0.7-1.88,1.5-3.71,2.52-5.43c0.17-0.29,0.39-0.53,0.67-0.72c2.03-1.42,4.23-2.48,6.61-3.16
@@ -62,7 +68,8 @@ export default function DiscordIcon() {
 	c-0.66-0.8-1.5-1.25-2.54-1.25c-1.04,0-1.89,0.45-2.55,1.24c-0.54,0.63-0.85,1.37-0.95,2.19c-0.17,1.52,0.23,2.84,1.41,3.87
 	c1.28,1.12,3.19,1.02,4.38-0.19C37.4,30.27,37.78,29.24,37.8,28.22z M12.7,15.85c0,0-0.01-0.01-0.01-0.01
 	c0,0.01-0.01,0.01-0.01,0.02c0,0,0.01,0.01,0.01,0.01C12.69,15.86,12.69,15.85,12.7,15.85z"
-      />
-    </svg>
-  );
+        />
+      </svg>
+    );
+  }
 }

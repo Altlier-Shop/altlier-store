@@ -1,4 +1,10 @@
-export default function TelegramIcon() {
+import telegram_white from '~/../public/icons-white/telegram_white.png';
+export default function TelegramIcon({color}: {color?: string}) {
+  if (color === 'green') {
+    return <></>;
+  } else if (color === 'white') {
+    return <img src={telegram_white} alt="telegram icon white" />;
+  }
   return (
     <svg
       id="Layer_1"

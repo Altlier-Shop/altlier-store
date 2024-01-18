@@ -82,54 +82,46 @@ function FooterSocials() {
             &nbsp;Socials:
           </span>
         </div>
-        <div className="flex w-full justify-between">
+        <div className="flex w-full gap-8">
           <a
-            className="pointer-events-auto w-12"
+            className="pointer-events-auto w-8"
             href="https://t.me/altlier_co"
             target="_blank"
             rel="noreferrer"
           >
-            <TelegramIcon />
+            <TelegramIcon color="white" />
           </a>
           <a
-            className="pointer-events-auto w-12"
+            className="pointer-events-auto w-8"
             href="https://twitter.com/Altlier_co"
             target="_blank"
             rel="noreferrer"
           >
-            <TwitterIcon />
+            <TwitterIcon color="white" />
           </a>
           <a
-            className="pointer-events-auto w-12"
+            className="pointer-events-auto w-8"
             href="https://www.instagram.com/altlier.co/"
             target="_blank"
             rel="noreferrer"
           >
-            <InstagramIcon />
+            <InstagramIcon color="white" />
           </a>
           <a
-            className="pointer-events-auto w-12"
+            className="pointer-events-auto w-8"
             href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
             target="_blank"
             rel="noreferrer"
           >
-            <DiscordIcon />
+            <DiscordIcon color="white" />
           </a>
           <a
-            className="pointer-events-auto w-12"
-            href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-            target="_blank"
-            rel="noreferrer"
-          >
-            <WhitePaperIcon />
-          </a>
-          <a
-            className="pointer-events-auto w-12"
+            className="pointer-events-auto w-8"
             href="https://mirror.xyz/0xa4F906979A0886C4DB7b9683115fea2f3FfA84f2"
             target="_blank"
             rel="noreferrer"
           >
-            <MirrorIcon />
+            <MirrorIcon color="white" />
           </a>
         </div>
       </div>
