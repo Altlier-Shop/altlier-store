@@ -23,6 +23,7 @@ import resetStyles from './styles/reset.css';
 import appStyles from './styles/app.css';
 import customStyles from './styles/custom.css';
 import {Layout} from '~/components/Layout';
+import './firebase-setup';
 
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
