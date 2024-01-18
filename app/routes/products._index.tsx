@@ -118,7 +118,9 @@ function ProductMain({products}: {products: ProductFragment[]}) {
       <div className="h-full grid grid-cols-2 gap-16">
         {products.map((product: any) => (
           <Link to={`/products/${product.handle}`} key={product.id}>
-            <ProductImage image={product.images.nodes[0]} />
+            <ProductImage
+              image={product.images.nodes[product.images.nodes.length - 1]}
+            />
             <h1>{product.title}</h1>
             <h1>
               {product.priceRange.minVariantPrice.currencyCode}
@@ -165,7 +167,7 @@ const PRODUCT_MOBILE_FRAGMENT = `#graphql
     vendor
     handle
     description
-    images(first: 1) {
+    images(first: 5 reverse:true) {
       nodes {
         __typename
         id
