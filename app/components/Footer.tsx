@@ -34,6 +34,22 @@ export function Footer({
     );
   }
 }
+
+export function FooterMobile({
+  menu,
+}: FooterQuery & {shop: HeaderQuery['shop'] | null}) {
+  return (
+    <footer className="w-full bg-altlierBlue xl:pl-[5%] xl:pr-[10%] lg:px-10 px-4 py-12 md:flex justify-between gap-16 [&>*]:text-root-secondary [&>*]:text-sm">
+      <div className="w-full z-10">
+        <FooterSocials />
+      </div>
+      <div className="w-full mt-6">
+        <FooterMenu menu={menu} primaryDomainUrl={''} />
+      </div>
+    </footer>
+  );
+}
+
 function FooterSocials() {
   const [email, setEmail] = useState('');
   const handleSubscribe = () => {
@@ -73,7 +89,7 @@ function FooterSocials() {
         </button>
       </div>
 
-      <div className="mt-6 flex w-full items-center gap-6">
+      <div className="mt-6 md:flex w-full items-center gap-1 md:gap-6">
         <div>
           <span className="text-base default-font-bold text-root-secondary">
             Our
@@ -82,7 +98,7 @@ function FooterSocials() {
             &nbsp;Socials:
           </span>
         </div>
-        <div className="flex w-full gap-8">
+        <div className="flex w-full gap-4 md:gap-8">
           <a
             className="pointer-events-auto w-8"
             href="https://t.me/altlier_co"
