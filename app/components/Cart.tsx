@@ -190,6 +190,16 @@ export function CartSummary({
       ? 'cart-summary-page bg-root-secondary'
       : 'cart-summary-aside pl-2 pr-6 bg-root-secondary';
 
+  const shippingCost =
+    cost.subtotalAmount &&
+    (Number(cost.subtotalAmount.amount) > 200 ||
+      Number(cost.subtotalAmount.amount) <= 0)
+      ? '0'
+      : '20';
+  const totalAmount = String(
+    Number(shippingCost) + Number(cost.subtotalAmount.amount),
+  );
+  const currencyCode = cost?.subtotalAmount.currencyCode;
   return (
     <div aria-labelledby="cart-summary" className={className}>
       <div className="flex justify-between mb-4">
@@ -198,16 +208,27 @@ export function CartSummary({
           {cost?.subtotalAmount?.amount ? (
             <Money className="text-root-tertiary" data={cost?.subtotalAmount} />
           ) : (
-            '-'
+            <span className="text-root-tertiary">-</span>
           )}
         </span>
       </div>
       <div className="flex justify-between">
         <span className="text-root-tertiary">Shipping Worldwide</span>
-        <span className="text-root-tertiary">-</span>
+        <span className="text-root-tertiary">
+          <span>
+            {cost?.subtotalAmount?.amount && shippingCost !== '0' ? (
+              <Money
+                className="text-root-tertiary"
+                data={{amount: shippingCost, currencyCode}}
+              />
+            ) : (
+              '-'
+            )}
+          </span>
+        </span>
       </div>
-      <div className="my-2 border-2 border-t-root-tertiary"></div>
-      <div className="flex justify-between gap-4">
+      {/* <div className="my-2 border-2 border-t-root-tertiary"></div> */}
+      {/* <div className="flex justify-between gap-4">
         <CartDiscounts discountCodes={discountCodes} />
         <div className="w-full">
           <span className="text-sm text-root-tertiary">
@@ -219,16 +240,15 @@ export function CartSummary({
             name="discountCode"
           />
         </div>
-      </div>
+      </div> */}
       <div className="my-2 border-2 border-t-root-tertiary"></div>
       <div className="flex justify-between">
         <span className="text-root-tertiary text-xl">Total</span>
         <span className="text-xl">
-          {cost?.subtotalAmount?.amount ? (
-            <Money className="text-root-tertiary" data={cost?.subtotalAmount} />
-          ) : (
-            '-'
-          )}
+          <Money
+            className="text-root-tertiary"
+            data={{amount: totalAmount, currencyCode}}
+          />
         </span>
       </div>
       <div className="mt-2 border-2 border-t-root-tertiary"></div>
