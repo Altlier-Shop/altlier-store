@@ -299,3 +299,14 @@
   left: 0;
   background: rgba(0, 0, 0, 0.4); /* Semi-transparent black */
 }
+
+.sizing-guide-table > tbody > tr > td {
+  padding: 0.5rem 2rem;
+  text-align: center;
+}
+.sizing-guide-table > thead > tr > th {
+  padding: 1rem 2rem;
+  text-align: center;
+  color: #000000;
+  font-weight: 900;
+}
