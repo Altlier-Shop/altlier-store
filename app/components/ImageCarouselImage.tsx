@@ -7,10 +7,12 @@ interface ImageCarouselImageProps {
 
 export function ImageCarouselImage({src, alt}: ImageCarouselImageProps) {
   return (
-    <Image
-      src={src}
-      alt={alt}
-      className="h-full max-w-[100%] !w-auto m-auto pb-6"
-    />
+    <div className="w-full h-full overflow-hidden p-6 pb-10">
+      <Image
+        src={src}
+        alt={alt}
+        className="h-full max-w-[100%] !w-auto m-auto rounded-3xl shadow-image-carousel"
+      />
+    </div>
   );
 }

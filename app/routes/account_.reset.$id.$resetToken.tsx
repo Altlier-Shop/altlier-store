@@ -1,7 +1,7 @@
 import {type ActionFunctionArgs, json, redirect} from '@shopify/remix-oxygen';
 import {Form, useActionData, type MetaFunction, Link} from '@remix-run/react';
 import {AuthLayout} from '~/components/AuthLayout';
-import password_reset from '../../public/login-page-images/password_reset.png';
+import password_reset from '../../public/login-page-images/password_reset.jpg';
 
 type ActionResponse = {
   error: string | null;

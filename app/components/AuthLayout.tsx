@@ -1,6 +1,6 @@
 import GridPage from './startpage-components/GridPage';
 import ImageCarousel from './ImageCarousel';
-import {Image} from '@shopify/hydrogen';
+import {ImageCarouselImage} from './ImageCarouselImage';
 
 type AuthLayoutProps = {
   children: React.ReactNode;
@@ -16,15 +16,11 @@ export function AuthLayout({children, staticImage}: AuthLayoutProps) {
       <div className="flex-1 min-w-[50%] min-h-[350px] overflow-hidden bg-root-secondary relative">
         <GridPage />
         <div className="absolute inset-0 flex justify-center items-center">
-          <div className="h-full pt-20 md:pt-0 md:max-w-[572px] md:h-auto">
+          <div className="h-full pt-20 md:pt-0 md:max-w-[512px] md:h-auto">
             {!staticImage ? (
               <ImageCarousel />
             ) : (
-              <Image
-                src={staticImage.src}
-                alt={staticImage.alt}
-                className="h-full max-w-[100%] !w-auto m-auto pb-6"
-              />
+              <ImageCarouselImage src={staticImage.src} alt={staticImage.alt} />
             )}
           </div>
         </div>

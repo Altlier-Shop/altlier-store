@@ -6,7 +6,7 @@ import {
 } from '@shopify/remix-oxygen';
 import {Form, Link, useActionData} from '@remix-run/react';
 import {AuthLayout} from '~/components/AuthLayout';
-import password_reset from '../../public/login-page-images/password_reset.png';
+import password_reset from '../../public/login-page-images/password_reset.jpg';
 
 type ActionResponse = {
   error?: string;
