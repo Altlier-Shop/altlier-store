@@ -122,6 +122,7 @@ export default function Homepage() {
   }, [throttledScrollHandler]);
 
   useEffect(() => {
+    checkMobileView();
     window.addEventListener('resize', checkMobileView);
     return () => window.removeEventListener('resize', checkMobileView);
   }, []);
