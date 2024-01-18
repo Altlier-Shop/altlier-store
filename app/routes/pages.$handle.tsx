@@ -54,7 +54,7 @@ export default function Page() {
   if (contactPage) {
     return (
       <PageLayout>
-        <div className="flex flex-1 flex-col md:flex-row-reverse items-center md:justify-center gap-20 px-12 md:px-20 pb-12 md:pb-20 pt-28">
+        <div className="flex flex-1 px-6 md:px-20 pb-12 md:pb-20 pt-24 flex-col md:flex-row-reverse items-center md:justify-center gap-20">
           <div className="flex justify-center relative max-w-[15rem] md:max-w-[22rem]">
             <img
               loading="lazy"
@@ -103,7 +103,7 @@ export default function Page() {
 
   return (
     <PageLayout>
-      <div className="flex flex-1 px-12 md:px-20 pb-12 md:pb-20 pt-28">
+      <div className="flex flex-1 px-6 md:px-20 pb-12 md:pb-20 pt-24">
         <div className="bg-root-primary w-full h-full px-12 py-6 md:px-20 md:py-14 rounded-xl shadow-xl">
           <h1 className="pixel-font text-4xl">{page.title}</h1>
           {faqList.map((item) => (
