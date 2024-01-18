@@ -2,6 +2,7 @@ import {useState} from 'react';
 import {Listbox} from '@headlessui/react';
 import {ChevronDownIcon} from '@heroicons/react/20/solid';
 import {CartForm} from '@shopify/hydrogen';
+import {openAside} from '~/utils';
 
 interface TopProductProps {
   topProduct: any;
@@ -98,10 +99,7 @@ export default function TopProduct(props: TopProductProps) {
                 <input name="analytics" type="hidden" />
 
                 <button
-                  onClick={() => {
-                    window.location.href =
-                      window.location.origin + '#cart-aside';
-                  }}
+                  onClick={openAside}
                   type="submit"
                   disabled={
                     selectedProduct && selectedProduct.availableForSale
