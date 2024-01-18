@@ -3,7 +3,7 @@ import GridPage from './startpage-components/GridPage';
 import Links from './startpage-components/Links';
 import Popup from './startpage-components/Popup';
 import ScrollableContent from './startpage-components/ScrollableContent';
-import GridAnimation from './startpage-components/GridAnimation';
+import productGif from '../../public/landing-page-animation/gif-animation-version.gif';
 
 export default function LandingPage({
   data,
@@ -55,7 +55,9 @@ export default function LandingPage({
         style={{width: '55%'}}
       >
         <GridPage />
-        <GridAnimation scrollProportion={scrollProportion} />
+        <div className="absolute -top-[5%] z-10">
+          <img src={productGif} alt="Product Gif" />
+        </div>
       </div>
       {showFud ? (
         <div className="fixed h-full w-full flex items-center justify-center">
