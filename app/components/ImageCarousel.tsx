@@ -2,11 +2,11 @@ import {Carousel} from '@material-tailwind/react';
 import type {navigation} from '@material-tailwind/react/types/components/carousel';
 import {ImageCarouselImage} from './ImageCarouselImage';
 
-import artboard_2 from '../../public/login-page-images/artboard_2.png';
-import artboard_3 from '../../public/login-page-images/artboard_3.png';
-import artboard_4 from '../../public/login-page-images/artboard_4.png';
-import artboard_5 from '../../public/login-page-images/artboard_5.png';
-import artboard_6 from '../../public/login-page-images/artboard_6.png';
+import artboard_2 from '../../public/login-page-images/artboard_2.jpg';
+import artboard_3 from '../../public/login-page-images/artboard_3.jpg';
+import artboard_4 from '../../public/login-page-images/artboard_4.jpg';
+import artboard_5 from '../../public/login-page-images/artboard_5.jpg';
+import artboard_6 from '../../public/login-page-images/artboard_6.jpg';
 
 const carouselNavigation: navigation = ({
   activeIndex,
@@ -32,8 +32,9 @@ export default function ImageCarousel() {
   return (
     <Carousel
       transition={{duration: 0.5}}
-      autoplay={true}
-      loop={true}
+      autoplay={false}
+      loop={false}
+      className="overflow-x-hidden overflow-y-visible"
       autoplayDelay={2500}
       prevArrow={() => <></>}
       nextArrow={() => <></>}
