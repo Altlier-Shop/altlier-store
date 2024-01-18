@@ -17,8 +17,8 @@ export function Footer({
 }: FooterQuery & {shop: HeaderQuery['shop'] | null; full?: boolean}) {
   if (full) {
     return (
-      <footer className="absolute left-0 bottom-0 w-full bg-altlierBlue xl:pl-[5%] xl:pr-[10%] lg:px-10 px-4 py-12 flex justify-between gap-16 [&>*]:text-root-secondary [&>*]:text-sm">
-        <div className="w-[55%] z-10">
+      <footer className="w-full bg-altlierBlue xl:pl-[5%] xl:pr-[10%] lg:px-10 px-4 py-12 flex flex-col md:flex-row justify-between gap-16 [&>*]:text-root-secondary [&>*]:text-m md:[&>*]:text-sm">
+        <div className="md:w-[55%] z-10">
           <FooterSocials />
         </div>
         <div className="w-[45%]">
@@ -47,7 +47,7 @@ function FooterSocials() {
     <div className="[&>*]:text-root-secondary">
       <h1 className="pixel-font text-3xl">Shill For us!</h1>
 
-      <div className="mt-4 w-full flex gap-6 items-end">
+      <div className="mt-4 w-full flex flex-col md:flex-row gap-6 items-end">
         <div className="w-full [&>*]:text-root-secondary">
           <label htmlFor="email" className="text-base default-font-bold">
             Email
@@ -57,7 +57,7 @@ function FooterSocials() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             id="email"
-            className="input-box border-root-secondary"
+            className="input-box border-root-secondary mt-1"
           ></input>
         </div>
         <button
@@ -67,14 +67,14 @@ function FooterSocials() {
             email !== ''
               ? 'hover:bg-root-secondary hover:text-altlierBlue'
               : 'pixel-font'
-          } text-base h-[38px] px-2 w-1/2 border-root-secondary pixel-font`}
+          } text-base h-[38px] px-2 md:w-1/2 border-root-secondary pixel-font`}
         >
           Subscribe
         </button>
       </div>
 
       <div className="mt-6 flex w-full items-center gap-6">
-        <div>
+        <div className="hidden md:block">
           <span className="text-base default-font-bold text-root-secondary">
             Our
           </span>
@@ -82,7 +82,7 @@ function FooterSocials() {
             &nbsp;Socials:
           </span>
         </div>
-        <div className="flex w-full gap-8">
+        <div className="flex w-full gap-8 justify-center md:justify-start">
           <a
             className="pointer-events-auto w-8"
             href="https://t.me/altlier_co"
@@ -145,7 +145,7 @@ function FooterMenu({
   // console.log(policies);
 
   return (
-    <nav className="footer-menu" role="navigation">
+    <nav className="footer-menu flex flex-col md:flex-row" role="navigation">
       <FooterLegal
         menu={policies ? policies : []}
         publicStoreDomain={publicStoreDomain}

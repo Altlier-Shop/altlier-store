@@ -8,6 +8,7 @@ import computer from '../../public/Computer.png';
 import altlierCircularWhite from '../../public/Altlier_Circular_light.png';
 import {convert} from 'html-to-text';
 import {ChevronUpIcon, ChevronDownIcon} from '@heroicons/react/20/solid';
+import {PageLayout} from '~/components/PageLayout';
 
 export const meta: MetaFunction<typeof loader> = ({data}) => {
   return [{title: `Hydrogen | ${data?.page.title ?? ''}`}];
@@ -49,33 +50,30 @@ interface FAQ {
 export default function Page() {
   const {page, footer} = useLoaderData<typeof loader>();
   const contactPage = page.title.toLocaleLowerCase().includes('contact');
-  const faqPage = page.title.toLocaleLowerCase().includes('faq');
 
   if (contactPage) {
     return (
-      <div className="h-screen w-screen bg-root-secondary relative">
-        <GridPage />
-        <div className="page absolute z-10 top-[12%] h-1/2 px-20 w-full flex items-end gap-20">
-          <div className="bg-root-primary w-2/3 h-5/6 px-20 py-14 rounded-xl shadow-xl	">
-            <h1 className="pixel-font text-4xl">{page.title}</h1>
-            <div
-              className="mt-10 overflow-scroll h-5/6"
-              dangerouslySetInnerHTML={{__html: page.body}}
-            />
-          </div>
-          <div className="relative h-full w-1/3 flex justify-center items-end">
+      <PageLayout>
+        <div className="flex flex-1 flex-col md:flex-row-reverse items-center md:justify-center gap-20 px-12 md:px-20 pb-12 md:pb-20 pt-28">
+          <div className="flex justify-center relative max-w-[15rem] md:max-w-[22rem]">
             <img
               loading="lazy"
               src={computer}
               alt="computer"
               className="w-full max-h-full object-contain"
             />
-
             <img
               loading="lazy"
               src={altlierCircularWhite}
               alt="logo_circular"
-              className="animate-spinSlow absolute xl:top-[15%] lg:top-[20%] md:top-[30%] top-[35%] w-1/2 h-1/3 object-contain flex justify-center"
+              className="animate-spinSlow absolute w-1/2 h-1/3 top-[15%]"
+            />
+          </div>
+          <div className="bg-root-primary w-full max-w-5xl px-12 py-6 md:px-20 md:py-14 rounded-xl shadow-xl">
+            <h1 className="pixel-font text-2xl md:text-4xl">{page.title}</h1>
+            <div
+              className="mt-10"
+              dangerouslySetInnerHTML={{__html: page.body}}
             />
           </div>
         </div>
@@ -84,60 +82,57 @@ export default function Page() {
             {(footer) => <Footer menu={footer?.menu} shop={null} full={true} />}
           </Await>
         </Suspense>
-      </div>
-    );
-  } else {
-    const text = convert(page.body).split('\n');
-    const faqList: FAQ[] = [];
-    const faqObj: FAQ = {
-      q: '',
-      a: '',
-    };
-    text.forEach((line) => {
-      if (line.startsWith('Question:')) {
-        faqObj.q = line.replace('Question:', '');
-      } else if (line.startsWith('Answer:')) {
-        faqObj.a = line.replace('Answer:', '');
-        faqList.push({...faqObj});
-      }
-    });
-
-    return (
-      <div className="h-screen w-screen bg-root-secondary relative">
-        <GridPage />
-        <div className="page absolute z-10 top-[12%] h-1/2 px-20 w-full ">
-          <div className="bg-root-primary w-full h-full px-20 py-14 rounded-xl shadow-xl	">
-            <h1 className="pixel-font text-4xl">{page.title}</h1>
-            <div className="mt-4 overflow-scroll h-5/6">
-              {faqList.map((item) => (
-                <div key={item.q} className="mt-4">
-                  <button
-                    id="collapsible-card"
-                    className="flex w-full justify-between"
-                    onClick={handleCollapsible}
-                  >
-                    <span className="font-bold text-2xl default-font-bold">
-                      {item.q}
-                    </span>
-                    <ChevronDownIcon id="downArrow" className="h-12" />
-                    <ChevronUpIcon id="upArrow" className="h-12 hidden" />
-                  </button>
-                  <div className="collapsible-content" id="collapsible-content">
-                    <span className="font-bold mt-2 text-l">{item.a}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-        <Suspense>
-          <Await resolve={footer}>
-            {(footer) => <Footer menu={footer?.menu} shop={null} full={true} />}
-          </Await>
-        </Suspense>
-      </div>
+      </PageLayout>
     );
   }
+
+  const text = convert(page.body).split('\n');
+  const faqList: FAQ[] = [];
+  const faqObj: FAQ = {
+    q: '',
+    a: '',
+  };
+  text.forEach((line) => {
+    if (line.startsWith('Question:')) {
+      faqObj.q = line.replace('Question:', '');
+    } else if (line.startsWith('Answer:')) {
+      faqObj.a = line.replace('Answer:', '');
+      faqList.push({...faqObj});
+    }
+  });
+
+  return (
+    <PageLayout>
+      <div className="flex flex-1 px-12 md:px-20 pb-12 md:pb-20 pt-28">
+        <div className="bg-root-primary w-full h-full px-12 py-6 md:px-20 md:py-14 rounded-xl shadow-xl">
+          <h1 className="pixel-font text-4xl">{page.title}</h1>
+          {faqList.map((item) => (
+            <div key={item.q} className="mt-4">
+              <button
+                id="collapsible-card"
+                className="flex w-full justify-between"
+                onClick={handleCollapsible}
+              >
+                <span className="font-bold text-xl md:text-2xl default-font-bold text-left">
+                  {item.q}
+                </span>
+                <ChevronDownIcon id="downArrow" className="h-12" />
+                <ChevronUpIcon id="upArrow" className="h-12 hidden" />
+              </button>
+              <div className="collapsible-content" id="collapsible-content">
+                <span className="font-bold mt-2 text-l">{item.a}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+      <Suspense>
+        <Await resolve={footer}>
+          {(footer) => <Footer menu={footer?.menu} shop={null} full={true} />}
+        </Await>
+      </Suspense>
+    </PageLayout>
+  );
 }
 
 function handleCollapsible(e: any) {
