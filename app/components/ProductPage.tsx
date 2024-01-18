@@ -1,7 +1,7 @@
-import type {RefObject} from 'react';
-import {useEffect, useState, Suspense, useCallback} from 'react';
+import {useEffect, useState, Suspense} from 'react';
 import {Await} from '@remix-run/react';
-import RecommendedProducts from './productpage-components/RecommendedProducts';
+import ProductCarousel from './productpage-components/ProductCarousel';
+import ProductMosaic from './productpage-components/ProductMosaic';
 
 interface ProductData {
   data: any;
@@ -10,6 +10,8 @@ interface ProductData {
 export default function ProductPage(props: ProductData) {
   const [circleWidth, setCircleWidth] = useState(0);
   const [circleHeight, setCircleHeight] = useState(0);
+  const [currentProduct, setCurrentProduct] = useState(null);
+  const [productDetails, setProductDetails] = useState(null);
 
   const updateCircleProportions = () => {
     // Calculate the window ratio
@@ -34,20 +36,25 @@ export default function ProductPage(props: ProductData) {
   return (
     <div className="h-screen w-full bg-root-primary">
       <div className="grid h-full relative justify-center items-end overflow-hidden">
-        <div className="absolute z-10 h-full w-full grid justify-items-center items-center">
+        <div className="absolute z-10 h-full w-full flex items-end">
           <Suspense fallback={<div>Loading...</div>}>
             <Await resolve={props.data.recommendedProducts}>
               {({products}) => (
-                <RecommendedProducts
-                  products={products}
-                  circleWidth={circleWidth}
-                  circleHeight={circleHeight}
+                <ProductCarousel
+                  products={products.nodes}
+                  onChange={setCurrentProduct}
+                  onDetailsClick={setProductDetails}
                 />
               )}
             </Await>
           </Suspense>
         </div>
-
+        {!!productDetails && (
+          <ProductMosaic
+            topProduct={currentProduct}
+            onClose={() => setProductDetails(null)}
+          />
+        )}
         <div
           className="half-circle upper-circle"
           style={{width: circleWidth, height: circleHeight}}
