@@ -310,7 +310,7 @@ function AccountLayout({
         <div className="flow-root lg:col-span-3">
           <div className="overflow-hidden border-gray-400 border ring-1 ring-black ring-opacity-5 rounded-lg bg-white">
             <div className="overflow-y-auto">
-              <table className="divide-y divide-gray-300">
+              <table className="divide-y divide-gray-300 w-full">
                 <thead className="bg-root-primary border-b border-gray-400">
                   <tr>
                     <th
