@@ -8,7 +8,7 @@ import type {
 } from 'storefrontapi.generated';
 import {FOOTER_QUERY} from '~/routes/_index';
 import {Image, Money, getSelectedProductOptions} from '@shopify/hydrogen';
-import {Footer} from '~/components/Footer';
+import {Footer, FooterMobile} from '~/components/Footer';
 import CartIcon from '~/components/svg-components/CartIcon';
 import ProfileIcon from '~/components/svg-components/ProfileIcon';
 import {openAside} from '~/utils';
@@ -88,9 +88,7 @@ export default function Product() {
           {/* TODO: footer needs to be mobile and non-sticky */}
           <Suspense>
             <Await resolve={footer}>
-              {(footer) => (
-                <Footer menu={footer?.menu} shop={null} full={true} />
-              )}
+              {(footer) => <FooterMobile menu={footer?.menu} shop={null} />}
             </Await>
           </Suspense>
         </div>
@@ -112,20 +110,30 @@ function ProductImage({image}: {image: ProductVariantFragment['image']}) {
   );
 }
 
+function getRandomNumber(): number {
+  return Math.floor(Math.random() * 3);
+}
+
+const colors = ['bg-amber-300', 'bg-green-400', 'bg-rose-500'];
+
 function ProductMain({products}: {products: ProductFragment[]}) {
   return (
     <>
-      <div className="h-full grid grid-cols-2 gap-16">
+      <div className="h-full grid grid-cols-2 gap-4 p-6 mt-16">
         {products.map((product: any) => (
           <Link to={`/products/${product.handle}`} key={product.id}>
-            <ProductImage image={product.images.nodes[0]} />
-            <h1>{product.title}</h1>
-            <h1>
-              {product.priceRange.minVariantPrice.currencyCode}
-              {Math.floor(product.priceRange.minVariantPrice.amount)}
-            </h1>
-
-            <br />
+            <div className="border border-altlierBlue h-full bg-altlierBlue">
+              <div className={`${colors[getRandomNumber()]} py-4`}>
+                <ProductImage image={product.images.nodes[0]} />
+              </div>
+              <div className="p-1 text-xs">
+                <h1 className="text-white">{product.title}</h1>
+                <h1 className="text-white">
+                  {product.priceRange.minVariantPrice.currencyCode}
+                  {Math.floor(product.priceRange.minVariantPrice.amount)}
+                </h1>
+              </div>
+            </div>
           </Link>
         ))}
       </div>
