@@ -72,7 +72,7 @@ export async function loader({context}: LoaderFunctionArgs) {
   const {storefront, session, cart} = context;
 
   const customerAccessToken = session.get('customerAccessToken');
-  const publicStoreDomain = context.env.PUBLIC_STORE_DOMAIN;
+  const publicStoreDomain = 'https://altlier.co';
 
   // validate the customer access token is valid
   const {headers} = await validateCustomerAccessToken(
