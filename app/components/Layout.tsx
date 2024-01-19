@@ -45,7 +45,7 @@ export function Layout({
     <UpdateContext.Provider value={updateParentComponent}>
       <button
         onClick={handleHomeClick}
-        className={`fixed z-50 top-8 2xl:mx-20 mx-10 ${
+        className={`fixed z-50 top-8 2xl:mx-20 mx-10 h-[40px] lg:h-[60px] xl:h-[80px] ${
           isPopup ? 'masked-button' : ''
         }`}
       >

@@ -53,7 +53,7 @@ export default function AltlierLogo({light}: {light?: boolean}) {
         y="0px"
         viewBox="0 0 297.69 64.75"
         xmlSpace="preserve"
-        height="40"
+        height="100%"
       >
         <style type="text/css">
           {`
