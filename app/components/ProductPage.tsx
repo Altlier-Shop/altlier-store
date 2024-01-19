@@ -2,6 +2,7 @@ import {useEffect, useState, Suspense} from 'react';
 import {Await} from '@remix-run/react';
 import ProductCarousel from './productpage-components/ProductCarousel';
 import ProductMosaic from './productpage-components/ProductMosaic';
+import TopProduct from './productpage-components/TopProduct';
 
 interface ProductData {
   data: any;
@@ -12,6 +13,7 @@ export default function ProductPage(props: ProductData) {
   const [circleHeight, setCircleHeight] = useState(0);
   const [currentProduct, setCurrentProduct] = useState(null);
   const [productDetails, setProductDetails] = useState(null);
+  const [sizeGuideVisible, setSetSizeGuideVisible] = useState(false);
 
   const updateCircleProportions = () => {
     // Calculate the window ratio
@@ -26,6 +28,10 @@ export default function ProductPage(props: ProductData) {
     }
   };
 
+  function handleSizeGuide(open: boolean) {
+    setSetSizeGuideVisible(open);
+  }
+
   useEffect(() => {
     updateCircleProportions();
     window.addEventListener('resize', updateCircleProportions);
@@ -36,6 +42,17 @@ export default function ProductPage(props: ProductData) {
   return (
     <div className="h-screen w-full bg-root-primary">
       <div className="grid h-full relative justify-center items-end overflow-hidden">
+        <Suspense fallback={<div>Loading...</div>}>
+          <Await resolve={props.data.recommendedProducts}>
+            {({products}) => (
+              <TopProduct
+                topProduct={currentProduct ? currentProduct : products.nodes[0]}
+                onOpenSizeGuide={() => handleSizeGuide(true)}
+                mobile={false}
+              />
+            )}
+          </Await>
+        </Suspense>
         <div className="absolute z-10 h-full w-full flex items-end">
           <Suspense fallback={<div>Loading...</div>}>
             <Await resolve={props.data.recommendedProducts}>
@@ -48,6 +65,7 @@ export default function ProductPage(props: ProductData) {
               )}
             </Await>
           </Suspense>
+          T
         </div>
         {!!productDetails && (
           <ProductMosaic
