@@ -1,5 +1,5 @@
 import ArrowIcon from '../svg-components/ArrowIcon';
-import DiscordIcon from '../svg-components/DiscordIcon';
+// import DiscordIcon from '../svg-components/DiscordIcon';
 import InstagramIcon from '../svg-components/InstagramIcon';
 import MirrorIcon from '../svg-components/MirrorIcon';
 import TelegramIcon from '../svg-components/TelegramIcon';
@@ -39,7 +39,7 @@ export default function Links(props: LinksProps) {
           </button>
         </div>
 
-        <div className="mt-10 flex justify-between">
+        <div className="mt-10 flex gap-8">
           <a
             className="pointer-events-auto w-12"
             href="https://t.me/altlier_co"
@@ -64,22 +64,22 @@ export default function Links(props: LinksProps) {
           >
             <InstagramIcon />
           </a>
-          <a
+          {/* <a
             className="pointer-events-auto w-12"
             href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
             target="_blank"
             rel="noreferrer"
           >
             <DiscordIcon />
-          </a>
-          <a
+          </a> */}
+          {/* <a
             className="pointer-events-auto w-12"
             href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
             target="_blank"
             rel="noreferrer"
           >
             <WhitePaperIcon />
-          </a>
+          </a> */}
           <a
             className="pointer-events-auto w-12"
             href="https://mirror.xyz/0xa4F906979A0886C4DB7b9683115fea2f3FfA84f2"

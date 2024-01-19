@@ -1,6 +1,6 @@
 import {defer, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
 import {useLoaderData, type MetaFunction, Await} from '@remix-run/react';
-import GridPage from '~/components/startpage-components/GridPage';
+
 import {FOOTER_QUERY} from '~/routes/_index';
 import {Suspense} from 'react';
 import {Footer} from '~/components/Footer';
@@ -50,6 +50,7 @@ interface FAQ {
 export default function Page() {
   const {page, footer} = useLoaderData<typeof loader>();
   const contactPage = page.title.toLocaleLowerCase().includes('contact');
+  const faqPage = page.title.toLocaleLowerCase().includes('faq');
 
   if (contactPage) {
     return (
@@ -84,61 +85,75 @@ export default function Page() {
         </Suspense>
       </PageLayout>
     );
-  }
+  } else if (faqPage) {
+    const text = convert(page.body).split('\n');
+    const faqList: FAQ[] = [];
+    const faqObj: FAQ = {
+      q: '',
+      a: '',
+    };
+    text.forEach((line) => {
+      if (line.startsWith('Question:')) {
+        faqObj.q = line.replace('Question:', '');
+      } else if (line.startsWith('Answer:')) {
+        faqObj.a = line.replace('Answer:', '');
+        faqList.push({...faqObj});
+      }
+    });
 
-  const text = convert(page.body).split('\n');
-  const faqList: FAQ[] = [];
-  const faqObj: FAQ = {
-    q: '',
-    a: '',
-  };
-  text.forEach((line) => {
-    if (line.startsWith('Question:')) {
-      faqObj.q = line.replace('Question:', '');
-    } else if (line.startsWith('Answer:')) {
-      faqObj.a = line.replace('Answer:', '');
-      faqList.push({...faqObj});
-    }
-  });
-
-  return (
-    <PageLayout>
-      <div className="flex flex-1 px-6 md:px-20 pb-12 md:pb-20 pt-24">
-        <div className="bg-root-primary w-full h-full px-12 py-6 md:px-20 md:py-14 rounded-xl shadow-xl">
-          <h1 className="pixel-font text-4xl">{page.title}</h1>
-          {faqList.map((item) => (
-            <div key={item.q} className="mt-4">
-              <button
-                id="collapsible-card"
-                className="flex w-full justify-between"
-                onClick={handleCollapsible}
-              >
-                <span className="font-bold text-xl md:text-2xl default-font-bold text-left">
-                  {item.q}
-                </span>
-                <ChevronDownIcon id="downArrow" className="h-12" />
-                <ChevronUpIcon id="upArrow" className="h-12 hidden" />
-              </button>
-              <div className="collapsible-content" id="collapsible-content">
-                <span className="font-bold mt-2 text-l">{item.a}</span>
+    return (
+      <PageLayout>
+        <div className="flex flex-1 px-6 md:px-20 pb-12 md:pb-20 pt-24">
+          <div className="bg-root-primary w-full h-full px-12 py-6 md:px-20 md:py-14 rounded-xl shadow-xl">
+            <h1 className="pixel-font text-4xl">{page.title}</h1>
+            {faqList.map((item) => (
+              <div key={item.q} className="mt-4">
+                <button
+                  id="collapsible-card"
+                  className="flex w-full justify-between"
+                  onClick={handleCollapsible}
+                >
+                  <span className="font-bold text-xl md:text-2xl default-font-bold text-left">
+                    {item.q}
+                  </span>
+                  <ChevronDownIcon id="downArrow" className="h-12" />
+                  <ChevronUpIcon id="upArrow" className="h-12 hidden" />
+                </button>
+                <div className="collapsible-content" id="collapsible-content">
+                  <span className="font-bold mt-2 text-l">{item.a}</span>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
-      <Suspense>
-        <Await resolve={footer}>
-          {(footer) => <Footer menu={footer?.menu} shop={null} full={true} />}
-        </Await>
-      </Suspense>
-    </PageLayout>
-  );
+        <Suspense>
+          <Await resolve={footer}>
+            {(footer) => <Footer menu={footer?.menu} shop={null} full={true} />}
+          </Await>
+        </Suspense>
+      </PageLayout>
+    );
+  } else {
+    return (
+      <PageLayout>
+        <div className="flex flex-1 px-6 md:px-20 pb-12 md:pb-20 pt-24">
+          <div className="bg-root-primary px-12 py-6 md:px-20 md:py-14 rounded-xl shadow-xl">
+            <h1 className="pixel-font text-4xl">{page.title}</h1>
+            <div
+              className="policy mt-4 overflow-auto"
+              dangerouslySetInnerHTML={{__html: page.body}}
+            />
+          </div>
+        </div>
+      </PageLayout>
+    );
+  }
 }
 
 function handleCollapsible(e: any) {
   let target = e.target;
   while (target.id !== 'collapsible-card') {
-    // could be we clicked a child element like the text or one of the arrow svgs
+    // could be clicked a child element like the text or one of the arrow svgs
     target = target.parentNode;
   }
   const content = target.nextElementSibling; // we unfold the content and also switch up the arrow svgs

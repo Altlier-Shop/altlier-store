@@ -3,7 +3,6 @@ import {Listbox} from '@headlessui/react';
 import {ChevronDownIcon} from '@heroicons/react/20/solid';
 import {CartForm} from '@shopify/hydrogen';
 import {openAside} from '~/utils';
-import {isMobile} from '@headlessui/react/dist/utils/platform';
 
 interface TopProductProps {
   topProduct: any;
@@ -18,6 +17,7 @@ export default function TopProduct(props: TopProductProps) {
   const selectedProduct = props.topProduct.variants.nodes.find(
     (variant: any) => variant.title === size,
   );
+
   // console.log(selectedProduct);
   const lines = selectedProduct
     ? [

@@ -1,4 +1,4 @@
-import instagram_white from '~/../public/icons-white/mirror_white.png';
+import instagram_white from '~/../public/icons-white/ig_white.png';
 export default function InstagramIcon({color}: {color?: string}) {
   if (color === 'green') {
     return <></>;
