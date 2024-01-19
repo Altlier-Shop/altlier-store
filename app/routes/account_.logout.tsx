@@ -10,17 +10,23 @@ export async function loader() {
 }
 
 export async function action({request, context}: ActionFunctionArgs) {
-  const {session} = context;
+  const {session, cart} = context;
   session.unset('customerAccessToken');
+  session.unset('checkoutId');
+  session.unset('checkoutUrl');
+  session.unset('checkoutIdentifier');
+
+  const res = await cart.create({});
+  const headers = cart.setCartId(res.cart.id);
+
+  headers.append('Set-Cookie', await session.destroy());
 
   if (request.method !== 'POST') {
     return json({error: 'Method not allowed'}, {status: 405});
   }
 
   return redirect('/', {
-    headers: {
-      'Set-Cookie': await session.commit(),
-    },
+    headers,
   });
 }
 

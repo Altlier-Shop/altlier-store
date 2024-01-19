@@ -112,6 +112,7 @@ export default function AccountProfile() {
   const {state} = useNavigation();
   const action = useActionData<ActionResponse>();
   const customer = action?.customer ?? account?.customer;
+  console.log(customer);
 
   return (
     <div className="account-profile">
@@ -128,7 +129,7 @@ export default function AccountProfile() {
             autoComplete="given-name"
             placeholder="First name"
             aria-label="First name"
-            defaultValue={customer.firstName ?? ''}
+            defaultValue={customer?.firstName ?? ''}
             minLength={2}
           />
           <label htmlFor="lastName">Last name</label>
@@ -139,7 +140,7 @@ export default function AccountProfile() {
             autoComplete="family-name"
             placeholder="Last name"
             aria-label="Last name"
-            defaultValue={customer.lastName ?? ''}
+            defaultValue={customer?.lastName ?? ''}
             minLength={2}
           />
           <label htmlFor="phone">Mobile</label>
@@ -150,7 +151,7 @@ export default function AccountProfile() {
             autoComplete="tel"
             placeholder="Mobile"
             aria-label="Mobile"
-            defaultValue={customer.phone ?? ''}
+            defaultValue={customer?.phone ?? ''}
           />
           <label htmlFor="email">Email address</label>
           <input
@@ -161,7 +162,7 @@ export default function AccountProfile() {
             required
             placeholder="Email address"
             aria-label="Email address"
-            defaultValue={customer.email ?? ''}
+            defaultValue={customer?.email ?? ''}
           />
           <div className="account-profile-marketing">
             <input
@@ -170,7 +171,7 @@ export default function AccountProfile() {
               type="checkbox"
               placeholder="Accept marketing"
               aria-label="Accept marketing"
-              defaultChecked={customer.acceptsMarketing}
+              defaultChecked={customer?.acceptsMarketing}
             />
             <label htmlFor="acceptsMarketing">
               &nbsp; Subscribed to marketing communications

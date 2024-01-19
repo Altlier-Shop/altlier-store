@@ -1,5 +1,7 @@
 import {type ActionFunctionArgs, json, redirect} from '@shopify/remix-oxygen';
-import {Form, useActionData, type MetaFunction} from '@remix-run/react';
+import {Form, useActionData, type MetaFunction, Link} from '@remix-run/react';
+import {AuthLayout} from '~/components/AuthLayout';
+import password_reset from '../../public/login-page-images/password_reset.jpg';
 
 type ActionResponse = {
   error: string | null;
@@ -64,13 +66,19 @@ export default function Reset() {
   const action = useActionData<ActionResponse>();
 
   return (
-    <div className="account-reset">
-      <h1>Reset Password.</h1>
-      <p>Enter a new password for your account.</p>
-      <Form method="POST">
-        <fieldset>
-          <label htmlFor="password">Password</label>
+    <AuthLayout staticImage={{src: password_reset, alt: 'password forgotten'}}>
+      <div className="grid gap-6 md:gap-2">
+        <h1 className="pixel-font 2xl:text-3xl lg:text-xl md:text-lg">
+          Reset Password
+        </h1>
+        <p className="mt-2 text-neutral-400">
+          Enter a new password for your account
+        </p>
+      </div>
+      <Form className="mt-8 md:max-w-[450px]" method="POST">
+        <fieldset className="gap-6">
           <input
+            className="input-box"
             aria-label="Password"
             autoComplete="current-password"
             // eslint-disable-next-line jsx-a11y/no-autofocus
@@ -82,8 +90,8 @@ export default function Reset() {
             required
             type="password"
           />
-          <label htmlFor="passwordConfirm">Re-enter password</label>
           <input
+            className="input-box"
             aria-label="Re-enter password"
             autoComplete="current-password"
             id="passwordConfirm"
@@ -94,22 +102,22 @@ export default function Reset() {
             type="password"
           />
         </fieldset>
-        {action?.error ? (
-          <p>
-            <mark>
-              <small>{action.error}</small>
-            </mark>
-          </p>
-        ) : (
-          <br />
-        )}
-        <button type="submit">Reset</button>
+        <div className="flex mt-6 w-full gap-6 items-center justify-between">
+          <button
+            type="submit"
+            className="btn homepage-btn btn-light max-w-[400px]"
+          >
+            Reset
+          </button>
+          <Link
+            className="text-emerald-light whitespace-nowrap"
+            to="/account/recover"
+          >
+            Back To Login!
+          </Link>
+        </div>
       </Form>
-      <br />
-      <p>
-        <a href="/account/login">Back to login →</a>
-      </p>
-    </div>
+    </AuthLayout>
   );
 }
 

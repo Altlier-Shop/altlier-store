@@ -21,7 +21,9 @@ import type {CustomerAccessToken} from '@shopify/hydrogen/storefront-api-types';
 import favicon from '../public/favicon.svg';
 import resetStyles from './styles/reset.css';
 import appStyles from './styles/app.css';
+import customStyles from './styles/custom.css';
 import {Layout} from '~/components/Layout';
+import './firebase-setup';
 
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
@@ -48,6 +50,7 @@ export function links() {
   return [
     {rel: 'stylesheet', href: resetStyles},
     {rel: 'stylesheet', href: appStyles},
+    {rel: 'stylesheet', href: customStyles},
     {
       rel: 'preconnect',
       href: 'https://cdn.shopify.com',
@@ -67,25 +70,18 @@ export const useRootLoaderData = () => {
 
 export async function loader({context}: LoaderFunctionArgs) {
   const {storefront, session, cart} = context;
-  const customerAccessToken = await session.get('customerAccessToken');
+
+  const customerAccessToken = session.get('customerAccessToken');
   const publicStoreDomain = context.env.PUBLIC_STORE_DOMAIN;
 
   // validate the customer access token is valid
-  const {isLoggedIn, headers} = await validateCustomerAccessToken(
+  const {headers} = await validateCustomerAccessToken(
     session,
     customerAccessToken,
   );
 
   // defer the cart query by not awaiting it
   const cartPromise = cart.get();
-
-  // defer the footer query (below the fold)
-  const footerPromise = storefront.query(FOOTER_QUERY, {
-    cache: storefront.CacheLong(),
-    variables: {
-      footerMenuHandle: 'footer', // Adjust to your footer menu handle
-    },
-  });
 
   // await the header query (above the fold)
   const headerPromise = storefront.query(HEADER_QUERY, {
@@ -95,13 +91,19 @@ export async function loader({context}: LoaderFunctionArgs) {
     },
   });
 
+  const checkoutUrl = session.get('checkoutUrl');
+  // console.log('checkoutUrl at root', checkoutUrl);
+  const carto = await cartPromise;
+  console.log(carto?.deliveryGroups);
+
+  // console.log('cart at root', carto);
+
   return defer(
     {
       cart: cartPromise,
-      footer: footerPromise,
       header: await headerPromise,
-      isLoggedIn,
       publicStoreDomain,
+      checkoutUrl,
     },
     {headers},
   );
@@ -185,7 +187,7 @@ export function ErrorBoundary() {
  * );
  * ```
  */
-async function validateCustomerAccessToken(
+export async function validateCustomerAccessToken(
   session: LoaderFunctionArgs['context']['session'],
   customerAccessToken?: CustomerAccessToken,
 ) {
@@ -260,19 +262,6 @@ const HEADER_QUERY = `#graphql
       ...Shop
     }
     menu(handle: $headerMenuHandle) {
-      ...Menu
-    }
-  }
-  ${MENU_FRAGMENT}
-` as const;
-
-const FOOTER_QUERY = `#graphql
-  query Footer(
-    $country: CountryCode
-    $footerMenuHandle: String!
-    $language: LanguageCode
-  ) @inContext(language: $language, country: $country) {
-    menu(handle: $footerMenuHandle) {
       ...Menu
     }
   }

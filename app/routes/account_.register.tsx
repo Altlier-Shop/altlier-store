@@ -6,6 +6,7 @@ import {
 } from '@shopify/remix-oxygen';
 import {Form, Link, useActionData} from '@remix-run/react';
 import type {CustomerCreateMutation} from 'storefrontapi.generated';
+import {AuthLayout} from '~/components/AuthLayout';
 
 type ActionResponse = {
   error: string | null;
@@ -106,25 +107,33 @@ export async function action({request, context}: ActionFunctionArgs) {
 export default function Register() {
   const data = useActionData<ActionResponse>();
   const error = data?.error || null;
+
   return (
-    <div className="login">
-      <h1>Register.</h1>
-      <Form method="POST">
-        <fieldset>
-          <label htmlFor="email">Email address</label>
+    <AuthLayout>
+      <div className="grid gap-2">
+        <h1 className="pixel-font 2xl:text-5xl lg:text-4xl text-3xl">
+          <span className="line-through">Chill</span>Shill
+        </h1>
+        <h1 className="pixel-font 2xl:text-5xl lg:text-4xl text-3xl">
+          with us
+        </h1>
+      </div>
+      <Form className="mt-8 md:max-w-[450px]" method="POST">
+        <fieldset className="gap-6">
           <input
+            className="input-box"
             id="email"
             name="email"
             type="email"
             autoComplete="email"
             required
-            placeholder="Email address"
-            aria-label="Email address"
+            placeholder="Email"
+            aria-label="Email"
             // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus
           />
-          <label htmlFor="password">Password</label>
           <input
+            className="input-box"
             id="password"
             name="password"
             type="password"
@@ -134,8 +143,8 @@ export default function Register() {
             minLength={8}
             required
           />
-          <label htmlFor="passwordConfirm">Re-enter password</label>
           <input
+            className="input-box"
             id="passwordConfirm"
             name="passwordConfirm"
             type="password"
@@ -146,22 +155,29 @@ export default function Register() {
             required
           />
         </fieldset>
-        {error ? (
+        {error && (
           <p>
             <mark>
               <small>{error}</small>
             </mark>
           </p>
-        ) : (
-          <br />
         )}
-        <button type="submit">Register</button>
+        <div className="flex mt-6 w-full gap-6 items-center justify-between">
+          <button
+            type="submit"
+            className="btn homepage-btn btn-dark max-w-[400px] lg:text-2xl text-lg"
+          >
+            Register
+          </button>
+          <Link
+            className="text-emerald-light whitespace-nowrap"
+            to="/account/login"
+          >
+            Have An Account?
+          </Link>
+        </div>
       </Form>
-      <br />
-      <p>
-        <Link to="/account/login">Login →</Link>
-      </p>
-    </div>
+    </AuthLayout>
   );
 }
 

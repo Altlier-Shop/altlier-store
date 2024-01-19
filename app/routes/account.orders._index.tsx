@@ -49,13 +49,19 @@ export async function loader({request, context}: LoaderFunctionArgs) {
 export default function Orders() {
   const {customer} = useLoaderData<{customer: CustomerOrdersFragment}>();
   const {orders, numberOfOrders} = customer;
+  console.log(orders);
+
   return (
     <div className="orders">
       <h2>
         Orders <small>({numberOfOrders})</small>
       </h2>
       <br />
-      {orders.nodes.length ? <OrdersTable orders={orders} /> : <EmptyOrders />}
+      {orders && orders?.nodes.length ? (
+        <OrdersTable orders={orders} />
+      ) : (
+        <EmptyOrders />
+      )}
     </div>
   );
 }
@@ -63,7 +69,7 @@ export default function Orders() {
 function OrdersTable({orders}: Pick<CustomerOrdersFragment, 'orders'>) {
   return (
     <div className="acccount-orders">
-      {orders?.nodes.length ? (
+      {orders && orders?.nodes.length ? (
         <Pagination connection={orders}>
           {({nodes, isLoading, PreviousLink, NextLink}) => {
             return (
@@ -93,9 +99,7 @@ function EmptyOrders() {
     <div>
       <p>You haven&apos;t placed any orders yet.</p>
       <br />
-      <p>
-        <Link to="/collections">Start Shopping →</Link>
-      </p>
+      <p>{/* <Link to="/collections">Start Shopping →</Link> */}</p>
     </div>
   );
 }

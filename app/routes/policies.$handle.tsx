@@ -1,6 +1,8 @@
 import {json, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
 import {Link, useLoaderData, type MetaFunction} from '@remix-run/react';
 import {type Shop} from '@shopify/hydrogen/storefront-api-types';
+import GridPage from '~/components/startpage-components/GridPage';
+import {PageLayout} from '~/components/PageLayout';
 
 type SelectedPolicies = keyof Pick<
   Shop,
@@ -45,16 +47,17 @@ export default function Policy() {
   const {policy} = useLoaderData<typeof loader>();
 
   return (
-    <div className="policy">
-      <br />
-      <br />
-      <div>
-        <Link to="/policies">← Back to Policies</Link>
+    <PageLayout>
+      <div className="flex flex-1 px-6 md:px-20 pb-12 md:pb-20 pt-24">
+        <div className="bg-root-primary px-12 py-6 md:px-20 md:py-14 rounded-xl shadow-xl">
+          <h1 className="pixel-font text-4xl">{policy.title}</h1>
+          <div
+            className="policy mt-4 overflow-auto"
+            dangerouslySetInnerHTML={{__html: policy.body}}
+          />
+        </div>
       </div>
-      <br />
-      <h1>{policy.title}</h1>
-      <div dangerouslySetInnerHTML={{__html: policy.body}} />
-    </div>
+    </PageLayout>
   );
 }
 
