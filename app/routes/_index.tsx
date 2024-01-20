@@ -12,9 +12,9 @@ import CartIcon from '~/components/svg-components/CartIcon';
 import ProfileIcon from '~/components/svg-components/ProfileIcon';
 import {validateCustomerAccessToken} from '~/root';
 import FooterPage from '~/components/FooterPage';
+import {FooterMobile} from '~/components/Footer';
 import {UpdateContext} from '~/components/Layout';
 import LandingPageMobile from '~/components/LandingPageMobile';
-import {Footer, FooterMobile} from '~/components/Footer';
 
 export const meta: MetaFunction = () => {
   return [{title: 'Altlier | Home'}];
@@ -52,7 +52,6 @@ export async function loader({context}: LoaderFunctionArgs) {
 export default function Homepage() {
   const [landingPageBottom, setLandingPageBottom] = useState(false);
   const [mobileView, setMobileView] = useState(false);
-  const [isPopup, setIsPopup] = useState(true);
   const data = useLoaderData<typeof loader>();
 
   const homepage = useRef<HTMLDivElement>(null);
@@ -153,7 +152,7 @@ export default function Homepage() {
           <Suspense>
             <Await resolve={data.cart}>
               {(cart) => (
-                <div>
+                <div className="w-10 h-10">
                   <CartIcon
                     notification={cart && cart.totalQuantity > 0 ? true : false}
                   />
@@ -164,7 +163,7 @@ export default function Homepage() {
         </button>
         <a
           href={data.isLoggedIn ? '/account' : '/account/login'}
-          className="pointer-events-auto"
+          className="pointer-events-auto w-10 h-10"
         >
           <ProfileIcon notification={false} />
         </a>

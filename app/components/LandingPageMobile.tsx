@@ -1,23 +1,41 @@
-import {useState, useRef} from 'react';
+import {useState, useRef, Suspense} from 'react';
 import computer from '../../public/Computer.png';
 import NotAPonzi from '~/components/svg-components/NotAPonzi';
 import productGif from '../../public/landing-page-animation/gif-animation-version.gif';
 import altlierCircularWhite from '../../public/Altlier_Circular_light.png';
+import {Await} from '@remix-run/react';
+import CartIcon from './svg-components/CartIcon';
+import {openAside} from '~/utils';
+import ProfileIcon from './svg-components/ProfileIcon';
 
 export default function LandingPageMobile({data}: {data: any}) {
-  const [showFud, setShowFud] = useState(false);
-  const [scrollProportion, setScrollProportion] = useState(0);
-
-  const handleShill = () => {
-    window.location.href =
-      window.location.href + data.isLoggedIn ? 'account' : 'account/register';
-  };
-
   return (
     <div
       id="landing-page"
       className="flex w-full h-full bg-root-primary overflow-y-scroll relative"
     >
+      <div className={`fixed z-50 top-9 flex gap-6 right-6`}>
+        <button onClick={openAside} className="pointer-events-auto">
+          <Suspense>
+            <Await resolve={data.cart}>
+              {(cart) => (
+                <div className="w-8 h-8">
+                  <CartIcon
+                    notification={cart && cart.totalQuantity > 0 ? true : false}
+                  />
+                </div>
+              )}
+            </Await>
+          </Suspense>
+        </button>
+        <a
+          href={data.isLoggedIn ? '/account' : '/account/login'}
+          className="pointer-events-auto w-8 h-8"
+        >
+          <ProfileIcon notification={false} />
+        </a>
+      </div>
+
       <div className="2xl:px-20 px-10 pt-20">
         <div>
           <div className="grid gap-2">

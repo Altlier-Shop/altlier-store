@@ -64,14 +64,12 @@ export default function Product() {
               Free Shipping For Orders Above USD200
             </span>
           </div>
-          <div
-            className={`fixed z-50 top-[55%] flex flex-col gap-6 right-5 2xl:right-20`}
-          >
+          <div className={`fixed z-50 top-9 flex gap-6 right-6`}>
             <button onClick={openAside} className="pointer-events-auto">
               <Suspense>
                 <Await resolve={cart}>
                   {(cart) => (
-                    <div>
+                    <div className="w-8 h-8">
                       <CartIcon
                         notification={
                           cart && cart.totalQuantity > 0 ? true : false
@@ -84,11 +82,12 @@ export default function Product() {
             </button>
             <a
               href={isLoggedIn ? '/account' : '/account/login'}
-              className="pointer-events-auto"
+              className="pointer-events-auto w-8 h-8"
             >
               <ProfileIcon notification={false} />
             </a>
           </div>
+
           <ProductMain products={products.nodes} />
           {/* TODO: footer needs to be mobile and non-sticky */}
           <Suspense>

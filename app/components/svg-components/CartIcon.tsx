@@ -5,8 +5,8 @@ export default function CartIcon({notification}: {notification: boolean}) {
         id="Layer_1"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 55 55"
-        width="36"
-        height="36"
+        width="100%"
+        height="100%"
       >
         <defs>
           <style>{`.cart-cls-1,.cart-cls-2{stroke-width:0px;}.cart-cls-2{fill:#fff;}`}</style>
