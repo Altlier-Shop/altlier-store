@@ -17,7 +17,6 @@ import AltlierLogo from './svg-components/AltlierLogo';
 export type LayoutProps = {
   cart: Promise<CartApiQueryFragment | null>;
   children?: React.ReactNode;
-  header: HeaderQuery;
   checkoutUrl?: string;
 };
 
@@ -27,12 +26,7 @@ type UpdateContextType = {
 };
 export const UpdateContext = createContext<UpdateContextType | null>(null);
 
-export function Layout({
-  cart,
-  children = null,
-  header,
-  checkoutUrl,
-}: LayoutProps) {
+export function Layout({cart, children = null, checkoutUrl}: LayoutProps) {
   const [isPopup, setIsPopup] = useState(false);
   const updateParentComponent: UpdateContextType = {
     popupFunc: (popup: boolean) => {
@@ -52,8 +46,8 @@ export function Layout({
         <AltlierLogo />
       </button>
       <CartAside cart={cart} checkoutUrl={checkoutUrl} />
-      <SearchAside />
-      <MobileMenuAside menu={header?.menu} shop={header?.shop} />
+      {/* <SearchAside /> */}
+      {/* <MobileMenuAside menu={header?.menu} shop={header?.shop} /> */}
       <main>{children}</main>
     </UpdateContext.Provider>
   );

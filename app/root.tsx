@@ -1,3 +1,4 @@
+import type {HydrogenCart, Storefront} from '@shopify/hydrogen';
 import {useNonce} from '@shopify/hydrogen';
 import {
   defer,
@@ -17,14 +18,19 @@ import {
   isRouteErrorResponse,
   type ShouldRevalidateFunction,
 } from '@remix-run/react';
-import type {CustomerAccessToken} from '@shopify/hydrogen/storefront-api-types';
+import type {
+  Cart,
+  CustomerAccessToken,
+} from '@shopify/hydrogen/storefront-api-types';
 import favicon from '../public/favicon.svg';
 import resetStyles from './styles/reset.css';
 import appStyles from './styles/app.css';
 import customStyles from './styles/custom.css';
 import {Layout} from '~/components/Layout';
 import './firebase-setup';
-
+import {useNavigate, useLocation} from 'react-router-dom';
+import type {HydrogenSession} from 'server';
+import {action} from '~/routes/account_.logout';
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
  */
@@ -68,6 +74,41 @@ export const useRootLoaderData = () => {
   return root?.data as SerializeFrom<typeof loader>;
 };
 
+const checkoutValid = async (
+  storefront: Storefront,
+  checkoutId: string,
+  session: HydrogenSession,
+  cart: HydrogenCart,
+  headers: Headers,
+): Promise<Cart | null> => {
+  const {node} = await storefront.query(CHECKOUT_ASSOCIATE, {
+    variables: {
+      checkoutId,
+    },
+  });
+
+  if (node?.completedAt) {
+    // TODO: empty cart and create new checkout
+    console.log(
+      'checkout already completed! Date completed: ',
+      node.completedAt,
+    );
+    console.log('need to empty cart and create new checkout!');
+
+    session.unset('checkoutId');
+    session.unset('checkoutUrl');
+    session.unset('checkoutIdentifier');
+
+    const res = await cart?.create({});
+    console.log('new cart:', res?.cart);
+
+    headers.append('Set-Cookie', await session.commit());
+    return res.cart;
+  } else {
+    return cart.get();
+  }
+};
+
 export async function loader({context}: LoaderFunctionArgs) {
   const {storefront, session, cart} = context;
 
@@ -81,27 +122,17 @@ export async function loader({context}: LoaderFunctionArgs) {
   );
 
   // defer the cart query by not awaiting it
-  const cartPromise = cart.get();
+  let cartPromise = cart.get();
 
-  // await the header query (above the fold)
-  const headerPromise = storefront.query(HEADER_QUERY, {
-    cache: storefront.CacheLong(),
-    variables: {
-      headerMenuHandle: 'main-menu', // Adjust to your header menu handle
-    },
-  });
-
+  const checkoutId = session.get('checkoutId');
+  if (checkoutId) {
+    cartPromise = checkoutValid(storefront, checkoutId, session, cart, headers);
+  }
   const checkoutUrl = session.get('checkoutUrl');
-  // console.log('checkoutUrl at root', checkoutUrl);
-  const carto = await cartPromise;
-  console.log(carto?.deliveryGroups);
-
-  // console.log('cart at root', carto);
 
   return defer(
     {
       cart: cartPromise,
-      header: await headerPromise,
       publicStoreDomain,
       checkoutUrl,
     },
@@ -266,4 +297,18 @@ const HEADER_QUERY = `#graphql
     }
   }
   ${MENU_FRAGMENT}
+` as const;
+
+const CHECKOUT_ASSOCIATE = `#graphql
+  query Checkout($checkoutId: ID!)
+    {
+      node(id: $checkoutId) {
+        ... on Checkout {
+          webUrl
+          createdAt
+          completedAt
+        }
+      }
+    }
+
 ` as const;

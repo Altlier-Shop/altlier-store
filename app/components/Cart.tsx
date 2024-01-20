@@ -24,6 +24,7 @@ export function CartMain({layout, cart, checkoutUrl}: CartMainProps) {
   const linesCount = Boolean(cart?.lines?.nodes?.length || 0);
   const withDiscount =
     cart &&
+    cart.discountCodes &&
     Boolean(cart.discountCodes.filter((code) => code.applicable).length);
   const className = `cart-main ${withDiscount ? 'with-discount' : ''}`;
 
@@ -42,13 +43,10 @@ function CartDetails({layout, cart, checkoutUrl}: CartMainProps) {
     <div className="cart-details">
       <CartLines lines={cart?.lines} layout={layout} />
       {cartHasItems && (
-        <CartSummary
-          cost={cart.cost}
-          layout={layout}
-          discountCodes={cart.discountCodes}
-        >
+        <CartSummary cost={cart.cost} layout={layout}>
           <CartCheckoutActions
             checkoutUrl={checkoutUrl ? checkoutUrl : cart.checkoutUrl}
+            cart={cart}
           />
         </CartSummary>
       )}
@@ -152,12 +150,21 @@ function CartLineItem({
   );
 }
 
-function CartCheckoutActions({checkoutUrl}: {checkoutUrl: string | null}) {
+function CartCheckoutActions({
+  checkoutUrl,
+  cart,
+}: {
+  checkoutUrl: string | null;
+  cart: any;
+}) {
   if (!checkoutUrl) return null;
 
   // console.log('checkoutUrl at checkout:', checkoutUrl);
 
   const handleCheckOut = () => {
+    // We're temporarily adding a flush cart functionality for logged in users
+    // TODO: find a better way to do this
+
     window.location.href = checkoutUrl;
   };
 
@@ -178,12 +185,10 @@ export function CartSummary({
   cost,
   layout,
   children = null,
-  discountCodes,
 }: {
   children?: React.ReactNode;
   cost: CartApiQueryFragment['cost'];
   layout: CartMainProps['layout'];
-  discountCodes: CartApiQueryFragment['discountCodes'];
 }) {
   const className =
     layout === 'page'

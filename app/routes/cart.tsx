@@ -63,6 +63,7 @@ async function removeLinesCheckout(
     const checkoutLineId = `gid://shopify/CheckoutLineItem/${variantIdentifier}0?checkout=${checkoutIdentifier}`;
     // console.log('to remove lines', JSON.stringify(lineIds));
     // console.log('checkoutLineId:', checkoutLineId);
+    console.log('checkoutId:', checkoutId);
 
     const data = await storefront.mutate(REMOVE_LINE_ITEMS_MUTATION, {
       variables: {
