@@ -87,17 +87,27 @@ export default function Page() {
     );
   } else if (faqPage) {
     const text = convert(page.body).split('\n');
+
     const faqList: FAQ[] = [];
     const faqObj: FAQ = {
       q: '',
       a: '',
     };
+    let lineMemory = '';
     text.forEach((line) => {
       if (line.startsWith('Question:')) {
+        if (lineMemory === 'a') faqList.push({...faqObj});
         faqObj.q = line.replace('Question:', '');
+        lineMemory = 'q';
       } else if (line.startsWith('Answer:')) {
         faqObj.a = line.replace('Answer:', '');
-        faqList.push({...faqObj});
+        lineMemory = 'a';
+      } else {
+        if (lineMemory === 'q') {
+          faqObj.q += ' ' + line;
+        } else {
+          faqObj.a += ' ' + line;
+        }
       }
     });
 
