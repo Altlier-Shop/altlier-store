@@ -32,8 +32,8 @@ export default function ImageCarousel() {
   return (
     <Carousel
       transition={{duration: 0.5}}
-      autoplay={false}
-      loop={false}
+      autoplay={true}
+      loop={true}
       className="overflow-x-hidden overflow-y-visible"
       autoplayDelay={2500}
       prevArrow={() => <></>}
