@@ -167,3 +167,10 @@ code {
   text-indent: -1.3rem; /* Adjust this value as needed */
   padding-left: 1.5rem; /* Should be the same as the absolute value of text-indent */
 }
+
+.policy span {
+  font-size: 0.8rem;
+}
+.policy p {
+  font-size: 0.8rem;
+}
