@@ -17,7 +17,7 @@ import LandingPageMobile from '~/components/LandingPageMobile';
 import {Footer, FooterMobile} from '~/components/Footer';
 
 export const meta: MetaFunction = () => {
-  return [{title: 'Hydrogen | Home'}];
+  return [{title: 'Altlier | Home'}];
 };
 
 export async function loader({context}: LoaderFunctionArgs) {

@@ -11,7 +11,7 @@ import {ChevronUpIcon, ChevronDownIcon} from '@heroicons/react/20/solid';
 import {PageLayout} from '~/components/PageLayout';
 
 export const meta: MetaFunction<typeof loader> = ({data}) => {
-  return [{title: `Hydrogen | ${data?.page.title ?? ''}`}];
+  return [{title: `Altlier | ${data?.page.title ?? ''}`}];
 };
 
 export async function loader({params, context}: LoaderFunctionArgs) {

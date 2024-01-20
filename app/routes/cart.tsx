@@ -12,7 +12,7 @@ import type {
 } from '@shopify/hydrogen/storefront-api-types';
 
 export const meta: MetaFunction = () => {
-  return [{title: `Hydrogen | Cart`}];
+  return [{title: `Altlier | Cart`}];
 };
 
 async function updateLinesCheckout(

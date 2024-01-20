@@ -15,7 +15,7 @@ import TopProduct from '~/components/productpage-components/TopProduct';
 import {Carousel} from '@material-tailwind/react';
 
 export const meta: MetaFunction<typeof loader> = ({data}) => {
-  return [{title: `Hydrogen | ${data?.product.title ?? ''}`}];
+  return [{title: `Altlier | ${data?.product.title ?? ''}`}];
 };
 
 export async function loader({params, request, context}: LoaderFunctionArgs) {
