@@ -154,7 +154,7 @@ export default function ProductCarousel({
       {products.map((product, index) => (
         <img
           style={getProductStyle(index, currentIndex, products.length - 1)}
-          className={`absolute w-[300px] xl:w-[700px] transition-transform ease-in-out duration-700 origin-bottom ${
+          className={`absolute w-[500px] xl:w-[650px] transition-transform ease-in-out duration-700 origin-bottom ${
             index === currentIndex ? 'cursor-pointer' : ''
           }}`}
           key={product.id}
