@@ -3,6 +3,7 @@ import {Await} from '@remix-run/react';
 import ProductCarousel from './productpage-components/ProductCarousel';
 import ProductMosaic from './productpage-components/ProductMosaic';
 import TopProduct from './productpage-components/TopProduct';
+import SizeGuide from './productpage-components/SizeGuide';
 
 interface ProductData {
   data: any;
@@ -65,8 +66,14 @@ export default function ProductPage(props: ProductData) {
               )}
             </Await>
           </Suspense>
-          T
         </div>
+
+        {sizeGuideVisible && (
+          <div className="absolute z-50 h-full w-full flex items-end">
+            <SizeGuide onClose={() => handleSizeGuide(false)} />
+          </div>
+        )}
+
         {!!productDetails && (
           <ProductMosaic
             topProduct={currentProduct}

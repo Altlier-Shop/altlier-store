@@ -1,4 +1,4 @@
-import {Suspense} from 'react';
+import {Suspense, useState} from 'react';
 import {defer, redirect, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, type MetaFunction} from '@remix-run/react';
 
@@ -13,6 +13,7 @@ import {validateCustomerAccessToken} from '~/root';
 import {Footer} from '~/components/Footer';
 import TopProduct from '~/components/productpage-components/TopProduct';
 import {Carousel} from '@material-tailwind/react';
+import SizeGuide from '~/components/productpage-components/SizeGuide';
 
 export const meta: MetaFunction<typeof loader> = ({data}) => {
   return [{title: `Altlier | ${data?.product.title ?? ''}`}];
@@ -158,8 +159,9 @@ export default function Product() {
 }
 
 function ProductMain({product}: {product: any}) {
-  function openSizeGuide() {
-    console.log('open size guide');
+  const [sizeGuideVisible, setSetSizeGuideVisible] = useState(false);
+  function handleSizeGuide(open: boolean) {
+    setSetSizeGuideVisible(open);
   }
   const {images} = product;
   return (
@@ -167,10 +169,15 @@ function ProductMain({product}: {product: any}) {
       <div>
         <ProductImages images={images.nodes} />
       </div>
+      {sizeGuideVisible && (
+        <div className="absolute left-0 z-10 h-full w-full flex items-end">
+          <SizeGuide onClose={() => handleSizeGuide(false)} />
+        </div>
+      )}
       <div className="my-4">
         <TopProduct
           topProduct={product}
-          onOpenSizeGuide={openSizeGuide}
+          onOpenSizeGuide={() => handleSizeGuide(true)}
           mobile={true}
         />
       </div>
