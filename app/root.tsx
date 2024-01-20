@@ -27,10 +27,9 @@ import resetStyles from './styles/reset.css';
 import appStyles from './styles/app.css';
 import customStyles from './styles/custom.css';
 import {Layout} from '~/components/Layout';
-import './firebase-setup';
-import {useNavigate, useLocation} from 'react-router-dom';
 import type {HydrogenSession} from 'server';
-import {action} from '~/routes/account_.logout';
+import type {Firestore} from 'firebase/firestore';
+
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
  */
@@ -111,7 +110,7 @@ const checkoutValid = async (
 
 export async function loader({context}: LoaderFunctionArgs) {
   const {storefront, session, cart} = context;
-
+  const firestoreDB = context.firestoreDB as Firestore;
   const customerAccessToken = session.get('customerAccessToken');
   const publicStoreDomain = context.env.PUBLIC_STORE_DOMAIN;
 
@@ -135,6 +134,7 @@ export async function loader({context}: LoaderFunctionArgs) {
       cart: cartPromise,
       publicStoreDomain,
       checkoutUrl,
+      firestoreDB,
     },
     {headers},
   );

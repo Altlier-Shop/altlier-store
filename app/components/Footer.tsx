@@ -10,17 +10,22 @@ import InstagramIcon from './svg-components/InstagramIcon';
 import MirrorIcon from './svg-components/MirrorIcon';
 // import WhitePaperIcon from './svg-components/WhitePaperIcon';
 import {setUserEmail} from '~/firebase-service';
+import type {Firestore} from 'firebase/firestore';
 
 export function Footer({
+  firestoreDB,
   menu,
-  shop,
   full,
-}: FooterQuery & {shop: HeaderQuery['shop'] | null; full?: boolean}) {
+}: FooterQuery & {
+  firestoreDB: Firestore;
+  shop: HeaderQuery['shop'] | null;
+  full?: boolean;
+}) {
   if (full) {
     return (
       <footer className="w-full bg-altlierBlue xl:pl-[5%] xl:pr-[10%] lg:px-10 px-6 py-12 flex flex-col md:flex-row justify-between gap-16 [&>*]:text-root-secondary [&>*]:text-m md:[&>*]:text-sm">
         <div className="md:w-[55%] z-10">
-          <FooterSocials />
+          <FooterSocials firestoreDB={firestoreDB} />
         </div>
         <div className="w-[45%]">
           <FooterMenu menu={menu} primaryDomainUrl={''} />
@@ -37,12 +42,16 @@ export function Footer({
 }
 
 export function FooterMobile({
+  firestoreDB,
   menu,
-}: FooterQuery & {shop: HeaderQuery['shop'] | null}) {
+}: {
+  firestoreDB: Firestore;
+  menu: FooterQuery['menu'];
+}) {
   return (
     <footer className="w-full bg-altlierBlue xl:pl-[5%] xl:pr-[10%] lg:px-10 px-6 py-12 md:flex justify-between gap-16 [&>*]:text-root-secondary [&>*]:text-sm">
       <div className="w-full z-10">
-        <FooterSocials />
+        <FooterSocials firestoreDB={firestoreDB} />
       </div>
       <div className="w-full mt-6">
         <FooterMenu menu={menu} primaryDomainUrl={''} />
@@ -51,11 +60,11 @@ export function FooterMobile({
   );
 }
 
-function FooterSocials() {
+function FooterSocials({firestoreDB}: {firestoreDB: Firestore}) {
   const [email, setEmail] = useState('');
   const handleSubscribe = () => {
     if (email !== '') {
-      setUserEmail(email);
+      setUserEmail(firestoreDB, email);
       console.log('subscribed', email);
       setEmail('');
     }

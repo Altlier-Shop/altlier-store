@@ -14,6 +14,9 @@ import {
   type SessionStorage,
   type Session,
 } from '@shopify/remix-oxygen';
+import {initializeApp} from 'firebase/app';
+import type {Firestore} from 'firebase/firestore';
+import {addDoc, collection, getFirestore} from 'firebase/firestore';
 
 /**
  * Export a fetch handler in module format.
@@ -64,13 +67,26 @@ export default {
       });
 
       /**
+       * Create a Firestore client.
+       */
+      const firestoreDB = setupFirebase(env);
+      console.log('firestoreDB:', firestoreDB);
+      await setUserEmail(firestoreDB, 'julienlook@gmx.de');
+      /**
        * Create a Remix request handler and pass
        * Hydrogen's Storefront client to the loader context.
        */
       const handleRequest = createRequestHandler({
         build: remixBuild,
         mode: process.env.NODE_ENV,
-        getLoadContext: () => ({session, storefront, cart, env, waitUntil}),
+        getLoadContext: () => ({
+          session,
+          storefront,
+          cart,
+          firestoreDB,
+          env,
+          waitUntil,
+        }),
       });
 
       const response = await handleRequest(request);
@@ -93,6 +109,39 @@ export default {
   },
 };
 
+function setupFirebase(env: Env) {
+  const firebaseConfig = {
+    apiKey: env.PRIVATE_FIREBASE_API_KEY,
+    authDomain: env.PUBLIC_FIREBASE_AUTH_DOMAIN,
+    projectId: env.PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket: env.PUBLIC_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: env.PRIVATE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: env.PRIVATE_FIREBASE_APP_ID,
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  return db;
+}
+
+const setUserEmail = async (firestoreDB: Firestore, email: string) => {
+  try {
+    console.log(firestoreDB);
+
+    // const exisitngDoc = await getUserEmail(firestoreDB, email);
+    // if (exisitngDoc) {
+    //   return;
+    // }
+    await addDoc(collection(firestoreDB, 'usersNewsletter'), {
+      email,
+    });
+    // console.log('Document written with ID: ', docRef.id);
+  } catch (e) {
+    console.error('Error adding document: ', e);
+  }
+};
 /**
  * This is a custom session implementation for your Hydrogen shop.
  * Feel free to customize it to your needs, add helper methods, or

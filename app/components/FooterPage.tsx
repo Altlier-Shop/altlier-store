@@ -13,12 +13,19 @@ import type {FooterQuery} from 'storefrontapi.generated';
 import {Footer} from './Footer';
 import {useState} from 'react';
 import {setUserEmail} from '~/firebase-service';
+import type {Firestore} from 'firebase/firestore';
 
-export default function FooterPage({menu}: {menu: FooterQuery['menu']}) {
+export default function FooterPage({
+  firestoreDB,
+  menu,
+}: {
+  firestoreDB: Firestore;
+  menu: FooterQuery['menu'];
+}) {
   const [email, setEmail] = useState('');
   const handleSubscribe = () => {
     if (email !== '') {
-      setUserEmail(email);
+      setUserEmail(firestoreDB, email);
       console.log('subscribed', email);
       setEmail('');
     }
@@ -114,7 +121,7 @@ export default function FooterPage({menu}: {menu: FooterQuery['menu']}) {
             </a>
           </div>
         </div>
-        <Footer menu={menu} shop={null} />
+        <Footer firestoreDB={firestoreDB} menu={menu} shop={null} />
       </div>
       {/* <div className="absolute left-0 bottom-0 w-[45%] h-[30%] bg-altlierBlue pl-[5%] pr-[12%] pt-12 flex justify-between [&>*]:text-root-secondary"> */}
 

@@ -15,6 +15,7 @@ import FooterPage from '~/components/FooterPage';
 import {FooterMobile} from '~/components/Footer';
 import {UpdateContext} from '~/components/Layout';
 import LandingPageMobile from '~/components/LandingPageMobile';
+import type {Firestore} from 'firebase/firestore';
 
 export const meta: MetaFunction = () => {
   return [{title: 'Altlier | Home'}];
@@ -22,6 +23,7 @@ export const meta: MetaFunction = () => {
 
 export async function loader({context}: LoaderFunctionArgs) {
   const {storefront, session, cart} = context;
+  const firestoreDB = context.firestoreDB as Firestore;
   const customerAccessToken = session.get('customerAccessToken');
 
   // validate the customer access token is valid
@@ -46,6 +48,7 @@ export async function loader({context}: LoaderFunctionArgs) {
     isLoggedIn,
     footer: footerPromise,
     cart: cartPromise,
+    firestoreDB,
   });
 }
 
@@ -53,12 +56,12 @@ export default function Homepage() {
   const [landingPageBottom, setLandingPageBottom] = useState(false);
   const [mobileView, setMobileView] = useState(false);
   const data = useLoaderData<typeof loader>();
+  const firestoreDB = data.firestoreDB as Firestore;
 
   const homepage = useRef<HTMLDivElement>(null);
   const landingPage = useRef<HTMLDivElement>(null);
   const productPage = useRef<HTMLDivElement>(null);
   const footerPage = useRef<HTMLDivElement>(null);
-  const popupContext = useContext(UpdateContext);
 
   const handleScroll = (event: WheelEvent) => {
     // Prevent the default scroll behavior of the mouse wheel
@@ -133,7 +136,9 @@ export default function Homepage() {
         <div className="relative">
           <Suspense>
             <Await resolve={data.footer}>
-              {(footer) => <FooterMobile menu={footer?.menu} shop={null} />}
+              {(footer) => (
+                <FooterMobile firestoreDB={firestoreDB} menu={footer?.menu} />
+              )}
             </Await>
           </Suspense>
         </div>
@@ -192,7 +197,9 @@ export default function Homepage() {
       >
         <Suspense>
           <Await resolve={data.footer}>
-            {(footer) => <FooterPage menu={footer?.menu} />}
+            {(footer) => (
+              <FooterPage firestoreDB={firestoreDB} menu={footer?.menu} />
+            )}
           </Await>
         </Suspense>
       </div>

@@ -1,13 +1,15 @@
-import {db} from './firebase-setup';
+import type {Firestore} from 'firebase/firestore';
 import {collection, addDoc, getDoc, doc} from 'firebase/firestore';
 
-export const setUserEmail = async (email: string) => {
+export const setUserEmail = async (firestoreDB: Firestore, email: string) => {
   try {
-    const exisitngDoc = await getUserEmail(email);
+    console.log(firestoreDB);
+
+    const exisitngDoc = await getUserEmail(firestoreDB, email);
     if (exisitngDoc) {
       return;
     }
-    await addDoc(collection(db, 'usersNewsletter'), {
+    await addDoc(collection(firestoreDB, 'usersNewsletter'), {
       email,
     });
     // console.log('Document written with ID: ', docRef.id);
@@ -16,9 +18,9 @@ export const setUserEmail = async (email: string) => {
   }
 };
 
-export const getUserEmail = async (email: string) => {
+export const getUserEmail = async (firestoreDB: Firestore, email: string) => {
   try {
-    const docRef = doc(db, 'users', email);
+    const docRef = doc(firestoreDB, 'users', email);
     const docSnap = await getDoc(docRef);
     return docSnap.data();
   } catch (e) {
