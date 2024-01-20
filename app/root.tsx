@@ -109,8 +109,7 @@ const checkoutValid = async (
 };
 
 export async function loader({context}: LoaderFunctionArgs) {
-  const {storefront, session, cart} = context;
-  const firestoreDB = context.firestoreDB as Firestore;
+  const {storefront, session, cart, firestoreDB} = context;
   const customerAccessToken = session.get('customerAccessToken');
   const publicStoreDomain = context.env.PUBLIC_STORE_DOMAIN;
 

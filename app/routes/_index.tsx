@@ -22,8 +22,8 @@ export const meta: MetaFunction = () => {
 };
 
 export async function loader({context}: LoaderFunctionArgs) {
-  const {storefront, session, cart} = context;
-  const firestoreDB = context.firestoreDB as Firestore;
+  const {storefront, session, cart, firestoreDB} = context;
+
   const customerAccessToken = session.get('customerAccessToken');
 
   // validate the customer access token is valid

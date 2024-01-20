@@ -26,12 +26,12 @@ declare global {
     PUBLIC_STOREFRONT_ID: string;
     PUBLIC_CUSTOMER_ACCOUNT_API_CLIENT_ID: string;
     PUBLIC_CUSTOMER_ACCOUNT_API_URL: string;
-    PRIVATE_FIREBASE_API_KEY: string;
-    PUBLIC_FIREBASE_AUTH_DOMAIN: string;
-    PUBLIC_FIREBASE_PROJECT_ID: string;
-    PUBLIC_FIREBASE_STORAGE_BUCKET: string;
-    PRIVATE_FIREBASE_MESSAGING_SENDER_ID: string;
-    PRIVATE_FIREBASE_APP_ID: string;
+    FIREBASE_API_KEY: string;
+    FIREBASE_AUTH_DOMAIN: string;
+    FIREBASE_PROJECT_ID: string;
+    FIREBASE_STORAGE_BUCKET: string;
+    FIREBASE_MESSAGING_SENDER_ID: string;
+    FIREBASE_APP_ID: string;
   }
 }
 
@@ -44,6 +44,7 @@ declare module '@shopify/remix-oxygen' {
     cart: HydrogenCart;
     storefront: Storefront;
     session: HydrogenSession;
+    firestoreDB: Firestore;
     waitUntil: ExecutionContext['waitUntil'];
   }
 

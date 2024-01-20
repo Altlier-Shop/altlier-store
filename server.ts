@@ -70,8 +70,8 @@ export default {
        * Create a Firestore client.
        */
       const firestoreDB = setupFirebase(env);
-      console.log('firestoreDB:', firestoreDB);
-      await setUserEmail(firestoreDB, 'julienlook@gmx.de');
+      // console.log('firestoreDB:', firestoreDB);
+      // await setUserEmail(firestoreDB, 'julienlook@gmx.de');
       /**
        * Create a Remix request handler and pass
        * Hydrogen's Storefront client to the loader context.
@@ -109,19 +109,24 @@ export default {
   },
 };
 
-function setupFirebase(env: Env) {
+async function setupFirebase(env: Env) {
   const firebaseConfig = {
-    apiKey: env.PRIVATE_FIREBASE_API_KEY,
-    authDomain: env.PUBLIC_FIREBASE_AUTH_DOMAIN,
-    projectId: env.PUBLIC_FIREBASE_PROJECT_ID,
-    storageBucket: env.PUBLIC_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: env.PRIVATE_FIREBASE_MESSAGING_SENDER_ID,
-    appId: env.PRIVATE_FIREBASE_APP_ID,
+    apiKey: env.FIREBASE_API_KEY,
+    authDomain: env.FIREBASE_AUTH_DOMAIN,
+    projectId: env.FIREBASE_PROJECT_ID,
+    storageBucket: env.FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: env.FIREBASE_MESSAGING_SENDER_ID,
+    appId: env.FIREBASE_APP_ID,
   };
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
+
+  // const d = await addDoc(collection(db, 'users'), {
+  //   lo: 'email',
+  // });
+  // console.log(d);
 
   return db;
 }
@@ -134,9 +139,9 @@ const setUserEmail = async (firestoreDB: Firestore, email: string) => {
     // if (exisitngDoc) {
     //   return;
     // }
-    await addDoc(collection(firestoreDB, 'usersNewsletter'), {
-      email,
-    });
+    // await addDoc(collection(firestoreDB, 'usersNewsletter'), {
+    //   email,
+    // });
     // console.log('Document written with ID: ', docRef.id);
   } catch (e) {
     console.error('Error adding document: ', e);
