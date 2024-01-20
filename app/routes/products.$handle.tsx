@@ -116,6 +116,11 @@ export default function Product() {
 
   return (
     <div className="product">
+      <div className="w-full bg-altlierBlue py-1 flex justify-center">
+        <span className="text-white text-center text-sm default-font-bold">
+          Free Shipping For Orders Above USD200
+        </span>
+      </div>
       <div
         className={`fixed z-50 top-[55%] flex flex-col gap-6 right-5 2xl:right-20`}
       >
@@ -138,6 +143,7 @@ export default function Product() {
         >
           <ProfileIcon notification={false} />
         </a>
+        d
       </div>
 
       <ProductMain product={product} />
@@ -157,7 +163,7 @@ function ProductMain({product}: {product: any}) {
   }
   const {images} = product;
   return (
-    <div className="px-4 mt-24">
+    <div className="px-6 mt-24">
       <div>
         <ProductImages images={images.nodes} />
       </div>

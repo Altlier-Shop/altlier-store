@@ -39,7 +39,7 @@ export function Layout({cart, children = null, checkoutUrl}: LayoutProps) {
     <UpdateContext.Provider value={updateParentComponent}>
       <button
         onClick={handleHomeClick}
-        className={`fixed z-50 top-8 2xl:mx-20 md:mx-10 mx-6 max-w-36 lg:max-w-48 ${
+        className={`fixed z-50 top-9 2xl:mx-20 md:mx-10 mx-6  max-w-36 lg:max-w-48 ${
           isPopup ? 'masked-button' : ''
         }`}
       >
