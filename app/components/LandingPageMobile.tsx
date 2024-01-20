@@ -18,18 +18,18 @@ export default function LandingPageMobile({data}: {data: any}) {
       id="landing-page"
       className="flex w-full h-full bg-root-primary overflow-y-scroll relative"
     >
-      <div className="2xl:px-20 px-10 pt-32">
+      <div className="2xl:px-20 px-10 pt-20">
         <div>
-          <div className="grid 2xl:gap-6 lg:gap-4">
-            <h1 className="text-5xl pixel-font">YOUR</h1>
-            <h1 className="text-5xl pixel-font">EVERYDAY</h1>
-            <h1 className="text-5xl pixel-font">GEAR</h1>
+          <div className="grid gap-2">
+            <h1 className="text-4xl pixel-font">YOUR</h1>
+            <h1 className="text-4xl pixel-font">EVERYDAY</h1>
+            <h1 className="text-4xl pixel-font">GEAR</h1>
           </div>
-          <div className="mt-6 mb-6 grid 2xl:gap-6 lg:gap-4">
-            <div className="-ml-[2%]">
+          <div className="mt-4 mb-4 grid gap-2 w-full">
+            <div className="-ml-[2%] w-full">
               <NotAPonzi />
             </div>
-            <p className="xl:leading-6 leading-4 text-lg mt-8">
+            <p className="leading-5 text-sm">
               {`Altlier, a community for alternative outliers, blends wearable
               products with documentation of the Crypto/Web3 cultural movement,
               capturing the era's excitement in every unique design.`}
@@ -54,17 +54,17 @@ export default function LandingPageMobile({data}: {data: any}) {
               </div>
             </div>
           </div>
-          <div className="mt-32 grid 2xl:gap-6 lg:gap-4">
-            <h1 className="text-3xl pixel-font  [word-spacing:-10px]">
+          <div className="mt-6 grid gap-2">
+            <h1 className="text-xl pixel-font  [word-spacing:-10px]">
               WEAVING
             </h1>
-            <h1 className="text-3xl pixel-font   [word-spacing:-10px]">
+            <h1 className="text-xl pixel-font   [word-spacing:-10px]">
               THE WEB3 REVOLUTION
             </h1>
-            <h1 className="text-3xl pixel-font  [word-spacing:-10px]">
+            <h1 className="text-xl pixel-font  [word-spacing:-10px]">
               INTO DAILY LIFE
             </h1>
-            <p className="leading-6 text-lg">
+            <p className="leading-5 text-sm">
               {`Discover Altlier: In the digital age's heart, we're a brand born
               from a crypto community's vision, embodying the web3 culture.
               Altlier isn't just about fashion; it's about a cultural
@@ -74,7 +74,7 @@ export default function LandingPageMobile({data}: {data: any}) {
               of this revolutionary movement. Altlier - Dressing the Revolution,
               One Stitch at a Time`}
             </p>
-            <div className="my-20">
+            <div className="my-8">
               <div className="relative h-96 flex justify-center items-end">
                 <img
                   loading="lazy"

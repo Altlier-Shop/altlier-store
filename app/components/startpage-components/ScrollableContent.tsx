@@ -15,7 +15,7 @@ export default function ScrollableContent() {
         </h1>
       </div>
       <div className="mt-6 mb-6 grid 2xl:gap-6 lg:gap-4">
-        <div className="-ml-[2%]">
+        <div className="-ml-[2%] w-5/6">
           <NotAPonzi />
         </div>
         <p className="xl:leading-6 leading-4 text-lg">
