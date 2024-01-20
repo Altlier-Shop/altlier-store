@@ -22,7 +22,7 @@ import type {
   Cart,
   CustomerAccessToken,
 } from '@shopify/hydrogen/storefront-api-types';
-import favicon from '../public/favicon.svg';
+import favicon from '../public/favicon.ico';
 import resetStyles from './styles/reset.css';
 import appStyles from './styles/app.css';
 import customStyles from './styles/custom.css';
@@ -65,7 +65,7 @@ export function links() {
       rel: 'preconnect',
       href: 'https://shop.app',
     },
-    {rel: 'icon', type: 'image/svg+xml', href: favicon},
+    {rel: 'icon', type: 'image/x-icon', href: favicon},
   ];
 }
 

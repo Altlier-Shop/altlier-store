@@ -114,7 +114,7 @@ function AccountLayout({
       ? `Welcome, ${customer.firstName}`
       : `Welcome to your account.`
     : 'Account Details';
-  console.log('customer:', customer);
+  // console.log('customer:', customer);
 
   const status: Record<string, Status> = {
     confirmed: {text: 'Order Confirmed', color: 'green'},

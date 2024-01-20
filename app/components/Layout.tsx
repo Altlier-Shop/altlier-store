@@ -39,15 +39,13 @@ export function Layout({cart, children = null, checkoutUrl}: LayoutProps) {
     <UpdateContext.Provider value={updateParentComponent}>
       <button
         onClick={handleHomeClick}
-        className={`fixed z-50 top-8 2xl:mx-20 mx-10 ${
+        className={`fixed z-50 top-8 2xl:mx-20 md:mx-10 mx-6 max-w-36 lg:max-w-48 ${
           isPopup ? 'masked-button' : ''
         }`}
       >
         <AltlierLogo />
       </button>
       <CartAside cart={cart} checkoutUrl={checkoutUrl} />
-      {/* <SearchAside /> */}
-      {/* <MobileMenuAside menu={header?.menu} shop={header?.shop} /> */}
       <main>{children}</main>
     </UpdateContext.Provider>
   );
