@@ -1,5 +1,5 @@
 import {Suspense, useState} from 'react';
-import {defer, redirect, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
+import {defer, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, type MetaFunction} from '@remix-run/react';
 
 import {FOOTER_QUERY} from '~/routes/_index';
@@ -48,24 +48,6 @@ export async function loader({params, request, context}: LoaderFunctionArgs) {
     throw new Response(null, {status: 404});
   }
 
-  // const firstVariant = product.variants.nodes[0];
-  // const firstVariantIsDefault = Boolean(
-  //   firstVariant.selectedOptions.find(
-  //     (option: SelectedOption) =>
-  //       option.name === 'Title' && option.value === 'Default Title',
-  //   ),
-  // );
-
-  // if (firstVariantIsDefault) {
-  //   product.selectedVariant = firstVariant;
-  // } else {
-  //   // if no selected variant was returned from the selected options,
-  //   // we redirect to the first variant's url with it's selected options applied
-  //   if (!product.selectedVariant) {
-  //     throw redirectToFirstVariant({product, request});
-  //   }
-  // }
-
   // validate the customer access token is valid
   const {isLoggedIn} = await validateCustomerAccessToken(
     session,
@@ -88,29 +70,6 @@ export async function loader({params, request, context}: LoaderFunctionArgs) {
     footer: footerPromise,
   });
 }
-
-// export function redirectToFirstVariant({
-//   product,
-//   request,
-// }: {
-//   product: ProductFragment;
-//   request: Request;
-// }) {
-//   const url = new URL(request.url);
-// const firstVariant = product.variants.nodes[0];
-
-//   return redirect(
-//     getVariantUrl({
-//       pathname: url.pathname,
-//       handle: product.handle,
-//       selectedOptions: firstVariant.selectedOptions,
-//       searchParams: new URLSearchParams(url.search),
-//     }),
-//     {
-//       status: 302,
-//     },
-//   );
-// }
 
 export default function Product() {
   const {product, isLoggedIn, cart, footer} = useLoaderData<typeof loader>();
@@ -144,11 +103,9 @@ export default function Product() {
         >
           <ProfileIcon notification={false} />
         </a>
-        d
       </div>
 
       <ProductMain product={product} />
-      {/* TODO: footer needs to be mobile and non-sticky */}
       <Suspense>
         <Await resolve={footer}>
           {(footer) => <Footer menu={footer?.menu} shop={null} full={true} />}
@@ -160,10 +117,12 @@ export default function Product() {
 
 function ProductMain({product}: {product: any}) {
   const [sizeGuideVisible, setSetSizeGuideVisible] = useState(false);
+
   function handleSizeGuide(open: boolean) {
     setSetSizeGuideVisible(open);
   }
   const {images} = product;
+
   return (
     <div className="px-6 mt-24">
       <div>
@@ -189,14 +148,14 @@ function ProductImages({images}: {images: any[]}) {
   if (images.length === 0) {
     return <div className="product-image" />;
   } else {
-    // TODO: This approach causes a bug
-    const reversed = [...images.reverse()];
-
     return (
       <Carousel>
-        {reversed.map((image) => (
-          <img key={image.url} src={image.url} alt="product" />
-        ))}
+        {images
+          .slice(0)
+          .reverse()
+          .map((image) => (
+            <img key={image.url} src={image.url} alt="product" />
+          ))}
       </Carousel>
     );
   }
@@ -251,7 +210,7 @@ const PRODUCT_FRAGMENT = `#graphql
       name
       values
     }
-    images(first: 5, reverse:true) {
+    images(first:6, reverse:true) {
       nodes {
         id
         url

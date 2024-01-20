@@ -59,7 +59,7 @@ export default function TopProduct(props: TopProductProps) {
             {props.topProduct.title}
           </span>
         </div>
-        <h1 className="mt-2 text-xl">
+        <h1 className="mt-2 text-xl default-font-bold">
           {productFirstNode.price.currencyCode}
           {Math.round(productFirstNode.price.amount)}
         </h1>

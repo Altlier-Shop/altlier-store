@@ -40,7 +40,7 @@ export async function loader({params, request, context}: LoaderFunctionArgs) {
 
   const cartPromise = cart.get();
 
-  if (products.length === 0) {
+  if (!products) {
     throw new Response(null, {status: 404});
   }
 
@@ -142,31 +142,6 @@ function ProductMain({products}: {products: ProductFragment[]}) {
   );
 }
 
-function ProductPrice({
-  selectedVariant,
-}: {
-  selectedVariant: ProductFragment['selectedVariant'];
-}) {
-  return (
-    <div className="product-price">
-      {selectedVariant?.compareAtPrice ? (
-        <>
-          <p>Sale</p>
-          <br />
-          <div className="product-price-on-sale">
-            {selectedVariant ? <Money data={selectedVariant.price} /> : null}
-            <s>
-              <Money data={selectedVariant.compareAtPrice} />
-            </s>
-          </div>
-        </>
-      ) : (
-        selectedVariant?.price && <Money data={selectedVariant?.price} />
-      )}
-    </div>
-  );
-}
-
 const PRODUCT_MOBILE_FRAGMENT = `#graphql
   fragment Product on Product {
     id
@@ -174,7 +149,7 @@ const PRODUCT_MOBILE_FRAGMENT = `#graphql
     vendor
     handle
     description
-    images(first: 5 reverse:true) {
+    images(first:6, reverse:true) {
       nodes {
         __typename
         id
