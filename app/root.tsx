@@ -28,7 +28,10 @@ import appStyles from './styles/app.css';
 import customStyles from './styles/custom.css';
 import {Layout} from '~/components/Layout';
 import type {HydrogenSession} from 'server';
-import type {Firestore} from 'firebase/firestore';
+import {firebaseInit} from '../firebase.server';
+
+// import {getFirestore, type Firestore} from 'firebase/firestore';
+// import {firebaseApp} from './firebase-setup';
 
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
@@ -109,9 +112,13 @@ const checkoutValid = async (
 };
 
 export async function loader({context}: LoaderFunctionArgs) {
-  const {storefront, session, cart, firestoreDB} = context;
+  const {storefront, session, cart} = context;
   const customerAccessToken = session.get('customerAccessToken');
   const publicStoreDomain = context.env.PUBLIC_STORE_DOMAIN;
+
+  // console.log(firebaseApp);
+  const d = firebaseInit();
+  console.log(d);
 
   // validate the customer access token is valid
   const {headers} = await validateCustomerAccessToken(
@@ -127,6 +134,9 @@ export async function loader({context}: LoaderFunctionArgs) {
     cartPromise = checkoutValid(storefront, checkoutId, session, cart, headers);
   }
   const checkoutUrl = session.get('checkoutUrl');
+
+  const firestoreDB = null;
+  console.log('firestoreDB:', firestoreDB);
 
   return defer(
     {

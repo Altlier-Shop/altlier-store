@@ -9,9 +9,9 @@ export const setUserEmail = async (firestoreDB: Firestore, email: string) => {
     if (exisitngDoc) {
       return;
     }
-    await addDoc(collection(firestoreDB, 'usersNewsletter'), {
-      email,
-    });
+    // await addDoc(collection(firestoreDB, 'usersNewsletter'), {
+    //   email,
+    // });
     // console.log('Document written with ID: ', docRef.id);
   } catch (e) {
     console.error('Error adding document: ', e);
@@ -20,10 +20,12 @@ export const setUserEmail = async (firestoreDB: Firestore, email: string) => {
 
 export const getUserEmail = async (firestoreDB: Firestore, email: string) => {
   try {
-    const docRef = doc(firestoreDB, 'users', email);
+    const docRef = doc(firestoreDB, 'usersNewsletter', email);
     const docSnap = await getDoc(docRef);
+    console.log('docSnap', docSnap);
+
     return docSnap.data();
   } catch (e) {
-    console.error('Error adding document: ', e);
+    console.error('Error getting document: ', e);
   }
 };

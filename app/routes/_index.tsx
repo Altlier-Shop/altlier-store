@@ -62,7 +62,7 @@ export default function Homepage() {
   const landingPage = useRef<HTMLDivElement>(null);
   const productPage = useRef<HTMLDivElement>(null);
   const footerPage = useRef<HTMLDivElement>(null);
-
+  console.log('env vars', process.env);
   const handleScroll = (event: WheelEvent) => {
     // Prevent the default scroll behavior of the mouse wheel
     // event.preventDefault();

@@ -14,9 +14,11 @@ import {
   type SessionStorage,
   type Session,
 } from '@shopify/remix-oxygen';
-import {initializeApp} from 'firebase/app';
-import type {Firestore} from 'firebase/firestore';
-import {addDoc, collection, getFirestore} from 'firebase/firestore';
+
+// import type {ServiceAccount} from 'firebase-admin';
+
+// import type {Firestore} from 'firebase-admin/firestore';
+// import {addDoc, collection, getFirestore} from 'firebase/firestore';
 
 /**
  * Export a fetch handler in module format.
@@ -66,10 +68,7 @@ export default {
         cartQueryFragment: CART_QUERY_FRAGMENT,
       });
 
-      /**
-       * Create a Firestore client.
-       */
-      const firestoreDB = setupFirebase(env);
+      // const firestoreDB = setupFirebase(env, adminCredentials);
       // console.log('firestoreDB:', firestoreDB);
       // await setUserEmail(firestoreDB, 'julienlook@gmx.de');
       /**
@@ -83,7 +82,6 @@ export default {
           session,
           storefront,
           cart,
-          firestoreDB,
           env,
           waitUntil,
         }),
@@ -109,44 +107,45 @@ export default {
   },
 };
 
-async function setupFirebase(env: Env) {
-  const firebaseConfig = {
-    apiKey: env.FIREBASE_API_KEY,
-    authDomain: env.FIREBASE_AUTH_DOMAIN,
-    projectId: env.FIREBASE_PROJECT_ID,
-    storageBucket: env.FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: env.FIREBASE_MESSAGING_SENDER_ID,
-    appId: env.FIREBASE_APP_ID,
-  };
+// async function setupFirebase(env: Env, adminCredentials: any) {
+//   const firebaseConfig = {
+//     apiKey: env.FIREBASE_API_KEY,
+//     authDomain: env.FIREBASE_AUTH_DOMAIN,
+//     projectId: env.FIREBASE_PROJECT_ID,
+//     storageBucket: env.FIREBASE_STORAGE_BUCKET,
+//     messagingSenderId: env.FIREBASE_MESSAGING_SENDER_ID,
+//     appId: env.FIREBASE_APP_ID,
+//   };
+//   console.log(adminCredentials);
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+//   // Initialize Firebase
+//   const admin = initializeApp(adminCredentials);
+//   // const db = admin.firestore(app);
 
-  // const d = await addDoc(collection(db, 'users'), {
-  //   lo: 'email',
-  // });
-  // console.log(d);
+//   // const d = await addDoc(collection(db, 'users'), {
+//   //   lo: 'email',
+//   // });
+//   // console.log(d);
 
-  return db;
-}
+//   return admin;
+// }
 
-const setUserEmail = async (firestoreDB: Firestore, email: string) => {
-  try {
-    console.log(firestoreDB);
+// const setUserEmail = async (firestoreDB: Firestore, email: string) => {
+//   try {
+//     console.log(firestoreDB);
 
-    // const exisitngDoc = await getUserEmail(firestoreDB, email);
-    // if (exisitngDoc) {
-    //   return;
-    // }
-    // await addDoc(collection(firestoreDB, 'usersNewsletter'), {
-    //   email,
-    // });
-    // console.log('Document written with ID: ', docRef.id);
-  } catch (e) {
-    console.error('Error adding document: ', e);
-  }
-};
+//     // const exisitngDoc = await getUserEmail(firestoreDB, email);
+//     // if (exisitngDoc) {
+//     //   return;
+//     // }
+//     // await addDoc(collection(firestoreDB, 'usersNewsletter'), {
+//     //   email,
+//     // });
+//     // console.log('Document written with ID: ', docRef.id);
+//   } catch (e) {
+//     console.error('Error adding document: ', e);
+//   }
+// };
 /**
  * This is a custom session implementation for your Hydrogen shop.
  * Feel free to customize it to your needs, add helper methods, or

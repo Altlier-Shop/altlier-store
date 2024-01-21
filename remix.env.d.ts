@@ -44,7 +44,6 @@ declare module '@shopify/remix-oxygen' {
     cart: HydrogenCart;
     storefront: Storefront;
     session: HydrogenSession;
-    firestoreDB: Firestore;
     waitUntil: ExecutionContext['waitUntil'];
   }
 

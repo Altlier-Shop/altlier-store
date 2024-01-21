@@ -9,11 +9,15 @@ import {Aside} from '~/components/Aside';
 import {CartMain} from '~/components/Cart';
 
 import AltlierLogo from './svg-components/AltlierLogo';
+import {setUserEmail} from '../firebase-service';
+import {getFirestore, type Firestore} from 'firebase/firestore';
+import type {FirebaseApp} from 'firebase/app';
 
 export type LayoutProps = {
   cart: Promise<CartApiQueryFragment | null>;
   children?: React.ReactNode;
   checkoutUrl?: string;
+  firestoreDB: any;
 };
 
 type UpdateContextType = {
@@ -22,7 +26,12 @@ type UpdateContextType = {
 };
 export const UpdateContext = createContext<UpdateContextType | null>(null);
 
-export function Layout({cart, children = null, checkoutUrl}: LayoutProps) {
+export function Layout({
+  cart,
+  children = null,
+  checkoutUrl,
+  firestoreDB,
+}: LayoutProps) {
   const [isPopup, setIsPopup] = useState(false);
   const updateParentComponent: UpdateContextType = {
     popupFunc: (popup: boolean) => {
@@ -30,6 +39,17 @@ export function Layout({cart, children = null, checkoutUrl}: LayoutProps) {
     },
     popup: isPopup,
   };
+  // const db = initFireStore();
+
+  async function testFirebase(firestoreDB: FirebaseApp) {
+    const db = getFirestore(firestoreDB);
+    console.log(db);
+    await setUserEmail(db, 'ju');
+  }
+
+  console.log(firestoreDB);
+  // const db = getFirestore(firestoreDB);
+  // console.log(db);
 
   return (
     <UpdateContext.Provider value={updateParentComponent}>
@@ -40,6 +60,12 @@ export function Layout({cart, children = null, checkoutUrl}: LayoutProps) {
         }`}
       >
         <AltlierLogo />
+        <button
+          onClick={() => testFirebase(firestoreDB)}
+          className="btn homepage-btn btn-dark"
+        >
+          CLICK TO CHECK FIREBASE
+        </button>
       </button>
       <CartAside cart={cart} checkoutUrl={checkoutUrl} />
       <main>{children}</main>
