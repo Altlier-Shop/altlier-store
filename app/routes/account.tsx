@@ -5,6 +5,7 @@ import profileImg from 'public/Altlier_Circular_light.png';
 import AccountProfile from './account.profile';
 import Orders from './account.orders._index';
 import {useState} from 'react';
+import {Money} from '@shopify/hydrogen';
 
 export function shouldRevalidate() {
   return true;
@@ -37,11 +38,6 @@ export async function loader({request, context}: LoaderFunctionArgs) {
         isPrivateRoute,
         customer: null,
       });
-    }
-  } else {
-    // loggedIn, default redirect to the orders page
-    if (isAccountHome) {
-      return redirect('/account/orders');
     }
   }
 
@@ -96,7 +92,11 @@ export default function Acccount() {
   );
 }
 
-type StatusColor = 'green' | 'orange' | 'red' | 'gray';
+type StatusColor =
+  | 'text-green-600'
+  | 'text-orange-600'
+  | 'text-red-600'
+  | 'text-gray-600';
 
 interface Status {
   text: string;
@@ -129,60 +129,40 @@ function AccountLayout({
     : 'Account Details';
   // console.log('customer:', customer);
 
-  const status: Record<string, Status> = {
-    confirmed: {text: 'Order Confirmed', color: 'green'},
-    pending: {text: 'Pending Delivery', color: 'orange'},
-    cancelled: {text: 'Order Cancelled', color: 'red'},
-    refunded: {text: 'Refunded', color: 'gray'},
-    delivered: {text: 'Order Delivered', color: 'green'},
-    nft_deposited: {text: 'NFT Deposited', color: 'green'},
+  const orderStatus: Record<string, Status> = {
+    FULFILLED: {text: 'Order Confirmed', color: 'text-green-600'},
+    UNFULFILLED: {text: 'Pending Confirmation', color: 'text-orange-600'},
+    CANCELLED: {text: 'Order Cancelled', color: 'text-red-600'},
+    REFUNDED: {text: 'Order Refunded', color: 'text-gray-600'},
+    UNKNOWN: {text: 'Order Status Unknown', color: 'text-gray-600'},
+    // delivered: {text: 'Order Delivered', color: 'text-green-600'},
+    // nft_deposited: {text: 'NFT Deposited', color: 'text-green-600'},
   };
 
-  const orders = [
-    {
-      id: '123456AB',
-      status: 'confirmed',
-      date: '30 Dec 2023',
-      amount: '500 USD',
-    },
-    {id: '123456AB', status: 'pending', date: '30 Dec 2023', amount: '500 USD'},
-    {
-      id: '123456AB',
-      status: 'cancelled',
-      date: '30 Dec 2023',
-      amount: '500 USD',
-    },
-    {
-      id: '123456AB',
-      status: 'refunded',
-      date: '30 Dec 2023',
-      amount: '500 USD',
-    },
-    {
-      id: '123456AB',
-      status: 'delivered',
-      date: '30 Dec 2023',
-      amount: '500 USD',
-    },
-    {
-      id: '123456AB',
-      status: 'nft_deposited',
-      date: '30 Dec 2023',
-      amount: '500 USD',
-    },
-  ];
-  // console.log('customer.altpoints:', customer?.altpoints);
-
-  // console.log('customer address: ', customer.defaultAddress);
-  // console.log('customer email: ', customer.email);
-  // console.log('customer firstname: ', customer.firstName);
-  // console.log('customer lastname: ', customer.lastName);
-  //console.log('customer firstname: ', customer?.digitalWalletAddress);
-  // console.log('customer payment info: ', customer.);
+  function determineFullfillmentStatus(
+    cancelReason: string | null,
+    fulfillmentStatus: string,
+    paymentStatus: string,
+  ): {color: string; text: string} {
+    if (cancelReason) {
+      return orderStatus.CANCELLED;
+    } else if (fulfillmentStatus === 'FULFILLED' && paymentStatus === 'PAID') {
+      return orderStatus.FULFILLED;
+    } else if (
+      fulfillmentStatus === 'UNFULFILLED' &&
+      paymentStatus === 'PAID'
+    ) {
+      return orderStatus.UNFULFILLED;
+    } else if (paymentStatus === 'REFUNDED') {
+      return orderStatus.REFUNDED;
+    } else {
+      return orderStatus.UNKNOWN;
+    }
+  }
 
   return (
-    <div className="account">
-      <div className="mx-4 lg:mx-0 md:max-w-7xl grid grid-cols-1 lg:grid-cols-5 gap-8 mt-28">
+    <div className="h-screen">
+      <div className="mx-4 lg:mx-0 md:max-w-7xl h-3/4 grid grid-cols-1 lg:grid-cols-5 gap-8 mt-28">
         <div className="lg:col-span-2 h-24 bg-altlierBlue rounded-full flex gap-4">
           <img
             src={profileImg}
@@ -209,8 +189,8 @@ function AccountLayout({
         <div className="lg:col-span-1">
           <AccountMenu />
         </div>
-        <div className="flow-root lg:col-span-2">
-          <div className="overflow-hidden border-gray-400 border ring-1 ring-black ring-opacity-5 rounded-lg bg-white">
+        <div className="lg:col-span-2">
+          <div className="border-gray-400 border ring-1 ring-black ring-opacity-5 rounded-lg bg-white">
             <div className="py-2 px-8 default-font-bold text-lg border-b border-gray-400 bg-root-primary">
               Account Settings
             </div>
@@ -425,87 +405,101 @@ function AccountLayout({
               Save
             </button>
           </div>
-          d
         </div>
-        <div className="flow-root lg:col-span-3">
-          <div className="overflow-hidden border-gray-400 border ring-1 ring-black ring-opacity-5 rounded-lg bg-white">
-            <div className="overflow-y-auto">
-              <table className="divide-y divide-gray-300 w-full">
-                <thead className="bg-root-primary border-b border-gray-400">
-                  <tr>
-                    <th
-                      scope="col"
-                      className="py-2 pl-8 pr-3 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Purchase History
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-2 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Status
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-2 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Change Order
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-3 py-2 text-left text-sm font-semibold text-gray-900"
-                    >
-                      Amount
-                    </th>
-                    <th scope="col" className="relative py-2 pl-3 pr-4 pr-8">
-                      Invoice
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-200 bg-white">
-                  {orders.map((order) => (
-                    <tr key={order.id}>
-                      <td className="whitespace-nowrap py-5 pl-8 pr-3 text-sm">
-                        <div className="flex items-center">
-                          <div>
-                            <div className="font-medium text-gray-900">
-                              Order: {order.id}
-                            </div>
-                            <div className="mt-1 text-gray-500">
-                              {order.date}
-                            </div>
+        <div className="lg:col-span-3 min-h-[500px] h-screen/2 overflow-y-scroll">
+          <div className="border-gray-400 border ring-1 ring-black ring-opacity-5 rounded-lg bg-white">
+            <table className="divide-y divide-gray-300 w-full">
+              <thead className="sticky top-0 z-10 bg-root-primary border-gray-400">
+                <tr>
+                  <th
+                    scope="col"
+                    className="py-2 pl-8 pr-3 text-left  font-semibold text-gray-900 default-font-bold text-lg"
+                  >
+                    Purchase History
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-3 py-2 text-left  font-semibold text-gray-900 default-font-bold text-lg"
+                  >
+                    Status
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-3 py-2 text-left  font-semibold text-gray-900 default-font-bold text-lg"
+                  >
+                    Edit Order
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-3 py-2 text-left font-semibold text-gray-900 default-font-bold text-lg"
+                  >
+                    Amount
+                  </th>
+                  <th
+                    scope="col"
+                    className="relative py-2 pl-3 pr-4 pr-8 default-font-bold text-lg"
+                  >
+                    Details
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-200 bg-whit">
+                {customerEdit.orders.nodes.map((order: any) => (
+                  <tr key={order.id}>
+                    <td className="whitespace-nowrap py-5 pl-8 pr-3 text-sm">
+                      <div className="flex items-center">
+                        <div>
+                          <div className="font-medium text-gray-900">
+                            Order: {order.orderNumber}
+                          </div>
+                          <div className="mt-1 text-gray-500">
+                            {order.processedAt}
                           </div>
                         </div>
-                      </td>
-                      <td
-                        className={`whitespace-nowrap px-3 py-5 text-sm text-gray-500 ${
-                          status[order.status].color === 'green'
-                            ? 'text-green-600'
-                            : status[order.status].color === 'orange'
-                            ? 'text-orange-600'
-                            : status[order.status].color === 'red'
-                            ? 'text-red-600'
-                            : 'text-gray-600'
-                        }`}
+                      </div>
+                    </td>
+                    <td
+                      className={`whitespace-nowrap px-3 py-5 text-sm text-gray-500 ${
+                        determineFullfillmentStatus(
+                          order.cancelReason,
+                          order.fulfillmentStatus,
+                          order.financialStatus,
+                        ).color
+                      }`}
+                    >
+                      {
+                        determineFullfillmentStatus(
+                          order.cancelReason,
+                          order.fulfillmentStatus,
+                          order.financialStatus,
+                        ).text
+                      }
+                    </td>
+                    <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                      <a
+                        href={`mailto: hello@altlier.co?subject=Refund Request: #${order.orderNumber}&body=Hello, my name is ${customer.firstName} ${customer.lastName} I would like to request a refund for my order #${order.orderNumber}`}
+                        className="text-gray-900"
                       >
-                        {status[order.status].text}
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                        <div className="text-gray-900">Refund</div>
-                      </td>
-                      <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                        {order.amount}
-                      </td>
-                      <td className="relative whitespace-nowrap py-5 pl-3 pr-8 text-right text-sm font-medium">
-                        <button className="text-indigo-600 hover:text-indigo-900">
-                          Download
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                        {order.financialStatus !== 'REFUNDED' ? 'Refund' : '-'}
+                      </a>
+                    </td>
+                    <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                      <Money data={order.currentTotalPrice} />
+                    </td>
+                    <td className="relative whitespace-nowrap py-5 pl-3 pr-8 text-right text-sm font-medium">
+                      <a
+                        href={order.statusUrl}
+                        target="_blank"
+                        className="text-indigo-600 hover:text-indigo-900"
+                        rel="noreferrer"
+                      >
+                        View Order
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
@@ -548,14 +542,39 @@ function Logout() {
   );
 }
 
+const ORDER_ITEM_FRAGMENT = `#graphql
+  fragment OrderItem on Order {
+    currentTotalPrice {
+      amount
+      currencyCode
+    }
+    financialStatus
+    fulfillmentStatus
+    id
+    cancelReason
+    lineItems(first: 10) {
+      nodes {
+        title
+        variant {
+          image {
+            url
+            altText
+            height
+            width
+          }
+        }
+      }
+    }
+    orderNumber
+    customerUrl
+    statusUrl
+    processedAt
+  }
+` as const;
+
 export const CUSTOMER_FRAGMENT = `#graphql
   fragment Customer on Customer {
     acceptsMarketing
-    addresses(first: 6) {
-      nodes {
-        ...Address
-      }
-    }
     defaultAddress {
       ...Address
     }
@@ -567,6 +586,22 @@ export const CUSTOMER_FRAGMENT = `#graphql
     altpoints: metafield(namespace: "customer.metafields.custom.altpoints", key: "customer.metafields.custom.altpoints") {
       value
       type
+    }
+    numberOfOrders
+    orders(
+      sortKey: PROCESSED_AT,
+      reverse: true,
+      first: 250
+    ) {
+      nodes {
+        ...OrderItem
+      }
+      pageInfo {
+        hasPreviousPage
+        hasNextPage
+        endCursor
+        startCursor
+      }
     }
   }
   fragment Address on MailingAddress {
@@ -583,13 +618,38 @@ export const CUSTOMER_FRAGMENT = `#graphql
     zip
     phone
   }
+  ${ORDER_ITEM_FRAGMENT}
 ` as const;
+
+// export const CUSTOMER_ORDER_FRAGMENT = `#graphql
+//   fragment CustomerOrders on Customer {
+//     numberOfOrders
+//     orders(
+//       sortKey: PROCESSED_AT,
+//       reverse: true,
+//       first: $first,
+//       last: $last,
+//       before: $startCursor,
+//       after: $endCursor
+//     ) {
+//       nodes {
+//         ...OrderItem
+//       }
+//       pageInfo {
+//         hasPreviousPage
+//         hasNextPage
+//         endCursor
+//         startCursor
+//       }
+//     }
+//   }
+// ` as const;
 
 // NOTE: https://shopify.dev/docs/api/storefront/latest/queries/customer
 export const CUSTOMER_QUERY = `#graphql
   query Customer(
-    $customerAccessToken: String!
     $country: CountryCode
+    $customerAccessToken: String!
     $language: LanguageCode
   ) @inContext(country: $country, language: $language) {
     customer(customerAccessToken: $customerAccessToken) {
