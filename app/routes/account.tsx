@@ -775,60 +775,68 @@ function AccountLayout({
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 bg-white">
-                {customerEdit.orders.nodes.map((order: any) => (
-                  <tr key={order.id}>
-                    <td className="whitespace-nowrap py-5 pl-8 pr-3 text-sm">
-                      <div className="flex items-center">
-                        <div>
-                          <div className="font-medium text-gray-900">
-                            Order: {order.orderNumber}
-                          </div>
-                          <div className="mt-1 text-gray-500">
-                            {order.processedAt}
+                {customerEdit.orders && customerEdit.orders.nodes.length > 0 ? (
+                  customerEdit.orders.nodes.map((order: any) => (
+                    <tr key={order.id}>
+                      <td className="whitespace-nowrap py-5 pl-8 pr-3 text-sm">
+                        <div className="flex items-center">
+                          <div>
+                            <div className="font-medium text-gray-900">
+                              Order: {order.orderNumber}
+                            </div>
+                            <div className="mt-1 text-gray-500">
+                              {order.processedAt}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </td>
-                    <td
-                      className={`whitespace-nowrap px-3 py-5 text-sm text-gray-500 ${
-                        determineFullfillmentStatus(
-                          order.cancelReason,
-                          order.fulfillmentStatus,
-                          order.financialStatus,
-                        ).color
-                      }`}
-                    >
-                      {
-                        determineFullfillmentStatus(
-                          order.cancelReason,
-                          order.fulfillmentStatus,
-                          order.financialStatus,
-                        ).text
-                      }
-                    </td>
-                    <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                      <a
-                        href={`mailto: hello@altlier.co?subject=Refund Request: #${order.orderNumber}&body=Hello, my name is ${customer.firstName} ${customer.lastName} I would like to request a refund for my order #${order.orderNumber}`}
-                        className="text-gray-900"
+                      </td>
+                      <td
+                        className={`whitespace-nowrap px-3 py-5 text-sm text-gray-500 ${
+                          determineFullfillmentStatus(
+                            order.cancelReason,
+                            order.fulfillmentStatus,
+                            order.financialStatus,
+                          ).color
+                        }`}
                       >
-                        {order.financialStatus !== 'REFUNDED' ? 'Refund' : '-'}
-                      </a>
-                    </td>
-                    <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                      <Money data={order.currentTotalPrice} />
-                    </td>
-                    <td className="relative whitespace-nowrap py-5 pl-3 pr-8 text-right text-sm font-medium">
-                      <a
-                        href={order.statusUrl}
-                        target="_blank"
-                        className="text-indigo-600 hover:text-indigo-900"
-                        rel="noreferrer"
-                      >
-                        View Order
-                      </a>
-                    </td>
-                  </tr>
-                ))}
+                        {
+                          determineFullfillmentStatus(
+                            order.cancelReason,
+                            order.fulfillmentStatus,
+                            order.financialStatus,
+                          ).text
+                        }
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                        <a
+                          href={`mailto: hello@altlier.co?subject=Refund Request: #${order.orderNumber}&body=Hello, my name is ${customer.firstName} ${customer.lastName} I would like to request a refund for my order #${order.orderNumber}`}
+                          className="text-gray-900"
+                        >
+                          {order.financialStatus !== 'REFUNDED'
+                            ? 'Refund'
+                            : '-'}
+                        </a>
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                        <Money data={order.currentTotalPrice} />
+                      </td>
+                      <td className="relative whitespace-nowrap py-5 pl-3 pr-8 text-right text-sm font-medium">
+                        <a
+                          href={order.statusUrl}
+                          target="_blank"
+                          className="text-indigo-600 hover:text-indigo-900"
+                          rel="noreferrer"
+                        >
+                          View Order
+                        </a>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <div className=" w-full flex justify-center my-8">
+                    {`You haven't made any orders yet.`}
+                  </div>
+                )}
               </tbody>
             </table>
           </div>
