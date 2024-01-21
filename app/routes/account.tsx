@@ -4,6 +4,7 @@ import type {CustomerFragment} from 'storefrontapi.generated';
 import profileImg from 'public/Altlier_Circular_light.png';
 import AccountProfile from './account.profile';
 import Orders from './account.orders._index';
+import {useState} from 'react';
 
 export function shouldRevalidate() {
   return true;
@@ -109,6 +110,18 @@ function AccountLayout({
   customer: CustomerFragment;
   children: React.ReactNode;
 }) {
+  const [editFieldId, setEditFieldId] = useState('');
+  const [customerEdit, setCustomer] = useState<any>(customer);
+  function submitField(field: string) {
+    // edit mode for field off
+    setEditFieldId('');
+    console.log(customerEdit);
+
+    // DB / shopify operation
+  }
+  function saveCustomerData() {
+    console.log('save customerEdit:', customerEdit);
+  }
   const heading = customer
     ? customer.firstName
       ? `Welcome, ${customer.firstName}`
@@ -201,110 +214,214 @@ function AccountLayout({
             </div>
             <ul className="divide-y divide-gray-400">
               <li className="flex justify-between gap-x-6 py-5 px-8">
-                <div className="flex min-w-0 gap-x-4">
-                  <div className="min-w-0 flex-auto">
+                <div className="flex w-full gap-x-4">
+                  <div className="flex-auto w-full">
                     <p className="text-sm font-semibold leading-6 text-gray-900">
                       Name
                     </p>
-                    <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                      {customer.firstName} {customer.lastName}
+                    <p className="mt-1 truncate text-xs leading-5 text-gray-500 w-full">
+                      {editFieldId === 'name' ? (
+                        <div className="flex gap-2 w-full">
+                          <input
+                            id="name"
+                            type="text"
+                            className="py-1 px-2 rounded-full w-full"
+                            defaultValue={
+                              customerEdit.name
+                                ? customerEdit.name
+                                : customer.firstName + ' ' + customer.lastName
+                            }
+                            onChange={(e) =>
+                              setCustomer({
+                                ...customerEdit,
+                                name: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+                      ) : (
+                        <span className="w-full">
+                          {customerEdit.name
+                            ? customerEdit.name
+                            : customer.firstName + ' ' + customer.lastName}
+                        </span>
+                      )}
                     </p>
                   </div>
                 </div>
                 <div className="shrink-0 flex flex-col justify-center w-[50px] items-start">
-                  <button className="text-sm leading-6 text-gray-900">
+                  <button
+                    onClick={() => setEditFieldId('name')}
+                    className="text-sm leading-6 text-gray-900"
+                  >
                     Edit
                   </button>
                 </div>
               </li>
               <li className="flex justify-between gap-x-6 py-5 px-8">
-                <div className="flex min-w-0 gap-x-4">
-                  <div className="min-w-0 flex-auto">
+                <div className="flex w-full gap-x-4">
+                  <div className="flex-auto w-full">
                     <p className="text-sm font-semibold leading-6 text-gray-900">
                       Email
                     </p>
-                    <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                      {customer.email}
+                    <p className="mt-1 truncate text-xs leading-5 text-gray-500 w-full">
+                      {editFieldId === 'email' ? (
+                        <div className="flex gap-2 w-full">
+                          <input
+                            id="email"
+                            type="text"
+                            className="py-1 px-2 rounded-full w-full"
+                            defaultValue={customerEdit.email}
+                            onChange={(e) =>
+                              setCustomer({
+                                ...customerEdit,
+                                email: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+                      ) : (
+                        <span className="w-full">{customerEdit.email}</span>
+                      )}
                     </p>
                   </div>
                 </div>
                 <div className="shrink-0 flex flex-col justify-center w-[50px] items-start">
-                  <button className="text-sm leading-6 text-gray-900">
+                  <button
+                    onClick={() => setEditFieldId('email')}
+                    className="text-sm leading-6 text-gray-900"
+                  >
                     Edit
                   </button>
                 </div>
               </li>
               <li className="flex justify-between gap-x-6 py-5 px-8">
-                <div className="flex min-w-0 gap-x-4">
-                  <div className="min-w-0 flex-auto">
+                <div className="flex w-full gap-x-4">
+                  <div className="flex-auto w-full">
                     <p className="text-sm font-semibold leading-6 text-gray-900">
                       Password
                     </p>
-                    <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                      ********
+                    <p className="mt-1 truncate text-xs leading-5 text-gray-500 w-full">
+                      {editFieldId === 'password' ? (
+                        <div className="flex gap-2 w-full">
+                          <input
+                            id="password"
+                            type="password"
+                            className="py-1 px-2 rounded-full w-full"
+                            onChange={(e) =>
+                              setCustomer({
+                                ...customerEdit,
+                                password: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+                      ) : (
+                        <span className="w-full">********</span>
+                      )}
                     </p>
                   </div>
                 </div>
                 <div className="shrink-0 flex flex-col justify-center w-[50px] items-start">
-                  <button className="text-sm leading-6 text-gray-900">
-                    Reset
-                  </button>
-                </div>
-              </li>
-              <li className="flex justify-between gap-x-6 py-5 px-8">
-                <div className="flex min-w-0 gap-x-4">
-                  <div className="min-w-0 flex-auto">
-                    <p className="text-sm font-semibold leading-6 text-gray-900">
-                      Shipping Address
-                    </p>
-                    <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                      {customer.defaultAddress?.formatted}
-                    </p>
-                  </div>
-                </div>
-                <div className="shrink-0 flex flex-col justify-center w-[50px] items-start">
-                  <button className="text-sm leading-6 text-gray-900">
+                  <button
+                    onClick={() => setEditFieldId('password')}
+                    className="text-sm leading-6 text-gray-900"
+                  >
                     Edit
                   </button>
                 </div>
               </li>
               <li className="flex justify-between gap-x-6 py-5 px-8">
-                <div className="flex min-w-0 gap-x-4">
-                  <div className="min-w-0 flex-auto">
+                <div className="flex w-full gap-x-4">
+                  <div className="flex-auto w-full">
+                    <p className="text-sm font-semibold leading-6 text-gray-900">
+                      Shipping Address
+                    </p>
+                    <p className="mt-1 truncate text-xs leading-5 text-gray-500 w-full">
+                      {editFieldId === 'defaultAddress' ? (
+                        <div className="flex gap-2 w-full">
+                          <input
+                            id="address"
+                            type="text"
+                            className="py-1 px-2 rounded-full w-full"
+                            defaultValue={
+                              customerEdit.defaultAddress?.formatted
+                            }
+                            onChange={(e) =>
+                              setCustomer({
+                                ...customerEdit,
+                                defaultAddress: {formatted: e.target.value},
+                              })
+                            }
+                          />
+                        </div>
+                      ) : (
+                        <span className="w-full">
+                          {customerEdit.defaultAddress?.formatted}
+                        </span>
+                      )}
+                    </p>
+                  </div>
+                </div>
+                <div className="shrink-0 flex flex-col justify-center w-[50px] items-start">
+                  <button
+                    onClick={() => setEditFieldId('defaultAddress')}
+                    className="text-sm leading-6 text-gray-900"
+                  >
+                    Edit
+                  </button>
+                </div>
+              </li>
+
+              <li className="flex justify-between gap-x-6 py-5 px-8">
+                <div className="flex w-full gap-x-4">
+                  <div className="flex-auto w-full">
                     <p className="text-sm font-semibold leading-6 text-gray-900">
                       Digital Wallet Address
                     </p>
                     <p className="mt-1 text-xs leading-5 text-gray-500">
-                      ******** <br />
-                      Your Wallet Address will be kept strictly confidential and
-                      will only be used to deposit NFT's and rewards
+                      {editFieldId === 'digitalWalletAddress' ? (
+                        <div className="flex gap-2">
+                          <input
+                            id="digitalWalletAddress"
+                            type="password"
+                            className="py-1 px-2 rounded-full w-full"
+                            onChange={(e) =>
+                              setCustomer({
+                                ...customerEdit,
+                                digitalWalletAddress: e.target.value,
+                              })
+                            }
+                          />
+                        </div>
+                      ) : (
+                        <span>********</span>
+                      )}
                     </p>
+                    <span className="text-xs">
+                      {`Your Wallet Address will be kept strictly confidential and
+                      will only be used to deposit NFT's and rewards`}
+                    </span>
                   </div>
                 </div>
                 <div className="shrink-0 flex flex-col justify-center w-[50px] items-start">
-                  <button className="text-sm leading-6 text-gray-900">
+                  <button
+                    onClick={() => setEditFieldId('digitalWalletAddress')}
+                    className="text-sm leading-6 text-gray-900"
+                  >
                     Edit
                   </button>
                 </div>
               </li>
-              <li className="flex justify-between gap-x-6 py-5 px-8">
-                <div className="flex min-w-0 gap-x-4">
-                  <div className="min-w-0 flex-auto">
-                    <p className="text-sm font-semibold leading-6 text-gray-900">
-                      Payment
-                    </p>
-                    <p className="mt-1 truncate text-xs leading-5 text-gray-500">
-                      ********
-                    </p>
-                  </div>
-                </div>
-                <div className="shrink-0 flex flex-col justify-center w-[50px] items-start">
-                  <button className="text-sm leading-6 text-gray-900">
-                    Update
-                  </button>
-                </div>
-              </li>
             </ul>
+          </div>
+          <div className="flex justify-end">
+            <button
+              onClick={saveCustomerData}
+              className="btn homepage-btn btn-dark mt-4 w-1/4 text-lg"
+            >
+              Save
+            </button>
           </div>
         </div>
         <div className="flow-root lg:col-span-3">
