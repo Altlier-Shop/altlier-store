@@ -17,11 +17,12 @@ import {setUserEmail} from '~/firebase-service';
 export default function FooterPage({menu}: {menu: FooterQuery['menu']}) {
   const [email, setEmail] = useState('');
   const handleSubscribe = () => {
-    if (email !== '') {
-      setUserEmail(email);
-      console.log('subscribed', email);
-      setEmail('');
-    }
+    window.location.href = window.location.origin + '/account/register';
+    // if (email !== '') {
+    //   setUserEmail(email);
+    //   console.log('subscribed', email);
+    //   setEmail('');
+    // }
   };
   const handleArrowClick = () => {
     const footer = document.getElementById('footerPage');
@@ -46,7 +47,7 @@ export default function FooterPage({menu}: {menu: FooterQuery['menu']}) {
           </div>
         </div>
         <div className="mt-2 xl:mt-8 w-full flex gap-2 items-end">
-          <div className="w-full">
+          {/* <div className="w-full">
             <label htmlFor="email" className="text-lg default-font-bold">
               Email
             </label>
@@ -57,15 +58,16 @@ export default function FooterPage({menu}: {menu: FooterQuery['menu']}) {
               id="email"
               className="input-box"
             ></input>
-          </div>
+          </div> */}
           <button
-            disabled={email !== '' ? false : true}
+            // disabled={email !== '' ? false : true}
             onClick={handleSubscribe}
             className={`btn homepage-btn ${
-              email !== '' ? 'btn-dark' : 'pixel-font'
+              // email !== '' ?
+              'btn-dark' // : 'pixel-font'
             } text-lg h-[42px] px-2 w-1/2`}
           >
-            Subscribe
+            Join Altlier
           </button>
         </div>
         <div className="mt-2 xl:mt-8 w-5/6">

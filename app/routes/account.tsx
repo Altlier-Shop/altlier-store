@@ -414,7 +414,7 @@ function AccountLayout({
   }
 
   return (
-    <div className="h-screen">
+    <div className="h-screen/2">
       <div className="mx-4 lg:mx-0 md:max-w-7xl h-3/4 grid grid-cols-1 lg:grid-cols-5 gap-8 mt-28">
         <div className="lg:col-span-2 h-24 bg-altlierBlue rounded-full flex gap-4">
           <img
@@ -434,7 +434,7 @@ function AccountLayout({
           </div>
         </div>
         <div className="lg:col-span-2">
-          <p className="text-neutral-400  text-xl">Available Alt Points:</p>
+          <p className="text-neutral-500  text-xl">Available Alt Points:</p>
           <p className="text-altlierBlue text-5xl default-font-bold">
             {altpoints}
           </p>
@@ -684,7 +684,7 @@ function AccountLayout({
                     </button>
                   </div>
                 </li>
-
+                {/* 
                 <li className="flex justify-between gap-x-6 py-5 px-8">
                   <div className="flex w-full gap-x-4">
                     <div className="flex-auto w-full">
@@ -724,14 +724,14 @@ function AccountLayout({
                       Edit
                     </button>
                   </div>
-                </li>
+                </li> */}
               </ul>
             ) : null}
           </div>
           <div className="flex justify-end">
             <button
               onClick={saveCustomerData}
-              className="btn homepage-btn btn-dark mt-4 w-1/4 text-lg"
+              className="btn homepage-btn btn-dark mt-4 w-1/4 text-lg flex justify-center items-center"
             >
               Save
             </button>
@@ -833,7 +833,7 @@ function AccountLayout({
                     </tr>
                   ))
                 ) : (
-                  <div className=" w-full flex justify-center my-8">
+                  <div className=" w-full flex justify-center my-8 px-4">
                     {`You haven't made any orders yet.`}
                   </div>
                 )}

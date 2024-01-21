@@ -54,18 +54,19 @@ export function FooterMobile({
 function FooterSocials() {
   const [email, setEmail] = useState('');
   const handleSubscribe = () => {
-    if (email !== '') {
-      setUserEmail(email);
-      console.log('subscribed', email);
-      setEmail('');
-    }
+    window.location.href = window.location.origin + '/account/register';
+    // if (email !== '') {
+    //   setUserEmail(email);
+    //   console.log('subscribed', email);
+    //   setEmail('');
+    // }
   };
   return (
     <div className="[&>*]:text-root-secondary">
       <h1 className="pixel-font text-3xl">Shill For us!</h1>
 
       <div className="mt-4 w-full flex flex-col md:flex-row gap-6 items-end">
-        <div className="w-full [&>*]:text-root-secondary">
+        {/* <div className="w-full [&>*]:text-root-secondary">
           <label htmlFor="email" className="text-base default-font-bold">
             Email
           </label>
@@ -76,17 +77,18 @@ function FooterSocials() {
             id="email"
             className="input-box border-root-secondary mt-1"
           ></input>
-        </div>
+        </div> */}
         <button
-          disabled={email !== '' ? false : true}
+          // disabled={email !== '' ? false : true}
           onClick={handleSubscribe}
           className={`btn homepage-btn ${
-            email !== ''
-              ? 'hover:bg-root-secondary hover:text-altlierBlue'
-              : 'pixel-font'
+            // email !== ''
+            // ?
+            'hover:bg-root-secondary hover:text-altlierBlue'
+            // : 'pixel-font'
           } text-base h-[38px] px-2 md:w-1/2 border-root-secondary pixel-font`}
         >
-          Subscribe
+          Join Altlier
         </button>
       </div>
 
