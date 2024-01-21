@@ -182,7 +182,6 @@ function AccountLayout({
 
   return (
     <div className="account">
-      <AccountMenu />
       <div className="mx-4 lg:mx-0 md:max-w-7xl grid grid-cols-1 lg:grid-cols-5 gap-8 mt-28">
         <div className="lg:col-span-2 h-24 bg-altlierBlue rounded-full flex gap-4">
           <img
@@ -195,21 +194,24 @@ function AccountLayout({
               <h1 className="text-root-primary uppercase text-2xl">
                 Welcome Back!
               </h1>
-              <p className="text-root-primary text-lg font-bold">
-                {customer.firstName} {customer.lastName}
+              <p className="text-root-primary text-4xl default-font-bold">
+                {customer.firstName?.toUpperCase()}
               </p>
             </div>
           </div>
         </div>
-        <div className="lg:col-span-3">
-          <p className="text-root-tertiary">Available Alt Points</p>
-          <p className="text-altlierBlue text-5xl font-bold">
+        <div className="lg:col-span-2">
+          <p className="text-neutral-400  text-xl">Available Alt Points:</p>
+          <p className="text-altlierBlue text-5xl default-font-bold">
             {customer.altpoints?.value || 0}
           </p>
         </div>
+        <div className="lg:col-span-1">
+          <AccountMenu />
+        </div>
         <div className="flow-root lg:col-span-2">
           <div className="overflow-hidden border-gray-400 border ring-1 ring-black ring-opacity-5 rounded-lg bg-white">
-            <div className="py-2 px-8 font-bold border-b border-gray-400 bg-root-primary">
+            <div className="py-2 px-8 default-font-bold text-lg border-b border-gray-400 bg-root-primary">
               Account Settings
             </div>
             <ul className="divide-y divide-gray-400">
@@ -219,13 +221,13 @@ function AccountLayout({
                     <p className="text-sm font-semibold leading-6 text-gray-900">
                       Name
                     </p>
-                    <p className="mt-1 truncate text-xs leading-5 text-gray-500 w-full">
+                    <p className="mt-1 truncate text-xs leading-5 [&>*]:text-neutral-400 w-full">
                       {editFieldId === 'name' ? (
                         <div className="flex gap-2 w-full">
                           <input
                             id="name"
                             type="text"
-                            className="py-1 px-2 rounded-full w-full"
+                            className="py-1 px-2 rounded-full w-full "
                             defaultValue={
                               customerEdit.name
                                 ? customerEdit.name
@@ -240,7 +242,7 @@ function AccountLayout({
                           />
                         </div>
                       ) : (
-                        <span className="w-full">
+                        <span className="w-full text-neutral-400">
                           {customerEdit.name
                             ? customerEdit.name
                             : customer.firstName + ' ' + customer.lastName}
@@ -249,10 +251,10 @@ function AccountLayout({
                     </p>
                   </div>
                 </div>
-                <div className="shrink-0 flex flex-col justify-center w-[50px] items-start">
+                <div className="shrink-0 flex flex-col justify-center w-[50px] items-start [&>*]:text-neutral-400">
                   <button
                     onClick={() => setEditFieldId('name')}
-                    className="text-sm leading-6 text-gray-900"
+                    className="text-sm leading-6"
                   >
                     Edit
                   </button>
@@ -264,7 +266,7 @@ function AccountLayout({
                     <p className="text-sm font-semibold leading-6 text-gray-900">
                       Email
                     </p>
-                    <p className="mt-1 truncate text-xs leading-5 text-gray-500 w-full">
+                    <p className="mt-1 truncate text-xs leading-5 text-gray-500 w-full [&>*]:text-neutral-400">
                       {editFieldId === 'email' ? (
                         <div className="flex gap-2 w-full">
                           <input
@@ -286,10 +288,10 @@ function AccountLayout({
                     </p>
                   </div>
                 </div>
-                <div className="shrink-0 flex flex-col justify-center w-[50px] items-start">
+                <div className="shrink-0 flex flex-col justify-center w-[50px] items-start [&>*]:text-neutral-400">
                   <button
                     onClick={() => setEditFieldId('email')}
-                    className="text-sm leading-6 text-gray-900"
+                    className="text-sm leading-6"
                   >
                     Edit
                   </button>
@@ -301,7 +303,7 @@ function AccountLayout({
                     <p className="text-sm font-semibold leading-6 text-gray-900">
                       Password
                     </p>
-                    <p className="mt-1 truncate text-xs leading-5 text-gray-500 w-full">
+                    <p className="mt-1 truncate text-xs leading-5 [&>*]:text-neutral-400 w-full">
                       {editFieldId === 'password' ? (
                         <div className="flex gap-2 w-full">
                           <input
@@ -322,10 +324,10 @@ function AccountLayout({
                     </p>
                   </div>
                 </div>
-                <div className="shrink-0 flex flex-col justify-center w-[50px] items-start">
+                <div className="shrink-0 flex flex-col justify-center w-[50px] items-start [&>*]:text-neutral-400">
                   <button
                     onClick={() => setEditFieldId('password')}
-                    className="text-sm leading-6 text-gray-900"
+                    className="text-sm leading-6"
                   >
                     Edit
                   </button>
@@ -337,7 +339,7 @@ function AccountLayout({
                     <p className="text-sm font-semibold leading-6 text-gray-900">
                       Shipping Address
                     </p>
-                    <p className="mt-1 truncate text-xs leading-5 text-gray-500 w-full">
+                    <p className="mt-1 truncate text-xs leading-5 [&>*]:text-neutral-400 w-full">
                       {editFieldId === 'defaultAddress' ? (
                         <div className="flex gap-2 w-full">
                           <input
@@ -363,10 +365,10 @@ function AccountLayout({
                     </p>
                   </div>
                 </div>
-                <div className="shrink-0 flex flex-col justify-center w-[50px] items-start">
+                <div className="shrink-0 flex flex-col justify-center w-[50px] items-start [&>*]:text-neutral-400">
                   <button
                     onClick={() => setEditFieldId('defaultAddress')}
-                    className="text-sm leading-6 text-gray-900"
+                    className="text-sm leading-6 "
                   >
                     Edit
                   </button>
@@ -379,7 +381,7 @@ function AccountLayout({
                     <p className="text-sm font-semibold leading-6 text-gray-900">
                       Digital Wallet Address
                     </p>
-                    <p className="mt-1 text-xs leading-5 text-gray-500">
+                    <p className="mt-1 text-xs leading-5 [&>*]:text-neutral-400">
                       {editFieldId === 'digitalWalletAddress' ? (
                         <div className="flex gap-2">
                           <input
@@ -404,10 +406,10 @@ function AccountLayout({
                     </span>
                   </div>
                 </div>
-                <div className="shrink-0 flex flex-col justify-center w-[50px] items-start">
+                <div className="shrink-0 flex flex-col justify-center w-[50px] items-start [&>*]:text-neutral-400">
                   <button
                     onClick={() => setEditFieldId('digitalWalletAddress')}
-                    className="text-sm leading-6 text-gray-900"
+                    className="text-sm leading-6 "
                   >
                     Edit
                   </button>
@@ -423,6 +425,7 @@ function AccountLayout({
               Save
             </button>
           </div>
+          d
         </div>
         <div className="flow-root lg:col-span-3">
           <div className="overflow-hidden border-gray-400 border ring-1 ring-black ring-opacity-5 rounded-lg bg-white">
@@ -511,21 +514,8 @@ function AccountLayout({
 }
 
 function AccountMenu() {
-  function isActiveStyle({
-    isActive,
-    isPending,
-  }: {
-    isActive: boolean;
-    isPending: boolean;
-  }) {
-    return {
-      fontWeight: isActive ? 'bold' : undefined,
-      color: isPending ? 'grey' : 'altlierBlue',
-    };
-  }
-
   return (
-    <div>
+    <div className="flex justify-end">
       {/*<AccountProfile />*/}
       {/*<Orders />*7}
       {/* <nav role="navigation">
@@ -540,7 +530,7 @@ function AccountMenu() {
         <NavLink to="/account/addresses" style={isActiveStyle}>
           &nbsp; Addresses &nbsp;
         </NavLink> */}
-      &nbsp;|&nbsp;
+
       <Logout />
       {/* </nav> */}
     </div>
@@ -551,7 +541,9 @@ function Logout() {
   return (
     <Form className="account-logout" method="POST" action="/account/logout">
       &nbsp;
-      <button type="submit">Sign out</button>
+      <button type="submit" className="text-lg btn homepage-btn btn-light">
+        Sign out
+      </button>
     </Form>
   );
 }
