@@ -1,15 +1,31 @@
-import {Form, NavLink, Outlet, useLoaderData} from '@remix-run/react';
-import {json, redirect, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
-import type {CustomerFragment} from 'storefrontapi.generated';
+import {
+  Form,
+  NavLink,
+  Outlet,
+  useLoaderData,
+  type MetaFunction,
+} from '@remix-run/react';
+import {json, redirect} from '@shopify/remix-oxygen';
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+} from '@shopify/remix-oxygen';
+// import type {CustomerFragment} from 'storefrontapi.generated';
 import profileImg from 'public/Altlier_Circular_light.png';
-import AccountProfile from './account.profile';
-import Orders from './account.orders._index';
 import {useState} from 'react';
 import {Money} from '@shopify/hydrogen';
+import type {
+  CustomerUpdateInput,
+  MailingAddressInput,
+} from '@shopify/hydrogen/storefront-api-types';
 
 export function shouldRevalidate() {
   return true;
 }
+
+export const meta: MetaFunction = () => {
+  return [{title: 'Altlier | User Profile'}];
+};
 
 export async function loader({request, context}: LoaderFunctionArgs) {
   const {session, storefront} = context;
@@ -84,12 +100,233 @@ export default function Acccount() {
   }
 
   return (
-    <AccountLayout customer={customer as CustomerFragment}>
+    <AccountLayout customer={customer as any}>
       <br />
       <br />
       <Outlet context={{customer}} />
     </AccountLayout>
   );
+}
+
+export async function action({request, context}: ActionFunctionArgs) {
+  const {session, storefront} = context;
+  if (request.method !== 'POST') {
+    return json({error: 'Method not allowed'}, {status: 405});
+  }
+  const customerAccessToken = await session.get('customerAccessToken');
+  if (!customerAccessToken) {
+    return json({error: 'Unauthorized'}, {status: 401});
+  }
+  try {
+    const data: any = await request.json();
+    if (data && Object.keys(data).length > 0) {
+      // Update the Customer details on Storefront
+      const customer: CustomerUpdateInput = {
+        email: data.email,
+        firstName: data.firstName,
+        lastName: data.lastName,
+        phone: data.phone,
+        password: data.password,
+      };
+      // update customer
+      const updatedCustomer = await storefront.mutate(
+        CUSTOMER_UPDATE_MUTATION,
+        {
+          variables: {
+            customerAccessToken: customerAccessToken.accessToken,
+            customer,
+          },
+        },
+      );
+      console.log('updated customer:', updatedCustomer);
+      await updateCustomerAddress(
+        data.defaultAddress,
+        storefront,
+        customerAccessToken,
+        data.addressFormRequest,
+      );
+      // Save the default address
+    } else {
+      throw new Error('No data received');
+    }
+  } catch (err: any) {
+    return json({error: err.message, customer: null}, {status: 400});
+  }
+
+  return json({}, {status: 201});
+}
+
+async function updateCustomerAddress(
+  addressData: any,
+  storefront: any,
+  customerAccessToken: any,
+  requestMethod: string,
+) {
+  try {
+    const addressId = addressData?.id ? addressData?.id : 'new';
+
+    if (!customerAccessToken) {
+      return json({error: {[addressId]: 'Unauthorized'}}, {status: 401});
+    }
+    const {accessToken} = customerAccessToken;
+
+    const defaultAddress = addressData;
+
+    const address: MailingAddressInput = {};
+    const keys: (keyof MailingAddressInput)[] = [
+      'address1',
+      'address2',
+      'city',
+      'company',
+      'country',
+      'firstName',
+      'lastName',
+      'phone',
+      'province',
+      'zip',
+    ];
+
+    for (const key of keys) {
+      const value = addressData[key];
+      if (typeof value === 'string') {
+        address[key] = value;
+      }
+    }
+    // console.log('requestMethod:', requestMethod);
+
+    switch (requestMethod) {
+      case 'POST': {
+        // handle new address creation
+        try {
+          const {customerAddressCreate} = await storefront.mutate(
+            CREATE_ADDRESS_MUTATION,
+            {
+              variables: {customerAccessToken: accessToken, address},
+            },
+          );
+
+          if (customerAddressCreate?.customerUserErrors?.length) {
+            const error = customerAddressCreate.customerUserErrors[0];
+            throw new Error(error.message);
+          }
+
+          const createdAddress = customerAddressCreate?.customerAddress;
+          if (!createdAddress?.id) {
+            throw new Error(
+              'Expected customer address to be created, but the id is missing',
+            );
+          }
+
+          if (defaultAddress) {
+            const createdAddressId = decodeURIComponent(createdAddress.id);
+            const {customerDefaultAddressUpdate} = await storefront.mutate(
+              UPDATE_DEFAULT_ADDRESS_MUTATION,
+              {
+                variables: {
+                  customerAccessToken: accessToken,
+                  addressId: createdAddressId,
+                },
+              },
+            );
+
+            if (customerDefaultAddressUpdate?.customerUserErrors?.length) {
+              const error = customerDefaultAddressUpdate.customerUserErrors[0];
+              throw new Error(error.message);
+            }
+          }
+
+          return json({error: null, createdAddress, defaultAddress});
+        } catch (error: unknown) {
+          if (error instanceof Error) {
+            return json({error: {[addressId]: error.message}}, {status: 400});
+          }
+          return json({error: {[addressId]: error}}, {status: 400});
+        }
+      }
+
+      case 'PUT': {
+        // handle address updates
+        try {
+          const {customerAddressUpdate} = await storefront.mutate(
+            UPDATE_ADDRESS_MUTATION,
+            {
+              variables: {
+                address,
+                customerAccessToken: accessToken,
+                id: decodeURIComponent(addressId),
+              },
+            },
+          );
+
+          const updatedAddress = customerAddressUpdate?.customerAddress;
+
+          if (customerAddressUpdate?.customerUserErrors?.length) {
+            const error = customerAddressUpdate.customerUserErrors[0];
+            throw new Error(error.message);
+          }
+
+          if (defaultAddress) {
+            const {customerDefaultAddressUpdate} = await storefront.mutate(
+              UPDATE_DEFAULT_ADDRESS_MUTATION,
+              {
+                variables: {
+                  customerAccessToken: accessToken,
+                  addressId: decodeURIComponent(addressId),
+                },
+              },
+            );
+
+            if (customerDefaultAddressUpdate?.customerUserErrors?.length) {
+              const error = customerDefaultAddressUpdate.customerUserErrors[0];
+              throw new Error(error.message);
+            }
+          }
+
+          return json({error: null, updatedAddress, defaultAddress});
+        } catch (error: unknown) {
+          if (error instanceof Error) {
+            return json({error: {[addressId]: error.message}}, {status: 400});
+          }
+          return json({error: {[addressId]: error}}, {status: 400});
+        }
+      }
+
+      case 'DELETE': {
+        // handles address deletion
+        try {
+          const {customerAddressDelete} = await storefront.mutate(
+            DELETE_ADDRESS_MUTATION,
+            {
+              variables: {customerAccessToken: accessToken, id: addressId},
+            },
+          );
+
+          if (customerAddressDelete?.customerUserErrors?.length) {
+            const error = customerAddressDelete.customerUserErrors[0];
+            throw new Error(error.message);
+          }
+          return json({error: null, deletedAddress: addressId});
+        } catch (error: unknown) {
+          if (error instanceof Error) {
+            return json({error: {[addressId]: error.message}}, {status: 400});
+          }
+          return json({error: {[addressId]: error}}, {status: 400});
+        }
+      }
+
+      default: {
+        return json(
+          {error: {[addressId]: 'Method not allowed'}},
+          {status: 405},
+        );
+      }
+    }
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return json({error: error.message}, {status: 400});
+    }
+    return json({error}, {status: 400});
+  }
 }
 
 type StatusColor =
@@ -107,27 +344,26 @@ function AccountLayout({
   customer,
   children,
 }: {
-  customer: CustomerFragment;
+  customer: any;
   children: React.ReactNode;
 }) {
   const [editFieldId, setEditFieldId] = useState('');
   const [customerEdit, setCustomer] = useState<any>(customer);
-  function submitField(field: string) {
-    // edit mode for field off
-    setEditFieldId('');
-    console.log(customerEdit);
 
-    // DB / shopify operation
+  async function saveCustomerData() {
+    // console.log('save customerEdit:', customerEdit);
+
+    const response = await fetch('/account', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(customerEdit),
+    });
+
+    const result = await response.json();
+    // console.log(result);
   }
-  function saveCustomerData() {
-    console.log('save customerEdit:', customerEdit);
-  }
-  const heading = customer
-    ? customer.firstName
-      ? `Welcome, ${customer.firstName}`
-      : `Welcome to your account.`
-    : 'Account Details';
-  // console.log('customer:', customer);
 
   const orderStatus: Record<string, Status> = {
     FULFILLED: {text: 'Order Confirmed', color: 'text-green-600'},
@@ -160,6 +396,23 @@ function AccountLayout({
     }
   }
 
+  let altpoints = 0;
+  customer.orders.nodes.forEach((order: any) => {
+    altpoints += Math.floor(Number(order.currentTotalPrice.amount));
+  });
+
+  const address = {
+    address1: customerEdit.defaultAddress?.address1 || '',
+    zip: customerEdit.defaultAddress?.zip || '',
+    city: customerEdit.defaultAddress?.city || '',
+    country: customerEdit.defaultAddress?.country || '',
+  };
+  if (customer.defaultAddress) {
+    customerEdit.addressFormRequest = 'PUT';
+  } else {
+    customerEdit.addressFormRequest = 'POST';
+  }
+
   return (
     <div className="h-screen">
       <div className="mx-4 lg:mx-0 md:max-w-7xl h-3/4 grid grid-cols-1 lg:grid-cols-5 gap-8 mt-28">
@@ -175,7 +428,7 @@ function AccountLayout({
                 Welcome Back!
               </h1>
               <p className="text-root-primary text-4xl default-font-bold">
-                {customer.firstName?.toUpperCase()}
+                {customerEdit.firstName?.toUpperCase() || ''}
               </p>
             </div>
           </div>
@@ -183,7 +436,7 @@ function AccountLayout({
         <div className="lg:col-span-2">
           <p className="text-neutral-400  text-xl">Available Alt Points:</p>
           <p className="text-altlierBlue text-5xl default-font-bold">
-            {customer.altpoints?.value || 0}
+            {altpoints}
           </p>
         </div>
         <div className="lg:col-span-1">
@@ -194,208 +447,286 @@ function AccountLayout({
             <div className="py-2 px-8 default-font-bold text-lg border-b border-gray-400 bg-root-primary">
               Account Settings
             </div>
-            <ul className="divide-y divide-gray-400">
-              <li className="flex justify-between gap-x-6 py-5 px-8">
-                <div className="flex w-full gap-x-4">
-                  <div className="flex-auto w-full">
-                    <p className="text-sm font-semibold leading-6 text-gray-900">
-                      Name
-                    </p>
-                    <p className="mt-1 truncate text-xs leading-5 [&>*]:text-neutral-400 w-full">
-                      {editFieldId === 'name' ? (
-                        <div className="flex gap-2 w-full">
-                          <input
-                            id="name"
-                            type="text"
-                            className="py-1 px-2 rounded-full w-full "
-                            defaultValue={
-                              customerEdit.name
-                                ? customerEdit.name
-                                : customer.firstName + ' ' + customer.lastName
-                            }
-                            onChange={(e) =>
-                              setCustomer({
-                                ...customerEdit,
-                                name: e.target.value,
-                              })
-                            }
-                          />
-                        </div>
-                      ) : (
-                        <span className="w-full text-neutral-400">
-                          {customerEdit.name
-                            ? customerEdit.name
-                            : customer.firstName + ' ' + customer.lastName}
-                        </span>
-                      )}
-                    </p>
+            {customerEdit ? (
+              <ul className="divide-y divide-gray-400">
+                <li className="flex justify-between gap-x-6 py-5 px-8">
+                  <div className="flex w-full gap-x-4">
+                    <div className="flex-auto w-full">
+                      <p className="text-sm font-semibold leading-6 text-gray-900">
+                        Name
+                      </p>
+                      <div className="mt-1 truncate text-xs leading-5 [&>*]:text-neutral-400 w-full">
+                        {editFieldId === 'name' ? (
+                          <div className="flex flex-col gap-2 w-full">
+                            <input
+                              id="firstname"
+                              type="text"
+                              className="py-1 px-2 rounded-full w-full "
+                              defaultValue={customerEdit.firstName || ''}
+                              placeholder="First Name"
+                              onChange={(e) =>
+                                setCustomer({
+                                  ...customerEdit,
+                                  firstName: e.target.value,
+                                })
+                              }
+                            />
+                            <input
+                              id="lastname"
+                              type="text"
+                              className="py-1 px-2 rounded-full w-full "
+                              defaultValue={customerEdit.lastName || ''}
+                              placeholder="Last Name"
+                              onChange={(e) =>
+                                setCustomer({
+                                  ...customerEdit,
+                                  lastName: e.target.value,
+                                })
+                              }
+                            />
+                          </div>
+                        ) : (
+                          <span className="w-full text-neutral-400">
+                            {customerEdit?.firstName || ''}{' '}
+                            {customerEdit?.lastName || ''}
+                          </span>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="shrink-0 flex flex-col justify-center w-[50px] items-start [&>*]:text-neutral-400">
-                  <button
-                    onClick={() => setEditFieldId('name')}
-                    className="text-sm leading-6"
-                  >
-                    Edit
-                  </button>
-                </div>
-              </li>
-              <li className="flex justify-between gap-x-6 py-5 px-8">
-                <div className="flex w-full gap-x-4">
-                  <div className="flex-auto w-full">
-                    <p className="text-sm font-semibold leading-6 text-gray-900">
-                      Email
-                    </p>
-                    <p className="mt-1 truncate text-xs leading-5 text-gray-500 w-full [&>*]:text-neutral-400">
-                      {editFieldId === 'email' ? (
-                        <div className="flex gap-2 w-full">
-                          <input
-                            id="email"
-                            type="text"
-                            className="py-1 px-2 rounded-full w-full"
-                            defaultValue={customerEdit.email}
-                            onChange={(e) =>
-                              setCustomer({
-                                ...customerEdit,
-                                email: e.target.value,
-                              })
-                            }
-                          />
-                        </div>
-                      ) : (
-                        <span className="w-full">{customerEdit.email}</span>
-                      )}
-                    </p>
+                  <div className="shrink-0 flex flex-col justify-center w-[50px] items-start [&>*]:text-neutral-400">
+                    <button
+                      onClick={() => setEditFieldId('name')}
+                      className="text-sm leading-6"
+                    >
+                      Edit
+                    </button>
                   </div>
-                </div>
-                <div className="shrink-0 flex flex-col justify-center w-[50px] items-start [&>*]:text-neutral-400">
-                  <button
-                    onClick={() => setEditFieldId('email')}
-                    className="text-sm leading-6"
-                  >
-                    Edit
-                  </button>
-                </div>
-              </li>
-              <li className="flex justify-between gap-x-6 py-5 px-8">
-                <div className="flex w-full gap-x-4">
-                  <div className="flex-auto w-full">
-                    <p className="text-sm font-semibold leading-6 text-gray-900">
-                      Password
-                    </p>
-                    <p className="mt-1 truncate text-xs leading-5 [&>*]:text-neutral-400 w-full">
-                      {editFieldId === 'password' ? (
-                        <div className="flex gap-2 w-full">
-                          <input
-                            id="password"
-                            type="password"
-                            className="py-1 px-2 rounded-full w-full"
-                            onChange={(e) =>
-                              setCustomer({
-                                ...customerEdit,
-                                password: e.target.value,
-                              })
-                            }
-                          />
-                        </div>
-                      ) : (
-                        <span className="w-full">********</span>
-                      )}
-                    </p>
+                </li>
+                <li className="flex justify-between gap-x-6 py-5 px-8">
+                  <div className="flex w-full gap-x-4">
+                    <div className="flex-auto w-full">
+                      <p className="text-sm font-semibold leading-6 text-gray-900">
+                        Email
+                      </p>
+                      <div className="mt-1 truncate text-xs leading-5 text-gray-500 w-full [&>*]:text-neutral-400">
+                        {editFieldId === 'email' ? (
+                          <div className="flex gap-2 w-full">
+                            <input
+                              id="email"
+                              type="text"
+                              className="py-1 px-2 rounded-full w-full"
+                              defaultValue={customerEdit.email}
+                              onChange={(e) =>
+                                setCustomer({
+                                  ...customerEdit,
+                                  email: e.target.value,
+                                })
+                              }
+                            />
+                          </div>
+                        ) : (
+                          <span className="w-full">{customerEdit.email}</span>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="shrink-0 flex flex-col justify-center w-[50px] items-start [&>*]:text-neutral-400">
-                  <button
-                    onClick={() => setEditFieldId('password')}
-                    className="text-sm leading-6"
-                  >
-                    Edit
-                  </button>
-                </div>
-              </li>
-              <li className="flex justify-between gap-x-6 py-5 px-8">
-                <div className="flex w-full gap-x-4">
-                  <div className="flex-auto w-full">
-                    <p className="text-sm font-semibold leading-6 text-gray-900">
-                      Shipping Address
-                    </p>
-                    <p className="mt-1 truncate text-xs leading-5 [&>*]:text-neutral-400 w-full">
-                      {editFieldId === 'defaultAddress' ? (
-                        <div className="flex gap-2 w-full">
-                          <input
-                            id="address"
-                            type="text"
-                            className="py-1 px-2 rounded-full w-full"
-                            defaultValue={
-                              customerEdit.defaultAddress?.formatted
-                            }
-                            onChange={(e) =>
-                              setCustomer({
-                                ...customerEdit,
-                                defaultAddress: {formatted: e.target.value},
-                              })
-                            }
-                          />
-                        </div>
-                      ) : (
-                        <span className="w-full">
-                          {customerEdit.defaultAddress?.formatted}
-                        </span>
-                      )}
-                    </p>
+                  <div className="shrink-0 flex flex-col justify-center w-[50px] items-start [&>*]:text-neutral-400">
+                    <button
+                      onClick={() => setEditFieldId('email')}
+                      className="text-sm leading-6"
+                    >
+                      Edit
+                    </button>
                   </div>
-                </div>
-                <div className="shrink-0 flex flex-col justify-center w-[50px] items-start [&>*]:text-neutral-400">
-                  <button
-                    onClick={() => setEditFieldId('defaultAddress')}
-                    className="text-sm leading-6 "
-                  >
-                    Edit
-                  </button>
-                </div>
-              </li>
+                </li>
+                <li className="flex justify-between gap-x-6 py-5 px-8">
+                  <div className="flex w-full gap-x-4">
+                    <div className="flex-auto w-full">
+                      <p className="text-sm font-semibold leading-6 text-gray-900">
+                        Password
+                      </p>
+                      <div className="mt-1 truncate text-xs leading-5 [&>*]:text-neutral-400 w-full">
+                        {editFieldId === 'password' ? (
+                          <div className="flex gap-2 w-full">
+                            <input
+                              id="password"
+                              type="password"
+                              className="py-1 px-2 rounded-full w-full"
+                              onChange={(e) =>
+                                setCustomer({
+                                  ...customerEdit,
+                                  password: e.target.value,
+                                })
+                              }
+                            />
+                          </div>
+                        ) : (
+                          <span className="w-full">********</span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="shrink-0 flex flex-col justify-center w-[50px] items-start [&>*]:text-neutral-400">
+                    <button
+                      onClick={() => setEditFieldId('password')}
+                      className="text-sm leading-6"
+                    >
+                      Edit
+                    </button>
+                  </div>
+                </li>
+                <li className="flex justify-between gap-x-6 py-5 px-8">
+                  <div className="flex w-full gap-x-4">
+                    <div className="flex-auto w-full">
+                      <p className="text-sm font-semibold leading-6 text-gray-900">
+                        Shipping Address
+                      </p>
+                      <div className="mt-1 truncate text-xs leading-5 [&>*]:text-neutral-400 w-full">
+                        {editFieldId === 'defaultAddress' ? (
+                          <div className="flex flex-col gap-2 w-full">
+                            <input
+                              id="address"
+                              type="text"
+                              className={
+                                address.address1
+                                  ? 'py-1 px-2 rounded-full w-full'
+                                  : 'py-1 px-2 rounded-full w-full border-red-500'
+                              }
+                              placeholder="Street and House Number"
+                              defaultValue={address.address1}
+                              onChange={(e) =>
+                                setCustomer({
+                                  ...customerEdit,
+                                  defaultAddress: {
+                                    ...customerEdit.defaultAddress,
+                                    address1: e.target.value,
+                                  },
+                                })
+                              }
+                            />
+                            <input
+                              id="address"
+                              type="text"
+                              className={
+                                address.zip
+                                  ? 'py-1 px-2 rounded-full w-full'
+                                  : 'py-1 px-2 rounded-full w-full border-red-500'
+                              }
+                              placeholder="Zip"
+                              defaultValue={address.zip}
+                              onChange={(e) =>
+                                setCustomer({
+                                  ...customerEdit,
+                                  defaultAddress: {
+                                    ...customerEdit.defaultAddress,
+                                    zip: e.target.value,
+                                  },
+                                })
+                              }
+                            />
+                            <input
+                              id="address"
+                              type="text"
+                              className={
+                                address.city
+                                  ? 'py-1 px-2 rounded-full w-full'
+                                  : 'py-1 px-2 rounded-full w-full border-red-500'
+                              }
+                              placeholder="City"
+                              defaultValue={address.city}
+                              onChange={(e) =>
+                                setCustomer({
+                                  ...customerEdit,
+                                  defaultAddress: {
+                                    ...customerEdit.defaultAddress,
+                                    city: e.target.value,
+                                  },
+                                })
+                              }
+                            />
+                            <input
+                              id="address"
+                              type="text"
+                              className={
+                                address.country
+                                  ? 'py-1 px-2 rounded-full w-full'
+                                  : 'py-1 px-2 rounded-full w-full border-red-500'
+                              }
+                              placeholder="Country"
+                              defaultValue={address.country}
+                              onChange={(e) =>
+                                setCustomer({
+                                  ...customerEdit,
+                                  defaultAddress: {
+                                    ...customerEdit.defaultAddress,
+                                    country: e.target.value,
+                                  },
+                                })
+                              }
+                            />
+                          </div>
+                        ) : (
+                          <span className="w-full">
+                            {address.address1} {address.zip} {address.city}{' '}
+                            {address.country}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="shrink-0 flex flex-col justify-center w-[50px] items-start [&>*]:text-neutral-400">
+                    <button
+                      onClick={() => setEditFieldId('defaultAddress')}
+                      className="text-sm leading-6 "
+                    >
+                      Edit
+                    </button>
+                  </div>
+                </li>
 
-              <li className="flex justify-between gap-x-6 py-5 px-8">
-                <div className="flex w-full gap-x-4">
-                  <div className="flex-auto w-full">
-                    <p className="text-sm font-semibold leading-6 text-gray-900">
-                      Digital Wallet Address
-                    </p>
-                    <p className="mt-1 text-xs leading-5 [&>*]:text-neutral-400">
-                      {editFieldId === 'digitalWalletAddress' ? (
-                        <div className="flex gap-2">
-                          <input
-                            id="digitalWalletAddress"
-                            type="password"
-                            className="py-1 px-2 rounded-full w-full"
-                            onChange={(e) =>
-                              setCustomer({
-                                ...customerEdit,
-                                digitalWalletAddress: e.target.value,
-                              })
-                            }
-                          />
-                        </div>
-                      ) : (
-                        <span>********</span>
-                      )}
-                    </p>
-                    <span className="text-xs">
-                      {`Your Wallet Address will be kept strictly confidential and
+                <li className="flex justify-between gap-x-6 py-5 px-8">
+                  <div className="flex w-full gap-x-4">
+                    <div className="flex-auto w-full">
+                      <p className="text-sm font-semibold leading-6 text-gray-900">
+                        Digital Wallet Address
+                      </p>
+                      <div className="mt-1 text-xs leading-5 [&>*]:text-neutral-400">
+                        {editFieldId === 'digitalWalletAddress' ? (
+                          <div className="flex gap-2">
+                            <input
+                              id="digitalWalletAddress"
+                              type="password"
+                              className="py-1 px-2 rounded-full w-full"
+                              onChange={(e) =>
+                                setCustomer({
+                                  ...customerEdit,
+                                  digitalWalletAddress: e.target.value,
+                                })
+                              }
+                            />
+                          </div>
+                        ) : (
+                          <span>********</span>
+                        )}
+                      </div>
+                      <span className="text-xs">
+                        {`Your Wallet Address will be kept strictly confidential and
                       will only be used to deposit NFT's and rewards`}
-                    </span>
+                      </span>
+                    </div>
                   </div>
-                </div>
-                <div className="shrink-0 flex flex-col justify-center w-[50px] items-start [&>*]:text-neutral-400">
-                  <button
-                    onClick={() => setEditFieldId('digitalWalletAddress')}
-                    className="text-sm leading-6 "
-                  >
-                    Edit
-                  </button>
-                </div>
-              </li>
-            </ul>
+                  <div className="shrink-0 flex flex-col justify-center w-[50px] items-start [&>*]:text-neutral-400">
+                    <button
+                      onClick={() => setEditFieldId('digitalWalletAddress')}
+                      className="text-sm leading-6 "
+                    >
+                      Edit
+                    </button>
+                  </div>
+                </li>
+              </ul>
+            ) : null}
           </div>
           <div className="flex justify-end">
             <button
@@ -657,4 +988,129 @@ export const CUSTOMER_QUERY = `#graphql
     }
   }
   ${CUSTOMER_FRAGMENT}
+` as const;
+
+const CUSTOMER_UPDATE_MUTATION = `#graphql
+  # https://shopify.dev/docs/api/storefront/latest/mutations/customerUpdate
+  mutation customerUpdate(
+    $customerAccessToken: String!,
+    $customer: CustomerUpdateInput!
+    $country: CountryCode
+    $language: LanguageCode
+  ) @inContext(language: $language, country: $country) {
+    customerUpdate(customerAccessToken: $customerAccessToken, customer: $customer) {
+      customer {
+        acceptsMarketing
+        email
+        firstName
+        id
+        lastName
+        phone
+      }
+      customerAccessToken {
+        accessToken
+        expiresAt
+      }
+      customerUserErrors {
+        code
+        field
+        message
+      }
+    }
+  }
+` as const;
+
+// NOTE: https://shopify.dev/docs/api/storefront/2023-04/mutations/customeraddressupdate
+const UPDATE_ADDRESS_MUTATION = `#graphql
+  mutation customerAddressUpdate(
+    $address: MailingAddressInput!
+    $customerAccessToken: String!
+    $id: ID!
+    $country: CountryCode
+    $language: LanguageCode
+ ) @inContext(country: $country, language: $language) {
+    customerAddressUpdate(
+      address: $address
+      customerAccessToken: $customerAccessToken
+      id: $id
+    ) {
+      customerAddress {
+        id
+      }
+      customerUserErrors {
+        code
+        field
+        message
+      }
+    }
+  }
+` as const;
+
+// NOTE: https://shopify.dev/docs/api/storefront/latest/mutations/customerAddressDelete
+const DELETE_ADDRESS_MUTATION = `#graphql
+  mutation customerAddressDelete(
+    $customerAccessToken: String!,
+    $id: ID!,
+    $country: CountryCode,
+    $language: LanguageCode
+  ) @inContext(country: $country, language: $language) {
+    customerAddressDelete(customerAccessToken: $customerAccessToken, id: $id) {
+      customerUserErrors {
+        code
+        field
+        message
+      }
+      deletedCustomerAddressId
+    }
+  }
+` as const;
+
+// NOTE: https://shopify.dev/docs/api/storefront/latest/mutations/customerdefaultaddressupdate
+const UPDATE_DEFAULT_ADDRESS_MUTATION = `#graphql
+  mutation customerDefaultAddressUpdate(
+    $addressId: ID!
+    $customerAccessToken: String!
+    $country: CountryCode
+    $language: LanguageCode
+  ) @inContext(country: $country, language: $language) {
+    customerDefaultAddressUpdate(
+      addressId: $addressId
+      customerAccessToken: $customerAccessToken
+    ) {
+      customer {
+        defaultAddress {
+          id
+        }
+      }
+      customerUserErrors {
+        code
+        field
+        message
+      }
+    }
+  }
+` as const;
+
+// NOTE: https://shopify.dev/docs/api/storefront/latest/mutations/customeraddresscreate
+const CREATE_ADDRESS_MUTATION = `#graphql
+  mutation customerAddressCreate(
+    $address: MailingAddressInput!
+    $customerAccessToken: String!
+    $country: CountryCode
+    $language: LanguageCode
+  ) @inContext(country: $country, language: $language) {
+    customerAddressCreate(
+      address: $address
+      customerAccessToken: $customerAccessToken
+    ) {
+      customerAddress {
+        id
+      }
+      customerUserErrors {
+        code
+        field
+        message
+      }
+    }
+  }
 ` as const;
