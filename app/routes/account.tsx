@@ -122,12 +122,14 @@ export async function action({request, context}: ActionFunctionArgs) {
     if (data && Object.keys(data).length > 0) {
       // Update the Customer details on Storefront
       const customer: CustomerUpdateInput = {
+        acceptsMarketing: data.acceptsMarketing,
         email: data.email,
         firstName: data.firstName,
         lastName: data.lastName,
         phone: data.phone,
         password: data.password,
       };
+
       // update customer
       const updatedCustomer = await storefront.mutate(
         CUSTOMER_UPDATE_MUTATION,
@@ -138,7 +140,10 @@ export async function action({request, context}: ActionFunctionArgs) {
           },
         },
       );
-      console.log('updated customer:', updatedCustomer);
+      // console.log(
+      //   'updated customer:',
+      //   updatedCustomer.customerUpdate?.customer,
+      // );
       await updateCustomerAddress(
         data.defaultAddress,
         storefront,
@@ -146,14 +151,13 @@ export async function action({request, context}: ActionFunctionArgs) {
         data.addressFormRequest,
       );
       // Save the default address
+      // return json({}, {status: 201});
     } else {
       throw new Error('No data received');
     }
   } catch (err: any) {
     return json({error: err.message, customer: null}, {status: 400});
   }
-
-  return json({}, {status: 201});
 }
 
 async function updateCustomerAddress(
@@ -682,6 +686,27 @@ function AccountLayout({
                     >
                       Edit
                     </button>
+                  </div>
+                </li>
+                <li className="flex justify-between gap-x-6 py-5 px-8">
+                  <div className="flex w-full gap-x-4">
+                    <div className="flex w-full justify-between items-center">
+                      <p className="text-sm font-semibold text-gray-900">
+                        Subscribe to Newsletter
+                      </p>
+                      <input
+                        id="subscribe"
+                        type="checkbox"
+                        className="rounded-full mr-8 h-4 w-4"
+                        checked={customerEdit.acceptsMarketing}
+                        onChange={(e) =>
+                          setCustomer({
+                            ...customerEdit,
+                            acceptsMarketing: e.target.checked,
+                          })
+                        }
+                      />
+                    </div>
                   </div>
                 </li>
                 {/* 
