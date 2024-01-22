@@ -4,7 +4,7 @@ import {
   type ActionFunctionArgs,
   type LoaderFunctionArgs,
 } from '@shopify/remix-oxygen';
-import {Form, Link, useActionData} from '@remix-run/react';
+import {Form, Link, useActionData, useNavigation} from '@remix-run/react';
 import type {CustomerCreateMutation} from 'storefrontapi.generated';
 import {AuthLayout} from '~/components/AuthLayout';
 
@@ -105,6 +105,8 @@ export async function action({request, context}: ActionFunctionArgs) {
 }
 
 export default function Register() {
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === 'submitting';
   const data = useActionData<ActionResponse>();
   const error = data?.error || null;
 
@@ -164,8 +166,11 @@ export default function Register() {
         )}
         <div className="flex mt-6 w-full gap-6 items-center justify-between">
           <button
+            disabled={isSubmitting}
             type="submit"
-            className="btn homepage-btn btn-dark max-w-[400px] lg:text-2xl text-lg"
+            className={`btn homepage-btn max-w-[400px] lg:text-2xl text-lg ${
+              isSubmitting ? 'btn-dark-submitted' : 'btn-dark'
+            }`}
           >
             Register
           </button>

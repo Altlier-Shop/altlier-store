@@ -35,15 +35,19 @@ export default function ScrollableContent() {
           INTO DAILY LIFE
         </h1>
         <p className="xl:leading-6 leading-4 text-lg">
-          Discover Altlier: In the digital age's heart, we're a brand born from
+          {`Discover Altlier: In the digital age's heart, we're a brand born from
           a crypto community's vision, embodying the web3 culture. Altlier isn't
           just about fashion; it's about a cultural metamorphosis, capturing the
           spirit of this era through clothing that's more than garments - each
-          piece is a story, a symbol of innovation and connection. Join us, wear
-          your story, and be part of this revolutionary movement. Altlier -
-          Dressing the Revolution, One Stitch at a Time
+          piece is a story, a symbol of innovation and connection.`}
         </p>
-        <div className="mt-20"></div>
+        <p className="xl:leading-6 leading-4 text-lg">
+          {`Join us, wear your story, and be part of this revolutionary movement.`}
+        </p>
+        <p className="xl:leading-6 leading-4 text-lg">
+          Altlier - Dressing the Revolution, One Stitch at a Time
+        </p>
+        <div className="mt-20">p</div>
       </div>
     </div>
   );

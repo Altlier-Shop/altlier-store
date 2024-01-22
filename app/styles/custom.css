@@ -71,8 +71,18 @@
   }
 }
 @layer components {
+  .btn-dark-submitted {
+    @apply text-altlierBlue bg-emerald-dark pixel-font 2xl:text-4xl lg:text-4xl md:text-xl;
+  }
+}
+@layer components {
   .btn-light {
     @apply hover:bg-altlierBlue hover:text-root-primary active:bg-neutral-500 pixel-font 2xl:text-4xl lg:text-4xl md:text-xl;
+  }
+}
+@layer components {
+  .btn-light-submitted {
+    @apply text-root-primary bg-neutral-500 pixel-font 2xl:text-4xl lg:text-4xl md:text-xl;
   }
 }
 @layer components {

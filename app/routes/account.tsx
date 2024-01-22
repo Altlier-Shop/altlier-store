@@ -158,6 +158,7 @@ export async function action({request, context}: ActionFunctionArgs) {
   } catch (err: any) {
     return json({error: err.message, customer: null}, {status: 400});
   }
+  return json({}, {status: 201});
 }
 
 async function updateCustomerAddress(
@@ -353,19 +354,23 @@ function AccountLayout({
 }) {
   const [editFieldId, setEditFieldId] = useState('');
   const [customerEdit, setCustomer] = useState<any>(customer);
+  const [triggerEdit, setTriggerEdit] = useState(false);
 
   async function saveCustomerData() {
     // console.log('save customerEdit:', customerEdit);
-
-    const response = await fetch('/account', {
+    setTriggerEdit(true);
+    fetch('/account', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(customerEdit),
+    }).then((response) => {
+      setTriggerEdit(false);
     });
 
-    const result = await response.json();
+    // const result = await response.json();
+
     // console.log(result);
   }
 
@@ -759,7 +764,10 @@ function AccountLayout({
           <div className="flex justify-end">
             <button
               onClick={saveCustomerData}
-              className="btn homepage-btn btn-dark mt-4 w-1/4 text-lg flex justify-center items-center"
+              disabled={triggerEdit}
+              className={`btn homepage-btn mt-4 w-1/4 text-lg flex justify-center items-center ${
+                triggerEdit ? 'btn-dark-submitted' : 'btn-dark'
+              }`}
             >
               Save
             </button>

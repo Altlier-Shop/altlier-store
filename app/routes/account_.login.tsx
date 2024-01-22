@@ -4,7 +4,13 @@ import {
   type ActionFunctionArgs,
   type LoaderFunctionArgs,
 } from '@shopify/remix-oxygen';
-import {Form, Link, useActionData, type MetaFunction} from '@remix-run/react';
+import {
+  Form,
+  Link,
+  useActionData,
+  useNavigation,
+  type MetaFunction,
+} from '@remix-run/react';
 import type {CheckoutLineItemInput} from '@shopify/hydrogen/storefront-api-types';
 import {AuthLayout} from '~/components/AuthLayout';
 
@@ -189,6 +195,9 @@ export async function action({request, context}: ActionFunctionArgs) {
 }
 
 export default function Login() {
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === 'submitting';
+
   const data = useActionData<ActionResponse>();
   const error = data?.error || null;
 
@@ -237,8 +246,11 @@ export default function Login() {
         )}
         <div className="flex mt-6 gap-6 items-center justify-between">
           <button
+            disabled={isSubmitting}
             type="submit"
-            className="btn homepage-btn btn-dark max-w-[400px]"
+            className={`btn homepage-btn max-w-[400px] ${
+              isSubmitting ? 'btn-dark-submitted' : 'btn-dark'
+            }`}
           >
             Login
           </button>
