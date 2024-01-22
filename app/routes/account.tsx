@@ -384,7 +384,10 @@ function AccountLayout({
     fulfillmentStatus: string,
     paymentStatus: string,
   ): {color: string; text: string} {
-    if (cancelReason) {
+    if (cancelReason === 'DECLINED') {
+      // console.log('cancelReason:', cancelReason);
+      // console.log('fulfillmentStatus:', fulfillmentStatus);
+
       return orderStatus.CANCELLED;
     } else if (fulfillmentStatus === 'FULFILLED' && paymentStatus === 'PAID') {
       return orderStatus.FULFILLED;
@@ -837,7 +840,10 @@ function AccountLayout({
                           href={`mailto: hello@altlier.co?subject=Refund Request: #${order.orderNumber}&body=Hello, my name is ${customer.firstName} ${customer.lastName} I would like to request a refund for my order #${order.orderNumber}`}
                           className="text-gray-900"
                         >
-                          {order.financialStatus !== 'REFUNDED'
+                          {!order.financialStatus.includes(
+                            'REFUNDED',
+                            'CANCELLED',
+                          )
                             ? 'Refund'
                             : '-'}
                         </a>
