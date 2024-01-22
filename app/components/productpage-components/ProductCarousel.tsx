@@ -164,10 +164,12 @@ export default function ProductCarousel({
               : product.images.nodes[1].url
           }
           alt={product.title}
+          onClick={() => onDetailsClick(products[currentIndex])}
           onMouseOver={() => handleMouseOver(index)}
           onMouseLeave={() => handleMouseLeave(index)}
           onFocus={() => handleMouseOver(index)}
           onBlur={() => handleMouseLeave(index)}
+          aria-hidden="true"
         />
       ))}
       <button

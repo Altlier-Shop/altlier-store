@@ -183,7 +183,13 @@ export default function Homepage() {
         className="absolute z-10 w-screen h-screen bottomPage"
         id="productPage"
       >
-        <ProductPage data={data} />
+        <Suspense>
+          <Await resolve={data.recommendedProducts}>
+            {(recommendedProducts) => (
+              <ProductPage recommendedProducts={recommendedProducts} />
+            )}
+          </Await>
+        </Suspense>
       </div>
       <div
         ref={footerPage}

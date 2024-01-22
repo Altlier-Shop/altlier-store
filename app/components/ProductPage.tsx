@@ -6,7 +6,7 @@ import TopProduct from './productpage-components/TopProduct';
 import SizeGuide from './productpage-components/SizeGuide';
 
 interface ProductData {
-  data: any;
+  recommendedProducts: any;
 }
 
 export default function ProductPage(props: ProductData) {
@@ -40,32 +40,31 @@ export default function ProductPage(props: ProductData) {
     return () => window.removeEventListener('resize', updateCircleProportions);
   }, []);
 
+  useEffect(() => {
+    if (props.recommendedProducts.products && !currentProduct) {
+      setCurrentProduct(props.recommendedProducts.products.nodes[0]);
+    }
+  }, [props.recommendedProducts, currentProduct]);
+
   return (
     <div className="h-screen w-full bg-root-primary">
       <div className="grid h-full relative justify-center items-end overflow-hidden">
-        <Suspense fallback={<div>Loading...</div>}>
-          <Await resolve={props.data.recommendedProducts}>
-            {({products}) => (
-              <TopProduct
-                topProduct={currentProduct ? currentProduct : products.nodes[0]}
-                onOpenSizeGuide={() => handleSizeGuide(true)}
-                mobile={false}
-              />
-            )}
-          </Await>
-        </Suspense>
+        <TopProduct
+          topProduct={
+            currentProduct
+              ? currentProduct
+              : props.recommendedProducts.products.nodes[0]
+          }
+          onOpenSizeGuide={() => handleSizeGuide(true)}
+          mobile={false}
+        />
+
         <div className="absolute z-10 h-full w-full flex items-end">
-          <Suspense fallback={<div>Loading...</div>}>
-            <Await resolve={props.data.recommendedProducts}>
-              {({products}) => (
-                <ProductCarousel
-                  products={products.nodes}
-                  onChange={setCurrentProduct}
-                  onDetailsClick={setProductDetails}
-                />
-              )}
-            </Await>
-          </Suspense>
+          <ProductCarousel
+            products={props.recommendedProducts.products.nodes}
+            onChange={setCurrentProduct}
+            onDetailsClick={setProductDetails}
+          />
         </div>
 
         {sizeGuideVisible && (
@@ -74,7 +73,7 @@ export default function ProductPage(props: ProductData) {
           </div>
         )}
 
-        {!!productDetails && (
+        {productDetails && currentProduct && (
           <ProductMosaic
             topProduct={currentProduct}
             onClose={() => setProductDetails(null)}
