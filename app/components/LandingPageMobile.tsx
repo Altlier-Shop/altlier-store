@@ -82,16 +82,21 @@ export default function LandingPageMobile({data}: {data: any}) {
             <h1 className="text-xl pixel-font  [word-spacing:-10px]">
               INTO DAILY LIFE
             </h1>
-            <p className="leading-5 text-sm">
+            <span className="leading-5 text-sm">
               {`Discover Altlier: In the digital age's heart, we're a brand born
               from a crypto community's vision, embodying the web3 culture.
               Altlier isn't just about fashion; it's about a cultural
               metamorphosis, capturing the spirit of this era through clothing
               that's more than garments - each piece is a story, a symbol of
-              innovation and connection. Join us, wear your story, and be part
-              of this revolutionary movement. Altlier - Dressing the Revolution,
-              One Stitch at a Time`}
-            </p>
+              innovation and connection. `}
+            </span>
+            <span className="leading-5 text-sm">
+              {`Join us, wear your story, and be part
+              of this revolutionary movement.`}
+            </span>
+            <span className="leading-5 text-sm">
+              Altlier - Dressing the Revolution, One Stitch at a Time!
+            </span>
             <div className="my-8">
               <div className="relative h-96 flex justify-center items-end">
                 <img
