@@ -59,7 +59,7 @@ export default function ProductPage(props: ProductData) {
           mobile={false}
         />
 
-        <div className="absolute z-10 h-full w-full flex items-end">
+        <div className="absolute z-40 h-full w-full flex items-end">
           <ProductCarousel
             products={props.recommendedProducts.products.nodes}
             onChange={setCurrentProduct}

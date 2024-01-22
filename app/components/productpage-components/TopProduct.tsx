@@ -34,12 +34,12 @@ export default function TopProduct(props: TopProductProps) {
   )?.values;
 
   // Fetch Material Information
-  const reMaterial = new RegExp('Material:\\s*(.*)\\sProduct');
+  const reMaterial = new RegExp('[Mm]aterial:\\s*(.*)\\s[Pp]roduct');
   const materialMatch = props.topProduct.description.match(reMaterial);
   props.topProduct.material = materialMatch ? materialMatch[1].trim() : '';
 
   // Fetch Product Code
-  const reProduct = new RegExp('Product\\sCode\\s*:(.*)');
+  const reProduct = new RegExp('[Pp]roduct\\s[Cc]ode\\s*:\\s*(.*)');
   const productCodeMatch = props.topProduct.description.match(reProduct);
   props.topProduct.productCode = productCodeMatch
     ? productCodeMatch[1].trim()
