@@ -38,34 +38,36 @@ export default function LandingPage({
   };
 
   return (
-    <div
-      id="landing-page"
-      className="flex w-full h-full bg-root-primary overflow-y-scroll relative"
-      onScroll={handleScroll}
-      ref={divRef}
-    >
-      <div className="2xl:px-20 px-10 pt-32" style={{width: '45%'}}>
-        <ScrollableContent />
-        <div className="sticky bottom-0 bg-root-primary pointer-events-none pt-8 pb-14 ">
-          <Links onShill={handleShill} onFud={() => setShowFud(true)} />
-        </div>
+    <>
+      <div className="absolute -top-[5%] left-[50%] z-10">
+        <img src={productGif} alt="Product Gif" />
       </div>
       <div
-        className="sticky top-0 right-0 bg-root-secondary pointer-events-none"
-        style={{width: '55%'}}
+        id="landing-page"
+        className="flex w-full h-full bg-root-primary overflow-y-scroll relative"
+        onScroll={handleScroll}
+        ref={divRef}
       >
-        <GridPage />
-        <div className="absolute -top-[5%] z-10">
-          <img src={productGif} alt="Product Gif" />
+        <div className="2xl:px-20 px-10 pt-32" style={{width: '45%'}}>
+          <ScrollableContent />
+          <div className="sticky bottom-0 bg-root-primary pointer-events-none pt-8 pb-14 ">
+            <Links onShill={handleShill} onFud={() => setShowFud(true)} />
+          </div>
         </div>
+        <div
+          className="sticky top-0 right-0 bg-root-secondary pointer-events-none"
+          style={{width: '55%'}}
+        >
+          <GridPage />
+        </div>
+        {showFud ? (
+          <div className="fixed h-full w-full flex items-center justify-center">
+            <Popup onClose={() => setShowFud(false)} onShill={handleShill} />
+          </div>
+        ) : (
+          <div />
+        )}
       </div>
-      {showFud ? (
-        <div className="fixed h-full w-full flex items-center justify-center">
-          <Popup onClose={() => setShowFud(false)} onShill={handleShill} />
-        </div>
-      ) : (
-        <div />
-      )}
-    </div>
+    </>
   );
 }
