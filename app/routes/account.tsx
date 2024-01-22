@@ -762,7 +762,7 @@ function AccountLayout({
             </button>
           </div>
         </div>
-        <div className="lg:col-span-3 min-h-[500px] h-screen/2 overflow-y-scroll">
+        <div className="lg:col-span-3 h-[500px] overflow-y-scroll">
           <div className="border-gray-400  border ring-1 ring-black ring-opacity-5 rounded-lg bg-white">
             <table className="divide-y divide-gray-300 w-full">
               <thead className="sticky top-0 z-10 bg-root-primary border-gray-400 border-b">
