@@ -391,11 +391,11 @@ aside li {
 * --------------------------------------------------
 */
 .product {
-  display: grid;
-  @media (min-width: 45em) {
+  /* display: grid; */
+  /* @media (min-width: 45em) {
     grid-template-columns: 1fr 1fr;
     grid-gap: 4rem;
-  }
+  } */
 }
 
 .product h1 {
