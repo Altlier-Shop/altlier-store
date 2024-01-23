@@ -4,7 +4,7 @@ import InstagramIcon from '../svg-components/InstagramIcon';
 import MirrorIcon from '../svg-components/MirrorIcon';
 import TelegramIcon from '../svg-components/TelegramIcon';
 import TwitterIcon from '../svg-components/TwitterIcon';
-import WhitePaperIcon from '../svg-components/WhitePaperIcon';
+// import WhitePaperIcon from '../svg-components/WhitePaperIcon';
 interface LinksProps {
   onShill(): void;
   onFud(): void;
@@ -26,7 +26,7 @@ export default function Links(props: LinksProps) {
       <div className="max-w-lg w-full">
         <div className="flex gap-6 w-full">
           <button
-            onClick={props.onShill}
+            onClick={handleArrowClick}
             className="btn homepage-btn w-full btn-dark pointer-events-auto "
           >
             SHILL
