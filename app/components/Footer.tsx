@@ -9,7 +9,6 @@ import InstagramIcon from './svg-components/InstagramIcon';
 // import DiscordIcon from './svg-components/DiscordIcon';
 import MirrorIcon from './svg-components/MirrorIcon';
 // import WhitePaperIcon from './svg-components/WhitePaperIcon';
-import {setUserEmail} from '~/firebase-service';
 
 export function Footer({
   menu,

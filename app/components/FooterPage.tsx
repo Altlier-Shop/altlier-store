@@ -12,7 +12,6 @@ import MirrorIcon from './svg-components/MirrorIcon';
 import type {FooterQuery} from 'storefrontapi.generated';
 import {Footer} from './Footer';
 import {useState} from 'react';
-import {setUserEmail} from '~/firebase-service';
 
 export default function FooterPage({menu}: {menu: FooterQuery['menu']}) {
   const [email, setEmail] = useState('');

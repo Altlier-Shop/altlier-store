@@ -27,10 +27,7 @@ import resetStyles from './styles/reset.css';
 import appStyles from './styles/app.css';
 import customStyles from './styles/custom.css';
 import {Layout} from '~/components/Layout';
-import './firebase-setup';
-import {useNavigate, useLocation} from 'react-router-dom';
 import type {HydrogenSession} from 'server';
-import {action} from '~/routes/account_.logout';
 /**
  * This is important to avoid re-fetching root queries on sub-navigations
  */

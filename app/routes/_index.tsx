@@ -52,6 +52,8 @@ export async function loader({context}: LoaderFunctionArgs) {
 export default function Homepage() {
   const [landingPageBottom, setLandingPageBottom] = useState(false);
   const [mobileView, setMobileView] = useState(false);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
   const data = useLoaderData<typeof loader>();
 
   const homepage = useRef<HTMLDivElement>(null);
@@ -113,6 +115,23 @@ export default function Homepage() {
       setMobileView(false);
     }
   };
+  const handleTouchStart = (event: any) => {
+    setTouchStart(event.targetTouches[0].clientY);
+  };
+  const handleTouchMove = (event: any) => {
+    setTouchEnd(event.targetTouches[0].clientY);
+  };
+
+  const handleTouchEnd = () => {
+    const event = new WheelEvent('wheel', {
+      deltaY: touchStart - touchEnd,
+    });
+
+    if (event.deltaY > 150 || event.deltaY < -150) {
+      // Swipe
+      handleScroll(event);
+    }
+  };
 
   useEffect(() => {
     window.addEventListener('wheel', throttledScrollHandler);
@@ -144,6 +163,9 @@ export default function Homepage() {
     <div
       ref={homepage}
       className="home w-screen h-screen overflow-hidden relative"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
       <div
         className={`fixed z-50 top-[55%] flex flex-col gap-6 right-5 2xl:right-20`}
