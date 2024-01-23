@@ -52,7 +52,8 @@ export default function Policy() {
         <div className="bg-root-primary px-12 py-6 md:px-20 md:py-14 rounded-xl shadow-xl">
           <h1 className="pixel-font text-4xl">{policy.title}</h1>
           <div
-            className="policy mt-4 overflow-auto"
+            id="pages"
+            className="mt-4 overflow-auto"
             dangerouslySetInnerHTML={{__html: policy.body}}
           />
         </div>

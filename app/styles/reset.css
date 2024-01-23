@@ -132,45 +132,69 @@ code {
   padding: 0.25rem;
 }
 
-.policy h1 {
+#pages h1 {
   font-family: 'KumbhSansBolder';
   margin-top: 12px;
   margin-bottom: 12px;
+  font-size: 25px;
 }
-.policy h2 {
+#pages h2 {
   font-family: 'KumbhSansBolder';
   margin-top: 12px;
   margin-bottom: 12px;
+  font-size: 25px;
 }
-.policy h3 {
+#pages h3 {
   font-family: 'KumbhSansBolder';
   margin-top: 12px;
   margin-bottom: 12px;
+  font-size: 25px;
 }
-.policy h4 {
+#pages h3 strong {
   font-family: 'KumbhSansBolder';
   margin-top: 12px;
   margin-bottom: 12px;
+  font-size: 25px;
 }
-.policy h5 {
+#pages h3 b {
   font-family: 'KumbhSansBolder';
   margin-top: 12px;
   margin-bottom: 12px;
+  font-size: 25px;
+}
+#pages h4 {
+  font-family: 'KumbhSansBolder';
+  margin-top: 12px;
+  margin-bottom: 12px;
+  font-size: 25px;
+}
+#pages h5 {
+  font-family: 'KumbhSansBolder';
+  margin-top: 12px;
+  margin-bottom: 12px;
+  font-size: 25px;
 }
 
-.policy ul {
+#pages ul {
   list-style-type: disc;
   list-style-position: inside;
 }
 
-.policy li {
+#pages li {
   text-indent: -1.3rem; /* Adjust this value as needed */
   padding-left: 1.5rem; /* Should be the same as the absolute value of text-indent */
+  font-size: 20px;
 }
 
-.policy span {
+#pages span {
   font-size: 0.8rem;
+  font-size: 20px;
 }
-.policy p {
+#pages p {
   font-size: 0.8rem;
+  font-size: 20px;
+}
+#pages b {
+  font-size: 0.8rem;
+  font-size: 20px;
 }
