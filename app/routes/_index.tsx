@@ -126,10 +126,12 @@ export default function Homepage() {
     const event = new WheelEvent('wheel', {
       deltaY: touchStart - touchEnd,
     });
-
-    if (event.deltaY > 150 || event.deltaY < -150) {
-      // Swipe
-      handleScroll(event);
+    if (touchEnd !== 0) {
+      if (event.deltaY > 150 || event.deltaY < -150) {
+        // Swipe
+        handleScroll(event);
+        setTouchEnd(0);
+      }
     }
   };
 

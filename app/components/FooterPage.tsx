@@ -64,7 +64,7 @@ export default function FooterPage({menu}: {menu: FooterQuery['menu']}) {
             className={`btn homepage-btn ${
               // email !== '' ?
               'btn-dark' // : 'pixel-font'
-            } text-lg h-[42px] px-2 w-1/2`}
+            } text-lg h-[42px] px-4 w-fit`}
           >
             Join Altlier
           </button>
