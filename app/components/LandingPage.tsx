@@ -15,24 +15,11 @@ export default function LandingPage({
   const [showFud, setShowFud] = useState(false);
   const [scrollProportion, setScrollProportion] = useState(0);
 
-  const handleShill = () => {
-    setShowFud(false);
-    const landing = document.getElementById('landingPage');
-    const products = document.getElementById('productPage');
-    if (landing && products) {
-      landing.classList.remove('currentPage', 'z-30');
-      products.classList.add('topPage');
-      products.classList.remove('bottomPage');
-      products.classList.add('currentPage');
-    }
-    window.scrollBy({left: 0, top: window.innerHeight, behavior: 'smooth'});
-  };
-
   const divRef = useRef<HTMLDivElement>(null);
-  // const handleShill = () => {
-  //   window.location.href =
-  //     window.location.href + data.isLoggedIn ? 'account' : 'account/register';
-  // };
+  const handleShill = () => {
+    window.location.href =
+      window.location.href + data.isLoggedIn ? 'account' : 'account/register';
+  };
   const handleScroll = () => {
     const current = divRef.current;
     if (current) {
