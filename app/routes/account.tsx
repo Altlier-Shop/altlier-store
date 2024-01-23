@@ -408,10 +408,10 @@ function AccountLayout({
     }
   }
 
-  let altpoints = 0;
-  customer.orders.nodes.forEach((order: any) => {
-    altpoints += Math.floor(Number(order.currentTotalPrice.amount));
-  });
+  // let altpoints = 0;
+  // customer.orders.nodes.forEach((order: any) => {
+  //   altpoints += Math.floor(Number(order.currentTotalPrice.amount));
+  // });
 
   const address = {
     address1: customerEdit.defaultAddress?.address1 || '',
@@ -446,10 +446,10 @@ function AccountLayout({
           </div>
         </div>
         <div className="lg:col-span-2">
-          <p className="text-neutral-500  text-xl">Available Alt Points:</p>
-          <p className="text-altlierBlue text-5xl default-font-bold">
+          {/* <p className="text-neutral-500  text-xl">Available Alt Points:</p> */}
+          {/* <p className="text-altlierBlue text-5xl default-font-bold">
             {altpoints}
-          </p>
+          </p> */}
         </div>
         <div className="lg:col-span-1">
           <AccountMenu />

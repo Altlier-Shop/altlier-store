@@ -217,7 +217,7 @@ export function CartSummary({
           )}
         </span>
       </div>
-      <div className="flex justify-between">
+      {/* <div className="flex justify-between">
         <span className="text-root-tertiary">Shipping Worldwide</span>
         <span className="text-root-tertiary">
           <span>
@@ -231,7 +231,7 @@ export function CartSummary({
             )}
           </span>
         </span>
-      </div>
+      </div> */}
       {/* <div className="my-2 border-2 border-t-root-tertiary"></div> */}
       {/* <div className="flex justify-between gap-4">
         <CartDiscounts discountCodes={discountCodes} />
@@ -246,13 +246,13 @@ export function CartSummary({
           />
         </div>
       </div> */}
-      <div className="my-2 border-2 border-t-root-tertiary"></div>
+      {/* <div className="my-2 border-2 border-t-root-tertiary"></div> */}
       <div className="flex justify-between">
         <span className="text-root-tertiary text-xl">Total</span>
         <span className="text-xl">
           <Money
             className="text-root-tertiary"
-            data={{amount: totalAmount, currencyCode}}
+            data={{amount: cost.subtotalAmount.amount, currencyCode}}
           />
         </span>
       </div>

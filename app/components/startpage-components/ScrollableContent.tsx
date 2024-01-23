@@ -47,7 +47,7 @@ export default function ScrollableContent() {
         <p className="xl:leading-6 leading-4 text-lg">
           Altlier - Dressing the Revolution, One Stitch at a Time
         </p>
-        <div className="mt-20">p</div>
+        <div className="mt-20"></div>
       </div>
     </div>
   );

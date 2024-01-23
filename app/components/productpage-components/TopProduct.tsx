@@ -12,6 +12,7 @@ interface TopProductProps {
 
 export default function TopProduct(props: TopProductProps) {
   const [size, setSize] = useState(null);
+  console.log(props.topProduct);
 
   const productFirstNode = props.topProduct.variants.nodes[0];
   const selectedProduct = props.topProduct.variants.nodes.find(

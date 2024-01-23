@@ -39,9 +39,6 @@ export default function LandingPage({
 
   return (
     <>
-      <div className="absolute -top-[5%] left-[50%] z-10">
-        <img src={productGif} alt="Product Gif" />
-      </div>
       <div
         id="landing-page"
         className="flex w-full h-full bg-root-primary overflow-y-scroll relative"
@@ -59,6 +56,9 @@ export default function LandingPage({
           style={{width: '55%'}}
         >
           <GridPage />
+          <div className="absolute -top-[5%] z-10">
+            <img src={productGif} alt="Product Gif" />
+          </div>
         </div>
         {showFud ? (
           <div className="fixed h-full w-full flex items-center justify-center">
