@@ -19,20 +19,25 @@ export function Aside({
   heading: React.ReactNode;
   id?: string;
 }) {
-  function getDeviceType() {
-    const ua = navigator.userAgent;
+  function isTouchDevice() {
+    if (typeof window === 'undefined') {
+      console.log('alternative route, window not defined');
 
-    if (/mobile/i.test(ua)) {
-      return 'Mobile';
-    } else if (/iPad|Android|Touch/i.test(ua)) {
-      return 'Tablet';
+      const ua = navigator.userAgent;
+      if (/mobile/i.test(ua)) {
+        return true;
+      } else if (/iPad|Android|Touch/i.test(ua)) {
+        return true;
+      } else {
+        return false;
+      }
     } else {
-      return 'Desktop';
+      return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     }
   }
 
-  const deviceType = getDeviceType();
-  console.log('Device Type:', getDeviceType());
+  const touchDevice = isTouchDevice();
+  // console.log('Touch Device:', touchDevice);
 
   return (
     <div aria-modal className="overlay" id={id} role="dialog">
@@ -40,7 +45,7 @@ export function Aside({
         aria-label="Close Aside"
         className="close-outside"
         onClick={() => {
-          if (deviceType === 'Desktop') {
+          if (!touchDevice) {
             history.go(-1);
           } else {
             window.location.href = location.origin + location.pathname;
@@ -52,7 +57,7 @@ export function Aside({
           <button
             className="pl-6"
             onClick={() => {
-              if (deviceType === 'Desktop') {
+              if (!touchDevice) {
                 history.go(-1);
               } else {
                 window.location.href = location.origin + location.pathname;
