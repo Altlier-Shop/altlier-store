@@ -207,7 +207,7 @@ export function CartSummary({
   const currencyCode = cost?.subtotalAmount.currencyCode;
   return (
     <div aria-labelledby="cart-summary" className={className}>
-      <div className="flex justify-between mb-4">
+      {/* <div className="flex justify-between mb-4">
         <span className="text-root-tertiary">Subtotal</span>
         <span>
           {cost?.subtotalAmount?.amount ? (
@@ -216,7 +216,7 @@ export function CartSummary({
             <span className="text-root-tertiary">-</span>
           )}
         </span>
-      </div>
+      </div> */}
       {/* <div className="flex justify-between">
         <span className="text-root-tertiary">Shipping Worldwide</span>
         <span className="text-root-tertiary">
@@ -254,6 +254,11 @@ export function CartSummary({
             className="text-root-tertiary"
             data={{amount: cost.subtotalAmount.amount, currencyCode}}
           />
+        </span>
+      </div>
+      <div>
+        <span className="text-root-tertiary text-sm">
+          *Shipping rates may occur
         </span>
       </div>
       <div className="mt-2 border-2 border-t-root-tertiary"></div>
