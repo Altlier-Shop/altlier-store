@@ -137,10 +137,10 @@ export default function FooterPage({menu}: {menu: FooterQuery['menu']}) {
           <h1 className="mt-6 pixel-font text-3xl">Back to Shop</h1>
         </button>
       </div>
-      <div className="absolute top-[10%] left-[35%] h-screen">
+      <div className="absolute top-[10%] left-[35%]">
         <img
           loading="lazy"
-          className="max-h-[88%] object-contain"
+          className="max-h-[85%] object-contain"
           src={footer_img}
           alt="shirt-and-box-footer"
         />
