@@ -424,11 +424,6 @@ export function CartEmpty({
       </p>
       <br />
       <p>
-        Plus, with every purchase, receive a complimentary NFT! NFTs will be
-        sent to your digital wallet address after 14 days from item delivery.
-      </p>
-      <br />
-      <p>
         Shop confidently with our{' '}
         <a
           href="/policies/refund-policy"
