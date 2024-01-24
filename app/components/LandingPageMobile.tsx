@@ -85,8 +85,10 @@ export default function LandingPageMobile({data}: {data: any}) {
             <span className="leading-5 text-sm">
               {`Discover Altlier: In the digital age's heart, we're a brand born
               from a crypto community's vision, embodying the web3 culture.
-              Altlier isn't just about fashion; it's about a cultural
-              metamorphosis, capturing the spirit of this era through clothing
+              Altlier isn't just about fashion; it's about a cultural`}
+            </span>
+            <span className="leading-5 text-sm">
+            {`metamorphosis, capturing the spirit of this era through clothing
               that's more than garments - each piece is a story, a symbol of
               innovation and connection. `}
             </span>
