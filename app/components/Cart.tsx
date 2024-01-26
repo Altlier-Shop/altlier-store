@@ -432,6 +432,11 @@ export function CartEmpty({
         </a>
       </p>
       <br />
+      <p>
+        Pay securely with Apple Pay & Paypal. 
+        For crypto payments, please contact hello@altlier.co
+      </p>
+      <br />
       {/* <Link
         to="/collections"
         onClick={() => {
