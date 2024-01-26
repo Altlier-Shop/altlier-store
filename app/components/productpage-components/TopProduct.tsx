@@ -132,7 +132,7 @@ export default function TopProduct(props: TopProductProps) {
             </CartForm>
           </div>
           <div className="mt-4 text-sm text-root-tertiary italic flex justify-center">
-            Pay securely with Apple Pay & Paypal. For crypto payments please contact hello@alilier.co
+            Pay securely with Apple Pay & Paypal.
           </div>
         </div>
       </div>
