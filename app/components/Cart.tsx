@@ -419,7 +419,7 @@ export function CartEmpty({
       <br />
       <p>
         Your cart is currently empty. Explore our curated selection to find
-        products that match your preferences.
+        products that match your style.
       </p>
       <br />
       <p>
@@ -433,8 +433,7 @@ export function CartEmpty({
       </p>
       <br />
       <p>
-        Pay securely with Apple Pay & Paypal. 
-        For crypto payments, please contact hello@altlier.co
+       Pay securely with Apple Pay & Paypal. For crypto payments, please contact hello@altlier.co
       </p>
       <br />
       {/* <Link
