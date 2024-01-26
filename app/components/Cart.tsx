@@ -264,7 +264,7 @@ export function CartSummary({
       <div className="mt-2 border-2 border-t-root-tertiary"></div>
       {children}
       <div className="mb-6 text-root-tertiary text-sm italic flex justify-center">
-        Pay securely with Apple Pay & Paypal
+        Pay securely with Apple Pay & Paypal. For crypto payments, please contact hello@altlier.co
       </div>
     </div>
   );
