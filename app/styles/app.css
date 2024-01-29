@@ -84,6 +84,11 @@ aside li {
   margin-bottom: 0.125rem;
 }
 
+.coyprightstyle {
+    font-family: 'KumbhSans', 'KumbhSansBold', 'KumbhSansExtraBold', 'KumbhSansLight';
+    color:blue
+}
+
 .overlay {
   background: rgba(0, 0, 0, 0.2);
   bottom: 0;

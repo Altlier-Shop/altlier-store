@@ -174,6 +174,7 @@ function FooterMenu({
       />
       <FooterSupport />
       <FooterAbout />
+      <FooterCopyRight/>
     </nav>
   );
 }
@@ -218,6 +219,13 @@ function FooterLegal(props: FooterProps) {
       })}
     </div>
   );
+}
+
+function FooterCopyRight() {
+  return (
+    <div className="flex flex-col gap-2">
+      <h1 className="coyprightstyle">©2024Altiler.co</h1>
+    </div>);
 }
 
 function FooterSupport() {
