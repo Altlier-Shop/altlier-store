@@ -6,7 +6,7 @@ import {useRootLoaderData} from '~/root';
 import TelegramIcon from './svg-components/TelegramIcon';
 import TwitterIcon from './svg-components/TwitterIcon';
 import InstagramIcon from './svg-components/InstagramIcon';
-// import DiscordIcon from './svg-components/DiscordIcon';
+import DiscordIcon from './svg-components/DiscordIcon';
 import MirrorIcon from './svg-components/MirrorIcon';
 // import WhitePaperIcon from './svg-components/WhitePaperIcon';
 
@@ -125,14 +125,14 @@ function FooterSocials() {
           >
             <InstagramIcon color="white" />
           </a>
-          {/* <a
+           <a
             className="pointer-events-auto w-8"
-            href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            href="https://tr.ee/0zRlqM5XUo"
             target="_blank"
             rel="noreferrer"
           >
             <DiscordIcon color="white" />
-          </a> */}
+          </a>
           <a
             className="pointer-events-auto w-8"
             href="https://mirror.xyz/0xa4F906979A0886C4DB7b9683115fea2f3FfA84f2"

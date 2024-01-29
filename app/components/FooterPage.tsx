@@ -6,7 +6,7 @@ import AltlierLogoCircular from './svg-components/AltlierLogoCircular';
 import TelegramIcon from './svg-components/TelegramIcon';
 import TwitterIcon from './svg-components/TwitterIcon';
 import InstagramIcon from './svg-components/InstagramIcon';
-// import DiscordIcon from './svg-components/DiscordIcon';
+import DiscordIcon from './svg-components/DiscordIcon';
 
 import MirrorIcon from './svg-components/MirrorIcon';
 import type {FooterQuery} from 'storefrontapi.generated';
@@ -79,7 +79,7 @@ export default function FooterPage({menu}: {menu: FooterQuery['menu']}) {
               target="_blank"
               rel="noreferrer"
             >
-              <TelegramIcon />
+              <TelegramIcon color="white" />
             </a>
             <a
               className="pointer-events-auto w-12"
@@ -87,7 +87,7 @@ export default function FooterPage({menu}: {menu: FooterQuery['menu']}) {
               target="_blank"
               rel="noreferrer"
             >
-              <TwitterIcon />
+              <TwitterIcon color="white" />
             </a>
             <a
               className="pointer-events-auto w-12"
@@ -95,23 +95,23 @@ export default function FooterPage({menu}: {menu: FooterQuery['menu']}) {
               target="_blank"
               rel="noreferrer"
             >
-              <InstagramIcon />
+              <InstagramIcon color="white" />
             </a>
-            {/* <a
+             <a
               className="pointer-events-auto w-12"
-              href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+              href="https://tr.ee/0zRlqM5XUo"
               target="_blank"
               rel="noreferrer"
             >
-              <DiscordIcon />
-            </a> */}
+              <DiscordIcon color="white" />
+            </a>
             <a
               className="pointer-events-auto w-12"
               href="https://mirror.xyz/0xa4F906979A0886C4DB7b9683115fea2f3FfA84f2"
               target="_blank"
               rel="noreferrer"
             >
-              <MirrorIcon />
+              <MirrorIcon color="white" />
             </a>
           </div>
         </div>

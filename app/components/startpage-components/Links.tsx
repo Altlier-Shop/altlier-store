@@ -1,5 +1,5 @@
 import ArrowIcon from '../svg-components/ArrowIcon';
-// import DiscordIcon from '../svg-components/DiscordIcon';
+import DiscordIcon from '../svg-components/DiscordIcon';
 import InstagramIcon from '../svg-components/InstagramIcon';
 import MirrorIcon from '../svg-components/MirrorIcon';
 import TelegramIcon from '../svg-components/TelegramIcon';
@@ -46,7 +46,7 @@ export default function Links(props: LinksProps) {
             target="_blank"
             rel="noreferrer"
           >
-            <TelegramIcon />
+            <TelegramIcon color="white" />
           </a>
           <a
             className="pointer-events-auto w-12"
@@ -54,7 +54,7 @@ export default function Links(props: LinksProps) {
             target="_blank"
             rel="noreferrer"
           >
-            <TwitterIcon />
+            <TwitterIcon color="white" />
           </a>
           <a
             className="pointer-events-auto w-12"
@@ -62,16 +62,16 @@ export default function Links(props: LinksProps) {
             target="_blank"
             rel="noreferrer"
           >
-            <InstagramIcon />
+            <InstagramIcon color="white" />
           </a>
-          {/* <a
+           <a
             className="pointer-events-auto w-12"
-            href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            href="https://tr.ee/0zRlqM5XUo"
             target="_blank"
             rel="noreferrer"
           >
-            <DiscordIcon />
-          </a> */}
+            <DiscordIcon color="white" />
+          </a>
           {/* <a
             className="pointer-events-auto w-12"
             href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
@@ -86,7 +86,7 @@ export default function Links(props: LinksProps) {
             target="_blank"
             rel="noreferrer"
           >
-            <MirrorIcon />
+            <MirrorIcon color="white" />
           </a>
         </div>
       </div>
