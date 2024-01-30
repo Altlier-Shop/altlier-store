@@ -23,13 +23,16 @@ export function Footer({
         </div>
         <div className="w-[45%]">
           <FooterMenu menu={menu} primaryDomainUrl={''} />
+          <FooterCopyRight/>
         </div>
       </footer>
     );
   } else {
     return (
-      <footer className="absolute left-0 bottom-0 w-[45%] bg-altlierBlue xl:pl-[5%] xl:pr-[10%] lg:px-10 px-6 py-12 flex justify-between [&>*]:text-root-secondary [&>*]:text-sm">
+      <footer className="absolute left-0 bottom-0 w-[45%] bg-altlierBlue xl:pl-[5%] xl:pr-[10%] lg:px-10 px-6 py-12 flex flex-wrap justify-between [&>*]:text-root-secondary [&>*]:text-sm">
         <FooterMenu menu={menu} primaryDomainUrl={''} />
+        <FooterCopyRight/>
+
       </footer>
     );
   }
@@ -45,6 +48,8 @@ export function FooterMobile({
       </div>
       <div className="w-full mt-6">
         <FooterMenu menu={menu} primaryDomainUrl={''} />
+        <FooterCopyRight/>
+
       </div>
     </footer>
   );
@@ -164,7 +169,7 @@ function FooterMenu({
 
   return (
     <nav
-      className="footer-menu flex flex-col gap-6 md:flex-row"
+      className="footer-menu flex flex-col gap-6 md:flex-row flex-wrap"
       role="navigation"
     >
       <FooterLegal
@@ -174,7 +179,6 @@ function FooterMenu({
       />
       <FooterSupport />
       <FooterAbout />
-      <FooterCopyRight/>
     </nav>
   );
 }
@@ -223,8 +227,8 @@ function FooterLegal(props: FooterProps) {
 
 function FooterCopyRight() {
   return (
-    <div className="flex flex-col gap-2">
-      <h1 className="coyprightstyle">©2024Altiler.co</h1>
+    <div className="mt-2">
+      <h1 className="coyprightstyle">©2024 Altiler.co</h1>
     </div>);
 }
 
