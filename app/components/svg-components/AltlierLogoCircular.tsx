@@ -8,12 +8,7 @@ export default function AltlierLogoCircular() {
       <defs>
         <style>{`.cls-1-altcir{fill:#1d1b2f;}.cls-1-altcir,.cls-2-altcir{stroke-width:0px;}.cls-2-altcir{fill:#1d1c30;}`}</style>
       </defs>
-      <image
-        width="1120"
-        height="934"
-        transform="translate(-430.38 -43.59) rotate(18.09) scale(.41)"
-        xlinkHref="../Shirt_Product Page_Rotating/Liquidity Back.png"
-      />
+
       <g id="Altlier_Circle">
         <path
           className="cls-1-altcir"
