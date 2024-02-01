@@ -156,6 +156,11 @@ export default function Page() {
             />
           </div>
         </div>
+        <Suspense>
+          <Await resolve={footer}>
+            {(footer) => <Footer menu={footer?.menu} shop={null} full={true} />}
+          </Await>
+        </Suspense>
       </PageLayout>
     );
   }

@@ -1,8 +1,11 @@
-import {json, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
-import {Link, useLoaderData, type MetaFunction} from '@remix-run/react';
+import {defer, json, type LoaderFunctionArgs} from '@shopify/remix-oxygen';
+import {Link, useLoaderData, type MetaFunction, Await} from '@remix-run/react';
 import {type Shop} from '@shopify/hydrogen/storefront-api-types';
 import GridPage from '~/components/startpage-components/GridPage';
 import {PageLayout} from '~/components/PageLayout';
+import {Footer} from '~/components/Footer';
+import {FOOTER_QUERY} from '~/routes/_index';
+import {Suspense} from 'react';
 
 type SelectedPolicies = keyof Pick<
   Shop,
@@ -34,17 +37,26 @@ export async function loader({params, context}: LoaderFunctionArgs) {
     },
   });
 
+  const footerPromise = context.storefront.query(FOOTER_QUERY, {
+    cache: context.storefront.CacheLong(),
+    variables: {
+      footerMenuHandle: 'footer', // Adjust to your footer menu handle
+    },
+  });
+
   const policy = data.shop?.[policyName];
 
   if (!policy) {
     throw new Response('Could not find the policy', {status: 404});
   }
-
-  return json({policy});
+  return defer({
+    footer: footerPromise,
+    policy,
+  });
 }
 
 export default function Policy() {
-  const {policy} = useLoaderData<typeof loader>();
+  const {footer, policy} = useLoaderData<typeof loader>();
 
   return (
     <PageLayout>
@@ -58,27 +70,32 @@ export default function Policy() {
           />
         </div>
       </div>
+      <Suspense>
+        <Await resolve={footer}>
+          {(footer) => <Footer menu={footer?.menu} shop={null} full={true} />}
+        </Await>
+      </Suspense>
     </PageLayout>
   );
 }
 
 // NOTE: https://shopify.dev/docs/api/storefront/latest/objects/Shop
 const POLICY_CONTENT_QUERY = `#graphql
-  fragment Policy on ShopPolicy {
+fragment Policy on ShopPolicy {
     body
     handle
     id
     title
     url
-  }
-  query Policy(
+}
+query Policy(
     $country: CountryCode
     $language: LanguageCode
     $privacyPolicy: Boolean!
     $refundPolicy: Boolean!
     $shippingPolicy: Boolean!
     $termsOfService: Boolean!
-  ) @inContext(language: $language, country: $country) {
+) @inContext(language: $language, country: $country) {
     shop {
       privacyPolicy @include(if: $privacyPolicy) {
         ...Policy
