@@ -23,7 +23,7 @@ export function Footer({
         </div>
         <div className="w-[45%]">
           <FooterMenu menu={menu} primaryDomainUrl={''} />
-          <FooterCopyRight/>
+          <FooterCopyRight />
         </div>
       </footer>
     );
@@ -31,8 +31,7 @@ export function Footer({
     return (
       <footer className="absolute left-0 bottom-0 w-[45%] bg-altlierBlue xl:pl-[5%] xl:pr-[10%] lg:px-10 px-6 py-12 flex flex-wrap justify-between [&>*]:text-root-secondary [&>*]:text-sm">
         <FooterMenu menu={menu} primaryDomainUrl={''} />
-        <FooterCopyRight/>
-
+        <FooterCopyRight />
       </footer>
     );
   }
@@ -48,8 +47,7 @@ export function FooterMobile({
       </div>
       <div className="w-full mt-6">
         <FooterMenu menu={menu} primaryDomainUrl={''} />
-        <FooterCopyRight/>
-
+        <FooterCopyRight />
       </div>
     </footer>
   );
@@ -130,9 +128,9 @@ function FooterSocials() {
           >
             <InstagramIcon color="white" />
           </a>
-           <a
+          <a
             className="pointer-events-auto w-8"
-            href="https://tr.ee/0zRlqM5XUo"
+            href="https://discord.com/invite/WpUZcYtMJ5"
             target="_blank"
             rel="noreferrer"
           >
@@ -229,7 +227,8 @@ function FooterCopyRight() {
   return (
     <div className="mt-2">
       <h1 className="coyprightstyle">©2024 Altiler.co</h1>
-    </div>);
+    </div>
+  );
 }
 
 function FooterSupport() {

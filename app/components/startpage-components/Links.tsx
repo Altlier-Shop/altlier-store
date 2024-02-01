@@ -64,9 +64,9 @@ export default function Links(props: LinksProps) {
           >
             <InstagramIcon color="white" />
           </a>
-           <a
+          <a
             className="pointer-events-auto w-12"
-            href="https://tr.ee/0zRlqM5XUo"
+            href="https://discord.com/invite/WpUZcYtMJ5"
             target="_blank"
             rel="noreferrer"
           >
