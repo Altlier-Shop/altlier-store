@@ -76,12 +76,7 @@ export default function JoinAltlier() {
         className="cls-1-join"
         d="M210.43,110.59v5.96h-5.96v-20.88h17.9v2.98h2.98v8.95h-5.96v2.98h2.98v2.98l3.12-.03v3.01h-9.08v-2.98h-2.98v-2.98h-2.98ZM210.43,98.66v8.95h5.97v-2.98h2.98v-5.96h-8.95Z"
       />
-      <image
-        width="1120"
-        height="934"
-        transform="translate(-430.38 -170.01) rotate(18.09) scale(.41)"
-        xlinkHref="../Shirt_Product Page_Rotating/Liquidity Back.png"
-      />
+
       <g id="Altlier_Logo">
         <path
           className="cls-1-join"
