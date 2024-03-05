@@ -22,7 +22,7 @@ export default function Links(props: LinksProps) {
     window.scrollBy({left: 0, top: window.innerHeight, behavior: 'smooth'});
   };
   return (
-    <div className="flex">
+    <div className="flex bg-root-primary p-2">
       <div className="max-w-lg w-full">
         <div className="flex gap-6 w-full">
           <button

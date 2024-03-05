@@ -47,7 +47,7 @@ export default function LandingPage({
       >
         <div className="2xl:px-20 px-10 pt-32" style={{width: '45%'}}>
           <ScrollableContent />
-          <div className="sticky bottom-0 bg-root-primary pointer-events-none pt-8 pb-14 ">
+          <div className="sticky bottom-0 bg-root-primary pointer-events-none  pb-4 ">
             <Links onShill={handleShill} onFud={() => setShowFud(true)} />
           </div>
         </div>
