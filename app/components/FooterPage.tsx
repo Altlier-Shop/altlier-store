@@ -83,7 +83,7 @@ export default function FooterPage({menu}: {menu: FooterQuery['menu']}) {
             </a>
             <a
               className="pointer-events-auto w-12"
-              href="https://twitter.com/Altlier_co"
+              href="https://twitter.com/Altlierco"
               target="_blank"
               rel="noreferrer"
             >

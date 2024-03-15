@@ -114,7 +114,7 @@ function FooterSocials() {
           </a>
           <a
             className="pointer-events-auto w-8"
-            href="https://twitter.com/Altlier_co"
+            href="https://twitter.com/Altlierco"
             target="_blank"
             rel="noreferrer"
           >
