@@ -64,14 +64,14 @@ export default function Links(props: LinksProps) {
           >
             <InstagramIcon color="white" />
           </a>
-          <a
+          {/* <a
             className="pointer-events-auto w-12"
             href="https://discord.com/invite/WpUZcYtMJ5"
             target="_blank"
             rel="noreferrer"
           >
             <DiscordIcon color="white" />
-          </a>
+          </a> */}
           {/* <a
             className="pointer-events-auto w-12"
             href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
@@ -80,14 +80,14 @@ export default function Links(props: LinksProps) {
           >
             <WhitePaperIcon />
           </a> */}
-          <a
+          {/* <a
             className="pointer-events-auto w-12"
             href="https://mirror.xyz/0xa4F906979A0886C4DB7b9683115fea2f3FfA84f2"
             target="_blank"
             rel="noreferrer"
           >
             <MirrorIcon color="white" />
-          </a>
+          </a> */}
         </div>
       </div>
       <button

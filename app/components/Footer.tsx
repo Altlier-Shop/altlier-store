@@ -128,7 +128,7 @@ function FooterSocials() {
           >
             <InstagramIcon color="white" />
           </a>
-          <a
+          {/* <a
             className="pointer-events-auto w-8"
             href="https://discord.com/invite/WpUZcYtMJ5"
             target="_blank"
@@ -143,7 +143,7 @@ function FooterSocials() {
             rel="noreferrer"
           >
             <MirrorIcon color="white" />
-          </a>
+          </a> */}
         </div>
       </div>
     </div>

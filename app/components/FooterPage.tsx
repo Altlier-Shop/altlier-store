@@ -97,7 +97,7 @@ export default function FooterPage({menu}: {menu: FooterQuery['menu']}) {
             >
               <InstagramIcon color="white" />
             </a>
-            <a
+            {/* <a
               className="pointer-events-auto w-12"
               href="https://discord.com/invite/WpUZcYtMJ5"
               target="_blank"
@@ -112,7 +112,7 @@ export default function FooterPage({menu}: {menu: FooterQuery['menu']}) {
               rel="noreferrer"
             >
               <MirrorIcon color="white" />
-            </a>
+            </a> */}
           </div>
         </div>
         <Footer menu={menu} shop={null} />
