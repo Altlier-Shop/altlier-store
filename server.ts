@@ -158,8 +158,6 @@ export class HydrogenSession {
   }
 }
 
-// console.log("pppp",await context.session.get('customerAccessToken');
-// );
 
 
 // NOTE: https://shopify.dev/docs/api/storefront/latest/queries/cart
