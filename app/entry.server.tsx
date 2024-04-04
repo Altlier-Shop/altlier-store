@@ -16,7 +16,7 @@ export default async function handleRequest(
 
 
   const myHeaders = new Headers();
-  myHeaders.append("X-Shopify-Access-Token", "");
+  myHeaders.append("X-Shopify-Access-Token", "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");
   myHeaders.append("Content-Type", "application/json");
 
   const raw = JSON.stringify({
