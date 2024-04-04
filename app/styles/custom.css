@@ -1,0 +1,322 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Pixel Emulator';
+  src: url('../../public/fonts/Pixel_Emulator/Pixel_Emulator.ttf')
+    format('truetype');
+}
+.pixel-font {
+  font-family: 'Pixel Emulator';
+}
+
+@font-face {
+  font-family: 'KumbhSansLight';
+  src: url('../../public/fonts/Kumbh_Sans/KumbhSans-Medium.ttf')
+    format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'KumbhSans';
+  src: url('../../public/fonts/Kumbh_Sans/KumbhSans-Light.ttf')
+    format('truetype');
+  font-weight: lighter;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'KumbhSansBolder';
+  src: url('../../public/fonts/Kumbh_Sans/KumbhSans-ExtraBold.ttf')
+    format('truetype');
+  font-weight: bolder;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'KumbhSansBold';
+  src: url('../../public/fonts/Kumbh_Sans/KumbhSans-Bold.ttf')
+    format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
+.default-font {
+  font-family: 'KumbhSans';
+}
+.default-font-bold {
+  font-family: 'KumbhSansBold';
+}
+.default-font-bolder {
+  font-family: 'KumbhSansBolder';
+}
+
+/* img {
+  border-radius: 4px;
+} */
+
+@layer components {
+  .btn {
+    @apply rounded-full border-altlierBlue border-2 font-bold;
+  }
+}
+@layer components {
+  .homepage-btn {
+    @apply py-1 lg:px-8 px-4 w-full text-4xl;
+  }
+}
+@layer components {
+  .btn-dark {
+    @apply bg-altlierBlue text-emerald-light hover:text-altlierBlue hover:bg-emerald-light active:bg-emerald-dark pixel-font 2xl:text-4xl lg:text-4xl md:text-xl;
+  }
+}
+@layer components {
+  .btn-dark-submitted {
+    @apply text-altlierBlue bg-emerald-dark pixel-font 2xl:text-4xl lg:text-4xl md:text-xl;
+  }
+}
+@layer components {
+  .btn-light {
+    @apply hover:bg-altlierBlue hover:text-root-primary active:bg-neutral-500 pixel-font 2xl:text-4xl lg:text-4xl md:text-xl;
+  }
+}
+@layer components {
+  .btn-light-submitted {
+    @apply text-root-primary bg-neutral-500 pixel-font 2xl:text-4xl lg:text-4xl md:text-xl;
+  }
+}
+@layer components {
+  .icon {
+    @apply w-14 h-14 cursor-pointer bg-altlierBlue rounded-full p-2;
+  }
+}
+@layer components {
+  .input-box {
+    @apply bg-transparent w-full rounded-full px-4 py-2 text-neutral-500;
+  }
+}
+@layer utilities {
+  .font-stretched {
+    font-stretch: ultra-expanded;
+  }
+}
+
+.arrow-down {
+  animation: moveUpDown 2s ease-in-out infinite;
+}
+.arrow-up {
+  animation: moveUpDownReverseArrow 2s ease-in-out infinite;
+}
+.arrow-right {
+  animation: moveLeftRight 2s ease-in-out infinite;
+}
+.arrow-left {
+  animation: moveRightLeft 2s ease-in-out infinite;
+}
+
+@keyframes moveUpDown {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(20px); /* Adjust the movement distance as needed */
+  }
+}
+@keyframes moveUpDownReverseArrow {
+  0%,
+  100% {
+    transform: rotate(180deg) translateY(0);
+  }
+  50% {
+    transform: rotate(180deg) translateY(20px); /* Adjust the movement distance as needed */
+  }
+}
+@keyframes moveLeftRight {
+  0%,
+  100% {
+    transform: rotate(-90deg) translateY(0);
+  }
+  50% {
+    transform: rotate(-90deg) translateY(20px); /* Adjust the movement distance as needed */
+  }
+}
+@keyframes moveRightLeft {
+  0%,
+  100% {
+    transform: rotate(90deg) translateY(0);
+  }
+  50% {
+    transform: rotate(90deg) translateY(20px); /* Adjust the movement distance as needed */
+  }
+}
+
+.retro-border {
+  border-color: rgb(56, 56, 56);
+  border-style: solid;
+
+  border-top-color: #e6e6e6;
+  border-left-color: #e6e6e6;
+}
+
+.half-circle {
+  border: solid #1d1b2f 2px;
+  position: absolute; /* Absolute positioning */
+  transform: translateX(-50%); /* Center horizontally */
+}
+.upper-circle {
+  border-radius: 0 0 9999px 9999px; /* Rounded bottom */
+  top: 0; /* Align to top */
+  left: 50%; /* Start at half the width of the container */
+  clip-path: inset(2px 0 0 0); /*Clips the upper half of the circle*/
+}
+.lower-circle {
+  border-radius: 9999px 9999px 0 0; /* Rounded top */
+  bottom: 0; /* Align to bottom */
+  left: 50%; /* Start at half the width of the container */
+  clip-path: inset(0 0 2px 0); /*Clips the bottom half of the circle*/
+}
+
+.circular {
+  position: relative;
+  border-radius: 50%;
+  /* border: 2px solid black;
+  background-color: aqua; */
+}
+
+.rotating-object {
+  position: absolute;
+  top: 45%;
+  transform-origin: 50% 80%;
+  width: 100%;
+  /* height: 100%; */
+}
+
+/* Clockwise rotation */
+@keyframes rotateTopRight {
+  from {
+    transform: rotate(180deg) translateX(50%) rotate(90deg);
+  }
+  to {
+    transform: rotate(270deg) translateX(50%) rotate(90deg);
+  }
+}
+
+@keyframes rotateRightBottom {
+  from {
+    transform: rotate(270deg) translateX(50%) rotate(90deg);
+  }
+  to {
+    transform: rotate(360deg) translateX(50%) rotate(90deg);
+  }
+}
+
+@keyframes rotateBottomLeft {
+  from {
+    transform: rotate(0deg) translateX(50%) rotate(90deg);
+  }
+  to {
+    transform: rotate(90deg) translateX(50%) rotate(90deg);
+  }
+}
+
+@keyframes rotateLeftTop {
+  from {
+    transform: rotate(90deg) translateX(50%) rotate(90deg);
+  }
+  to {
+    transform: rotate(180deg) translateX(50%) rotate(90deg);
+  }
+}
+
+/* Counter Clockwise rotation */
+@keyframes rotateTopLeft {
+  from {
+    transform: rotate(180deg) translateX(50%) rotate(90deg);
+  }
+  to {
+    transform: rotate(90deg) translateX(50%) rotate(90deg);
+  }
+}
+
+@keyframes rotateLeftBottom {
+  from {
+    transform: rotate(90deg) translateX(50%) rotate(90deg);
+  }
+  to {
+    transform: rotate(0deg) translateX(50%) rotate(90deg);
+  }
+}
+
+@keyframes rotateBottomRight {
+  from {
+    transform: rotate(360deg) translateX(50%) rotate(90deg);
+  }
+  to {
+    transform: rotate(270deg) translateX(50%) rotate(90deg);
+  }
+}
+
+@keyframes rotateRightTop {
+  from {
+    transform: rotate(270deg) translateX(50%) rotate(90deg);
+  }
+  to {
+    transform: rotate(180deg) translateX(50%) rotate(90deg);
+  }
+}
+
+.bottomPage {
+  animation: slideDown 0.4s ease-out forwards;
+}
+.topPage {
+  animation: slideUp 0.4s ease-out forwards;
+}
+@keyframes slideUp {
+  from {
+    top: 100vh;
+  }
+  to {
+    top: 0;
+  }
+}
+@keyframes slideDown {
+  from {
+    top: 0;
+  }
+  to {
+    top: 100vh;
+  }
+}
+
+/* Style the collapsible content. Note: hidden by default */
+.collapsible-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+
+.masked-button {
+  pointer-events: none;
+}
+.masked-button::after {
+  content: '';
+  border-radius: 20px;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.4); /* Semi-transparent black */
+}
+
+.sizing-guide-table > tbody > tr > td {
+  padding: 0.5rem 2rem;
+  text-align: center;
+}
+.sizing-guide-table > thead > tr > th {
+  padding: 1rem 2rem;
+  text-align: center;
+  color: #000000;
+  font-weight: 900;
+}
