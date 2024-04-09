@@ -35,13 +35,13 @@ export async function action({
     redirect: 'follow',
   };
 
-  fetch(
-    'https://uvg9s9ce04.execute-api.us-east-1.amazonaws.com/Prod/orders',
-    requestOptions,
-  )
-    .then((response) => response.text())
-    .then((result) => console.log('pppppppppppppp', result))
-    .catch((error) => console.error(error));
+  // fetch(
+  //   'https://uvg9s9ce04.execute-api.us-east-1.amazonaws.com/Prod/orders',
+  //   requestOptions,
+  // )
+  //   .then((response) => response.text())
+  //   .then((result) => console.log('pppppppppppppp', result))
+  //   .catch((error) => console.error(error));
 
   return json({});
 }
