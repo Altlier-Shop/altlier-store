@@ -100,10 +100,10 @@ async function addLinesCheckout(
       lineItems: convertedLines,
     },
   });
-  console.log(
-    'add lines',
-    JSON.stringify(data.checkoutLineItemsAdd?.checkout?.lineItems),
-  );
+  // console.log(
+  //   'add lines',
+  //   JSON.stringify(data.checkoutLineItemsAdd?.checkout?.lineItems),
+  // );
 }
 
 export async function action({request, context}: ActionFunctionArgs) {

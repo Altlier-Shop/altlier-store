@@ -14,27 +14,34 @@ export default async function handleRequest(
     connectSrc: ['*'],
   });
 
-
   const myHeaders = new Headers();
-  myHeaders.append("X-Shopify-Access-Token", "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");
-  myHeaders.append("Content-Type", "application/json");
+  myHeaders.append(
+    'X-Shopify-Access-Token',
+    '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',
+  );
+  myHeaders.append('Content-Type', 'application/json');
 
   const raw = JSON.stringify({
-    "webhook": {
-      "address": "https://ec69-2405-201-5023-4005-4519-73bb-db6e-b779.ngrok-free.app/api/orderCreate",
-      "topic": "orders/create",
-      "format": "json"
-    }
+    webhook: {
+      address:
+        // 'https://uvg9s9ce04.execute-api.us-east-1.amazonaws.com/Prod/orders',
+        '',
+      topic: 'orders/create',
+      format: 'json',
+    },
   });
 
   const requestOptions = {
-    method: "POST",
+    method: 'POST',
     headers: myHeaders,
     body: raw,
-    redirect: "follow"
+    redirect: 'follow',
   };
 
-  const response = await fetch("https://a29f5a-2.myshopify.com/admin/api/2024-04/webhooks.json", requestOptions);
+  const response = await fetch(
+    'https://a29f5a-2.myshopify.com/admin/api/2024-04/webhooks.json',
+    requestOptions,
+  );
   const result = await response.text();
 
   const body = await renderToReadableStream(
