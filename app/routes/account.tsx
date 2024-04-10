@@ -12,7 +12,7 @@ import type {
 } from '@shopify/remix-oxygen';
 // import type {CustomerFragment} from 'storefrontapi.generated';
 import profileImg from 'public/Altlier_Circular_light.png';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {Money} from '@shopify/hydrogen';
 import type {
   CustomerUpdateInput,
@@ -355,6 +355,41 @@ function AccountLayout({
   const [editFieldId, setEditFieldId] = useState('');
   const [customerEdit, setCustomer] = useState<any>(customer);
   const [triggerEdit, setTriggerEdit] = useState(false);
+  const [altpoints, setAltpoints] = useState(0);
+  const [customerID, setCustomerID] = useState('');
+
+  useEffect(() => {
+    updateALtpoints().then(() => {
+      console.log('altpoints:', altpoints);
+    });
+  });
+
+  async function updateALtpoints() {
+    // get the last part of the customer id
+    const customerIdData = customer.id.split('/').pop();
+    setCustomerID(customerIdData);
+
+    const points = await getAltPoints(customerIdData);
+    if (points) {
+      setAltpoints(points);
+    }
+  }
+
+  async function getAltPoints(customerId: string): Promise<number | null> {
+    const url = `https://uvg9s9ce04.execute-api.us-east-1.amazonaws.com/Prod/alt-points?customer_id=${customerId}`;
+
+    try {
+      const response = await fetch(url, {method: 'GET'});
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+      const data = await response.json();
+      return data.altpoints || null;
+    } catch (error) {
+      console.error(`Failed to fetch alt points: ${error}`);
+      return null;
+    }
+  }
 
   async function saveCustomerData() {
     // console.log('save customerEdit:', customerEdit);
@@ -446,10 +481,10 @@ function AccountLayout({
           </div>
         </div>
         <div className="lg:col-span-2">
-          {/* <p className="text-neutral-500  text-xl">Available Alt Points:</p> */}
-          {/* <p className="text-altlierBlue text-5xl default-font-bold">
+          <p className="text-neutral-500  text-xl">Alt Points Earned:</p>
+          <p className="text-altlierBlue text-5xl default-font-bold">
             {altpoints}
-          </p> */}
+          </p>
         </div>
         <div className="lg:col-span-1">
           <AccountMenu />
@@ -952,6 +987,7 @@ const ORDER_ITEM_FRAGMENT = `#graphql
 
 export const CUSTOMER_FRAGMENT = `#graphql
   fragment Customer on Customer {
+    id
     acceptsMarketing
     defaultAddress {
       ...Address
