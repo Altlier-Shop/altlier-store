@@ -24,25 +24,26 @@ export default async function handleRequest(
   const raw = JSON.stringify({
     webhook: {
       address:
-        // 'https://uvg9s9ce04.execute-api.us-east-1.amazonaws.com/Prod/orders',
-        '',
+        'https://uvg9s9ce04.execute-api.us-east-1.amazonaws.com/Prod/orders',
+
       topic: 'orders/create',
       format: 'json',
     },
   });
 
   const requestOptions = {
-    method: 'POST',
+    method: 'GET',
     headers: myHeaders,
     body: raw,
     redirect: 'follow',
   };
 
-  const response = await fetch(
-    'https://a29f5a-2.myshopify.com/admin/api/2024-04/webhooks.json',
-    requestOptions,
-  );
-  const result = await response.text();
+  // const response = await fetch(
+  //   'https://a29f5a-2.myshopify.com/admin/api/2024-04/webhooks.json',
+  //   // requestOptions,
+  // );
+  // const result = await response.text();
+  // console.log(result);
 
   const body = await renderToReadableStream(
     <NonceProvider>
