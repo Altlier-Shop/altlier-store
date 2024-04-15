@@ -376,7 +376,7 @@ function AccountLayout({
   }
 
   async function getAltPoints(customerId: string): Promise<number | null> {
-    const url = `https://uvg9s9ce04.execute-api.us-east-1.amazonaws.com/Prod/alt-points?customer_id=${customerId}`;
+    const url = `https://x10na9esch.execute-api.us-east-1.amazonaws.com/Prod/alt-points?customer_id=${customerId}`;
 
     try {
       const response = await fetch(url, {method: 'GET'});
